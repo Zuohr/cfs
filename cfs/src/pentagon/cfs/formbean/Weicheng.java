@@ -1,5 +1,5 @@
 package pentagon.cfs.formbean;
 
-public class Weichengzhu {
+public class Weicheng {
 
 }
