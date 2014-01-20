@@ -23,14 +23,14 @@
 			  <div class="form-group">
 				<label for="inputPassword3" class="col-sm-2 control-label">New Password</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="New Password" class="form-control" id="inputPassword3" placeholder="New Password">
+				  <input type="New Password" class="form-control" id="inputPassword3" placeholder="New Password" name="newPw">
 				</div>
 				</div>
 				
 				<div class="form-group">
 				<label for="inputPassword3" class="col-sm-2 control-label">Check Password</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="Password Confirm" class="form-control" id="inputPassword3" placeholder="Re-enter Password">
+				  <input type="Password Confirm" class="form-control" id="inputPassword3" placeholder="Re-enter Password" name="newPwConfirm">
 				</div>
 			  </div>
 			  
