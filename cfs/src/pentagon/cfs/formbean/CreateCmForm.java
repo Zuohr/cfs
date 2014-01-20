@@ -47,7 +47,7 @@ public class CreateCmForm {
 		checkError();
 	}
 
-	public Customer getCustomer() {
+	public Customer getCustomerBean() {
 		Customer cm = new Customer();
 
 		cm.setFirstname(firstName);
