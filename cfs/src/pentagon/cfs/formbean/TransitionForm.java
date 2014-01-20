@@ -69,7 +69,6 @@ public class TransitionForm {
 				errors.set(i, "Price must be provided for this fund.");
 				complete = false;
 			} else {
-				price = price.trim();
 				try {
 					double p = Double.parseDouble(price);
 					if (p <= 0) {
