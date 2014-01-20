@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class resetpwForm {
+public class ResetpwForm {
 	public class LoginForm {
 
 		private String newPw;
