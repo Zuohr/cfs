@@ -13,7 +13,7 @@
 
       <div class="row row-offcanvas row-offcanvas-right">
       
-		<jsp:include page="ee_nav.jsp" />>
+		<jsp:include page="ee_nav.jsp" />
         
          <div class="col-xs-12 col-sm-9">
             <div class="page-header">
