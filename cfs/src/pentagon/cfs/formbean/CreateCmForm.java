@@ -73,44 +73,44 @@ public class CreateCmForm {
 
 	public void checkError() {
 		if (firstName == null || firstName.trim().isEmpty()) {
-			errors.add(0, "First name cannot be empty.");
+			errors.set(0, "First name cannot be empty.");
 			complete = false;
 		}
 
 		if (lastName == null || lastName.trim().isEmpty()) {
-			errors.add(1, "Last name cannot be empty.");
+			errors.set(1, "Last name cannot be empty.");
 			complete = false;
 		}
 
 		if (userName == null || userName.trim().isEmpty()) {
-			errors.add(2, "User name cannot be empty.");
+			errors.set(2, "User name cannot be empty.");
 			complete = false;
 		}
 
 		if (addr1 == null || addr1.trim().isEmpty()) {
-			errors.add(3, "Address line 1 cannot be empty.");
+			errors.set(3, "Address line 1 cannot be empty.");
 			complete = false;
 		}
 
 		if (city == null || city.trim().isEmpty()) {
-			errors.add(4, "City cannot be empty.");
+			errors.set(4, "City cannot be empty.");
 			complete = false;
 		}
 
 		if (zip == null || zip.trim().isEmpty()) {
-			errors.add(5, "Zip cannot be empty.");
+			errors.set(5, "Zip cannot be empty.");
 			complete = false;
 		} else if (!zip.matches("\\d{5}")) {
-			errors.add(5, "Zip format should be 5 digits.");
+			errors.set(5, "Zip format should be 5 digits.");
 			complete = false;
 		}
 
 		if (password == null || password2 == null || password.trim().isEmpty()
 				|| password2.trim().isEmpty()) {
-			errors.add(6, "Password cannot be empty.");
+			errors.set(6, "Password cannot be empty.");
 			complete = false;
 		} else if (!password.equals(password2)) {
-			errors.add(6, "Password does not match.");
+			errors.set(6, "Password does not match.");
 			complete = false;
 		}
 	}

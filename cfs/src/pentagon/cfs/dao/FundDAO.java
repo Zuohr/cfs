@@ -30,4 +30,5 @@ public class FundDAO extends GenericDAO<Fund> {
 			return true;
 		}
 	}
+
 }
