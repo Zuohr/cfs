@@ -24,37 +24,58 @@
 			  <div class="form-group">
 				<label for="inputFirstName3" class="col-sm-2 control-label">First Name</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="First Name" class="form-control" id="inputFirstName3" placeholder="First Name">
+				  <input type="text" class="form-control" id="inputFirstName3" placeholder="First Name">
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
 				<label for="inputLastName3" class="col-sm-2 control-label">Last Name</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="Last Name" class="form-control" id="inputLastName3" placeholder="Last Name">
+				  <input type="text" class="form-control" id="inputLastName3" placeholder="Last Name">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="inputUserName3" class="col-sm-2 control-label">User Name</label>
+				<div class="col-sm-10" style="width:300px">
+				  <input type="text" class="form-control" id="inputUserName3" placeholder="User Name">
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
 				<label for="inputUserName3" class="col-sm-2 control-label">Address1</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="User Name" class="form-control" id="inputUserName3" placeholder="Address1" >
+				  <input type="text" class="form-control" id="inputUserName3" placeholder="Address1" >
 				</div>
 			  </div>
 			  
 			   <div class="form-group">
 				<label for="inputUserName3" class="col-sm-2 control-label">Address2</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="User Name" class="form-control" id="inputUserName3" placeholder="Address2">
+				  <input type="text" class="form-control" id="inputUserName3" placeholder="Address2">
 				</div>
 			  </div>
 			  
-			   <div class="form-group">
-				<label for="inputUserName3" class="col-sm-2 control-label">User Name</label>
+			  <div class="form-group">
+				<label for="inputUserName3" class="col-sm-2 control-label">City</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="User Name" class="form-control" id="inputUserName3" placeholder="User Name">
+				  <input type="text" class="form-control" id="inputUserName3" placeholder="City">
 				</div>
 			  </div>
+			  
+			  <div class="form-group">
+				<label for="inputUserName3" class="col-sm-2 control-label">State</label>
+				<div class="col-sm-10" style="width:300px">
+				  <input type="text" class="form-control" id="inputUserName3" placeholder="State">
+				</div>
+			  </div>
+			  
+			  <div class="form-group">
+				<label for="inputUserName3" class="col-sm-2 control-label">zipcode</label>
+				<div class="col-sm-10" style="width:300px">
+				  <input type="text" class="form-control" id="inputUserName3" placeholder="zipcode">
+				</div>
+			  </div>
+
 			  
 			  
 			  <div class="form-group">
@@ -77,7 +98,7 @@
 				
 				
 				
-				  <button type="cancel" class="btn btn-default">cancel</button>
+				  <button type="submit" class="btn btn-default">cancel</button>
 				</div>
 			  </div>
 			</form>
