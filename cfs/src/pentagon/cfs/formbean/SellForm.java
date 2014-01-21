@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class SellForm {
 	private String fundName;
-	private long fundAmount;
+	private double fundAmount;
 	private boolean complete = true;
 	private ArrayList<String> errors;
 	
@@ -34,7 +34,7 @@ public class SellForm {
 		else return fundName;
 	}
 	
-	public long getFundAmount(){
+	public double getFundAmount(){
 		return fundAmount;
 	}
 	

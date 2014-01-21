@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class BuyForm {
 	private String fundName;
-	private long deposit;
+	private double deposit;
 	private boolean complete = true;
 	private ArrayList<String> errors;
 	
@@ -34,7 +34,7 @@ public class BuyForm {
 		else return fundName;
 	}
 	
-	public long getDeposit(){
+	public double getDeposit(){
 		return deposit;
 	}
 	
@@ -43,7 +43,7 @@ public class BuyForm {
 	}
 	
 	private void checkErrors(){
-		if(deposit<0){
+		if(deposit<0.00){
 			errors.set(0, "Amount of deposit cannot be negative.");
 			complete = false;
 		}
