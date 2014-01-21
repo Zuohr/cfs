@@ -5,11 +5,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class depositForm {
+public class DepositForm {
 	private String amount;
 	private long checkamount;
 
-	public depositForm(HttpServletRequest request) {
+	public DepositForm(HttpServletRequest request) {
 		amount = request.getParameter("checkamount");
 		checkamount = Long.parseLong(amount);
 	}

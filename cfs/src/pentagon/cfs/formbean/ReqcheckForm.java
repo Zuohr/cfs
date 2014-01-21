@@ -5,11 +5,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class reqcheckForm {
+public class ReqcheckForm {
 	private String amount;
 	private long reqamount;
 
-	public reqcheckForm(HttpServletRequest request) {
+	public ReqcheckForm(HttpServletRequest request) {
 		amount = request.getParameter("requestamount");
 		reqamount = Long.parseLong(amount);
 	}

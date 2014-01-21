@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class changepwForm {
+public class ChangepwForm {
 	private String confirmPassword;
 	private String newPassword;
 	
