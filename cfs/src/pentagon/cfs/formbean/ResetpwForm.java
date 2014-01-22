@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 public class ResetpwForm {
-	public class LoginForm {
 
 		private String newPw;
 		private String newPwConfirm;
 		private boolean complete = true;
 		private ArrayList<String> errors;
 
-		public LoginForm(HttpServletRequest request) {
+		public ResetpwForm(HttpServletRequest request) {
 
 			this.newPw = (String) request.getParameter("newPw");
 			this.newPwConfirm = (String) request.getParameter("newPwConfirm");
@@ -51,4 +50,4 @@ public class ResetpwForm {
 
 		}
 	}
-}
+
