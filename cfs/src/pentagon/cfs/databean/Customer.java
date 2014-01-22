@@ -25,6 +25,7 @@ public class Customer {
 	private String zip;
 	private long cash;
 	private long balance;
+	private long sharebalance;
 	private boolean loggedin;
 	private Date lasttrading;
 
@@ -122,6 +123,14 @@ public class Customer {
 
 	public void setBalance(long balance) {
 		this.balance = balance;
+	}
+
+	public long getSharebalance() {
+		return sharebalance;
+	}
+
+	public void setSharebalance(long sharebalance) {
+		this.sharebalance = sharebalance;
 	}
 
 	public boolean isLoggedin() {
