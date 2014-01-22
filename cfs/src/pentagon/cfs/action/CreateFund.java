@@ -5,16 +5,22 @@
  * Jan 2014
  */
 
-//hzuo
-
 package pentagon.cfs.action;
 
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 
-public interface Action {
-	public String perform(HttpServletRequest request) throws SQLException;
+public class CreateFund implements Action {
 
-	public String getName();
+	@Override
+	public String perform(HttpServletRequest request) throws SQLException {
+		return null;
+	}
+
+	@Override
+	public String getName() {
+		return "createfund.do";
+	}
+
 }
