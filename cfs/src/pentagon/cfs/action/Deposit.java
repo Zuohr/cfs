@@ -1,7 +1,7 @@
 //wc
 package pentagon.cfs.action;
 
-import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,18 +32,17 @@ public class Deposit implements Action {
 	}
 
 	@Override
-	public String perform(HttpServletRequest request) throws SQLException {
+	public String perform(HttpServletRequest request) throws RollbackException {
 		List<String> errors = new ArrayList<String>();
 		request.setAttribute("errors", errors);
 
 		DepositForm form = new DepositForm(request);
 		
-		Customer customer = (Customer) request.getSession()
-				.getAttribute("user");
+		
 		long deposit= form.getDeposit();
 		
 		TransactionRecord record = new TransactionRecord();
-				record.setCm_id(customer.getId());
+				record.setCm_id(form.getId());
 				record.setAmount(deposit);
 				record.setComplete(false);
 				record.setType("deposit");   // need to complete
@@ -52,7 +51,7 @@ public class Deposit implements Action {
 			transactionDAO.create(record);
 			
 			request.setAttribute("errors", "Add " + form.getDeposit() + "to "
-					+ customer.getLastname() + "," + customer.getFirstname()
+					+ form.getUserName()
 					+ "  successfully!");
 			return "ee_depositcheck.jsp";
 		} catch (RollbackException e) {

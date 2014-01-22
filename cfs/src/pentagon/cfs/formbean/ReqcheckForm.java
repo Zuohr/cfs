@@ -25,8 +25,6 @@ private long check;
 		
 	}
 
-
-
 		
 		public List<String> getValidationErrors() {
 			List<String> errors = new ArrayList<String>();

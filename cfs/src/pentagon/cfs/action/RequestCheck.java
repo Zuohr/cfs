@@ -34,7 +34,7 @@ public class RequestCheck implements Action {
 	}
 
 	@Override
-	public String perform(HttpServletRequest request) throws SQLException {
+	public String perform(HttpServletRequest request) throws RollbackException {
 		List<String> errors = new ArrayList<String>();
 		request.setAttribute("errors", errors);
 
@@ -42,6 +42,7 @@ public class RequestCheck implements Action {
 		
 		Customer customer = (Customer) request.getSession()
 				.getAttribute("user");
+		
 		long check = form.getCheck();
 		long cash = customer.getCash();
 		if (check<=cash){
@@ -61,8 +62,8 @@ public class RequestCheck implements Action {
 		} catch (RollbackException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
 		}
+		
 		}else{
 			request.setAttribute("errors", "Your current balance is not enough , please try later or decrease the amount !");
 			return "cm_requestcheck.jsp";
