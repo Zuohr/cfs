@@ -9,12 +9,12 @@
 
 package pentagon.cfs.action;
 
-import java.sql.SQLException;
-
 import javax.servlet.http.HttpServletRequest;
 
+import org.genericdao.RollbackException;
+
 public interface Action {
-	public String perform(HttpServletRequest request) throws SQLException;
+	public String perform(HttpServletRequest request) throws RollbackException;
 
 	public String getName();
 }

@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.genericdao.RollbackException;
+
 import pentagon.cfs.action.Action;
 import pentagon.cfs.action.ActionMap;
 import pentagon.cfs.action.Deposit;
@@ -46,32 +48,28 @@ public class Controller extends HttpServlet {
 		// add actions
 	}
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String nextStep;
-		try {
-			nextStep = processRequest(request);
-			proceedToNext(nextStep, request, response);
-		} catch (SQLException e) {
-			throw new RuntimeException(e.getCause());
-		}
+
+		// String nextStep;
+		// try {
+		// nextStep = processRequest(request);
+		// proceedToNext(nextStep, request, response);
+		// } catch (SQLException e) {
+		// throw new RuntimeException(e.getCause());
+		// }
+
+		request.getRequestDispatcher(jspPath + "ee_createfund.jsp").forward(
+				request, response);
 	}
 
 	private String processRequest(HttpServletRequest request)
-			throws SQLException {
+			throws RollbackException {
 		String actionName = getActionName(request.getServletPath());
 		Action a = actions.getAction(actionName);
 		if (a == null) {
