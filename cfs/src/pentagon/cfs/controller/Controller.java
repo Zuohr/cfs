@@ -19,6 +19,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import pentagon.cfs.action.Action;
 import pentagon.cfs.action.ActionMap;
+import pentagon.cfs.action.Deposit;
+import pentagon.cfs.action.EmplViewTranHistroy;
+import pentagon.cfs.action.RequestCheck;
 import pentagon.cfs.model.Model;
 
 /**
@@ -37,6 +40,9 @@ public class Controller extends HttpServlet {
 	public void init() throws ServletException {
 		model = new Model(getServletConfig());
 		actions = new ActionMap();
+		actions.addAction(new Deposit(model));
+		actions.addAction(new EmplViewTranHistroy(model));
+		actions.addAction(new RequestCheck(model));
 		// add actions
 	}
 

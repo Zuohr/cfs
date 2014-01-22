@@ -18,7 +18,7 @@ import pentagon.cfs.databean.TransactionRecord;
 
 public class TestDAO {
 	private String jdbcName = "com.mysql.jdbc.Driver";
-	private String jdbcURL = "jdbc:mysql:///webapp";
+	private String jdbcURL = "jdbc:mysql:///cfs";
 
 	private ConnectionPool getConnectionPool() {
 		return new ConnectionPool(jdbcName, jdbcURL);
