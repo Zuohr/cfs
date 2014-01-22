@@ -9,6 +9,22 @@ public class ResetpwForm {
 		private String newPw;
 		private String newPwConfirm;
 		private boolean complete = true;
+		public String getNewPw() {
+			return newPw;
+		}
+
+		public void setNewPw(String newPw) {
+			this.newPw = newPw;
+		}
+
+		public String getNewPwConfirm() {
+			return newPwConfirm;
+		}
+
+		public void setNewPwConfirm(String newPwConfirm) {
+			this.newPwConfirm = newPwConfirm;
+		}
+
 		private ArrayList<String> errors;
 
 		public ResetpwForm(HttpServletRequest request) {

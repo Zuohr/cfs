@@ -20,15 +20,15 @@
               <h2>Deposit Check</h2>
             </div>
 
-            <form class="form-horizontal" role="form">
+            <form class="form-horizontal" role="form" action="Deposit.do" method="POST">
                 <ul class="list-group">
-                  <li class="list-group-item">Customer User Name</li>
+                  <li class="list-group-item" >${ customer.LastName },{ customer.FirstName }</li>
                 </ul>
-              <div class="form-group">
+              <div class="form-group" >
 
                 <label for="inputEmail3" class="col-sm-2 control-label">Transact Cash</label>
                 <div class="col-sm-10" style="width:120px;">
-                  <input type="number" class="form-control" id="inputEmail3" placeholder="$">
+                  <input type="number" class="form-control"  placeholder="$" name="check" value="${form.check}">
                 </div>
               </div>
 
