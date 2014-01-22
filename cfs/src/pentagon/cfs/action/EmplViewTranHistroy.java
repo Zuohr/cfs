@@ -23,8 +23,12 @@ public class EmplViewTranHistroy implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws SQLException {
-		// TODO Auto-generated method stub
+		
+		
+		
+		
 		return null;
+		
 	}
 
 }
