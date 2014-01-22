@@ -15,7 +15,7 @@ public class TransitionDay implements Action {
 
 	@Override
 	public String getName() {
-		return "transition";
+		return "transition.do";
 	}
 
 }

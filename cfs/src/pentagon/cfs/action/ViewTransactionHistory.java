@@ -15,7 +15,7 @@ public class ViewTransactionHistory implements Action {
 
 	@Override
 	public String getName() {
-		return "viewtranshistory";
+		return "viewtranshistory.do";
 	}
 
 }

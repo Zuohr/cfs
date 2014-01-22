@@ -18,7 +18,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import pentagon.cfs.action.Action;
-import pentagon.cfs.action.ActionFactory;
 import pentagon.cfs.action.ActionMap;
 import pentagon.cfs.model.Model;
 
@@ -32,14 +31,12 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Model model;
 	private ActionMap actions;
-	private ActionFactory factory;
 	private final String jspPath = "/WEB-INF/";
 
 	@Override
 	public void init() throws ServletException {
 		model = new Model(getServletConfig());
 		actions = new ActionMap();
-		factory = new ActionFactory(model);
 		// add actions
 	}
 
