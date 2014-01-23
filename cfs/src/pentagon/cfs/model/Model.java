@@ -10,6 +10,7 @@ import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.EmployeeDAO;
 import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.FundPriceHistoryDAO;
+import pentagon.cfs.dao.MetaDAO;
 import pentagon.cfs.dao.PositionDAO;
 import pentagon.cfs.dao.TransactionDAO;
 
@@ -19,6 +20,7 @@ public class Model {
 	private EmployeeDAO employeeDAO;
 	private FundDAO fundDAO;
 	private FundPriceHistoryDAO fundPriceHistoryDAO;
+	private MetaDAO metaDAO;
 
 	private PositionDAO positionDAO;
 
@@ -35,6 +37,7 @@ public class Model {
 					cp);
 			this.positionDAO = new PositionDAO("cfs_position", cp);
 			this.transactionDAO = new TransactionDAO("cfs_transaction", cp);
+			this.metaDAO = new MetaDAO("cfs_meta", cp);
 		} catch (DAOException e) {
 			throw new ServletException();
 		}
@@ -62,5 +65,9 @@ public class Model {
 
 	public TransactionDAO getTransactionDAO() {
 		return transactionDAO;
+	}
+
+	public MetaDAO getMetaDAO() {
+		return metaDAO;
 	}
 }
