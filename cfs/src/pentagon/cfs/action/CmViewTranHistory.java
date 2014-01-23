@@ -2,20 +2,20 @@
 
 package pentagon.cfs.action;
 
-import java.sql.SQLException;
-
 import javax.servlet.http.HttpServletRequest;
 
-public class ViewTransactionHistory implements Action {
+import org.genericdao.RollbackException;
+
+public class CmViewTranHistory implements Action {
 
 	@Override
-	public String perform(HttpServletRequest request) throws SQLException {
+	public String perform(HttpServletRequest request) throws RollbackException {
 		return null;
 	}
 
 	@Override
 	public String getName() {
-		return "viewtranshistory.do";
+		return "cmviewtranshistory.do";
 	}
 
 }
