@@ -60,6 +60,7 @@ public class CmViewTranHistory implements Action {
 		private String price;
 		private String dollar;
 		private String state;
+		private String url;
 
 		public Record(TransactionRecord rd) {
 			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
@@ -69,7 +70,9 @@ public class CmViewTranHistory implements Action {
 			try {
 				if (rd.getFund_id() != 0) {
 					Fund fund = fundDAO.read(Integer.valueOf(rd.getFund_id()));
-					this.fundname = fund.getName();
+					this.fundname = String.format(
+							"<a href=\"researchfund.do?fund_id=%s\">%s(%s)</a>",
+							String.valueOf(rd.getFund_id()), fund.getName(), fund.getSymbol());
 					this.share = String.valueOf(100);
 					this.price = String.valueOf(0.1);
 				} else {
@@ -111,6 +114,10 @@ public class CmViewTranHistory implements Action {
 
 		public String getState() {
 			return state;
+		}
+
+		public String getUrl() {
+			return url;
 		}
 	}
 

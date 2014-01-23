@@ -2,14 +2,14 @@
 
 package pentagon.cfs.action;
 
-import java.sql.SQLException;
-
 import javax.servlet.http.HttpServletRequest;
+
+import org.genericdao.RollbackException;
 
 public class ResearchFund implements Action {
 
 	@Override
-	public String perform(HttpServletRequest request) throws SQLException {
+	public String perform(HttpServletRequest request) throws RollbackException {
 		return null;
 	}
 

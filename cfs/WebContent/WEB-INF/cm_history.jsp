@@ -32,7 +32,8 @@
 							<tr>
 								<td>${record.date }</td>
 								<td>${record.type }</td>
-								<td><a href="#">${record.fundname }</a></td>
+								<td>${record.fundname }</td>
+								<%-- <td><a href="#">${record.fundname }</a></td> --%>
 								<td>${record.share }</td>
 								<td>${record.price }</td>
 								<td>${record.dollar }</td>
