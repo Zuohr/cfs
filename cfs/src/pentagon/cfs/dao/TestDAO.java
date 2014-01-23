@@ -226,11 +226,11 @@ public class TestDAO {
 	public void testFundPriceHisDAO() throws DAOException, RollbackException {
 		ConnectionPool cp = getConnectionPool();
 		FundPriceHistoryDAO dao = new FundPriceHistoryDAO("cfs_fundprice", cp);
-		for (int i = 0; i < 5; i++) {
+		for (int i = 1; i < 5; i++) {
 			FundPriceHistory fp = new FundPriceHistory();
 			fp.setFund_id(i);
 			fp.setDate(new Date());
-			fp.setPrice(new Random().nextLong() % 1000);
+			fp.setPrice(Math.abs(new Random().nextLong() % 1000));
 			dao.create(fp);
 		}
 		FundPriceHistory[] fps = dao.getHistory(1);

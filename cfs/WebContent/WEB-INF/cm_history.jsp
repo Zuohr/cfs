@@ -28,7 +28,7 @@
 					</thead>
 
 					<tbody>
-						<c:forEach var="record" items="${requestScope.history }">
+						<c:forEach var="record" items="${requestScope.records }">
 							<tr>
 								<td>${record.date }</td>
 								<td>${record.type }</td>
