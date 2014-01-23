@@ -21,7 +21,7 @@
 
 					<div style="width: 600px; height: 400px; border: 1px solid;"></div>
 					<br>
-					<form class="form-horizontal" role="form">
+					<form class="form-horizontal"> <!-- role="form"> -->
 						<ul class="list-group">
 							<li class="list-group-item">Current Balance</li>
 						</ul>

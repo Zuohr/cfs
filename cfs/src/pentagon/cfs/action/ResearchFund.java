@@ -17,7 +17,7 @@ import org.genericdao.RollbackException;
 
 import pentagon.cfs.dao.FundPriceHistoryDAO;
 import pentagon.cfs.databean.FundPriceHistory;
-import pentagon.cfs.model.CommonPara;
+import pentagon.cfs.databean.Meta;
 import pentagon.cfs.model.Model;
 
 public class ResearchFund implements Action {
@@ -61,7 +61,7 @@ public class ResearchFund implements Action {
 		String price;
 
 		public Record(FundPriceHistory rd) {
-			SimpleDateFormat sdf = new SimpleDateFormat(CommonPara.DATE_FORMAT);
+			SimpleDateFormat sdf = new SimpleDateFormat(Meta.DATE_FORMAT);
 			this.date = sdf.format(rd.getDate());
 			this.price = String.valueOf((double) rd.getPrice() / 100);
 		}

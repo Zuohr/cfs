@@ -22,49 +22,38 @@
               <h2>Transition day</h2>
             </div>
             
-        
-
-       
-
-       <form class="form-horizontal" role="form">
-
+       <form class="form-horizontal" id="transition_form"> <!-- role="form"> -->
+		<input type="hidden" name="fund_num" value="${requestScope:fund_num }">
         <div class="form-group">
         <label for="inputFirstName3" class="col-sm-2 control-label">Date</label>
         <div class="col-sm-10" style="width:300px">
-          <input type="First Name" class="form-control" id="inputFirstName3" placeholder="mm/dd/yyyy">
+          <input type="text" class="form-control" id="inputFirstName3" name="date" placeholder="mm/dd/yyyy">
         </div>    
         </div>
 
+		<c:forEach var="fund" items="${requestScope:fund_list }">
         <div class="form-group">
-        <label for="inputFirstName3" class="col-sm-2 control-label">Fund 1</label>
+        <label for="inputFirstName3" class="col-sm-2 control-label">${fund.name }(${fund.symbol })</label>
         <div class="col-sm-10" style="width:300px">
-          <input type="First Name" class="form-control" id="inputFirstName3" placeholder="Price">
+          <input type="text" class="form-control" id="inputFirstName3" name="price_${fund.id }" placeholder="Price">
         </div>
         </div>
-        
-        <div class="form-group">
-        <label for="inputLastName3" class="col-sm-2 control-label">Fund 2</label>
-        <div class="col-sm-10" style="width:300px">
-          <input type="Last Name" class="form-control" id="inputLastName3" placeholder="Price">
-        </div>
-        </div>
-        
-
-        
-
+        </c:forEach>
         
         <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" form="transition_form" class="btn btn-primary" name="btn_transition" value="submit">Submit</button>
         
-        
-        
-          <button type="cancel" class="btn btn-default">cancel</button>
+          <button type="submit" form="transition_form" class="btn btn-default" name="btn_transition" value="cancel">Cancel</button>
         </div>
         </div>
       </form>
-    
-     
+      <!-- error message -->
+      <p>${requestScope:result }</p>
+      <c:forEach var="error" items="${requestScope:errors }">
+      <p>${error }</p>
+      </c:forEach>
+      <!-- error message -->
        </div>
      
         </div><!--/span-->
@@ -77,7 +66,7 @@
 
     </div><!--/.container-->
     
-</div>    
+<!-- </div>  -->   
     
 <jsp:include page="footer.jsp" />
   </body>

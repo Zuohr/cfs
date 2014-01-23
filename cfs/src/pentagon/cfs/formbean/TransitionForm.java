@@ -8,6 +8,7 @@ import java.util.Date;
 import javax.servlet.http.HttpServletRequest;
 
 import pentagon.cfs.databean.FundPriceHistory;
+import pentagon.cfs.databean.Meta;
 
 public class TransitionForm {
 	private String dateInput;
@@ -53,10 +54,17 @@ public class TransitionForm {
 			errors.set(0, "Date format should be mm/dd/yyyy.");
 			complete = false;
 		} else {
-			SimpleDateFormat f = new SimpleDateFormat("MM/dd/yyyy");
+			SimpleDateFormat f = new SimpleDateFormat(Meta.DATE_FORMAT);
 			f.setLenient(false);
 			try {
 				date = f.parse(dateInput);
+				String dateStr = f.format(date);
+				if (dateStr.compareTo(Meta.lastDate) <= 0) {
+					errors.set(0,
+							"Transition day should be later than last trading day("
+									+ Meta.lastDate + ").");
+					complete = false;
+				}
 			} catch (ParseException e) {
 				errors.set(0, "Invalid date.");
 				complete = false;

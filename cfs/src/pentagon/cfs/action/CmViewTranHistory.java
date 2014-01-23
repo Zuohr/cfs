@@ -19,8 +19,8 @@ import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.TransactionDAO;
 import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Fund;
+import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.TransactionRecord;
-import pentagon.cfs.model.CommonPara;
 import pentagon.cfs.model.Model;
 
 public class CmViewTranHistory implements Action {
@@ -64,7 +64,7 @@ public class CmViewTranHistory implements Action {
 		private String url;
 
 		public Record(TransactionRecord rd) {
-			SimpleDateFormat sdf = new SimpleDateFormat(CommonPara.DATE_FORMAT);
+			SimpleDateFormat sdf = new SimpleDateFormat(Meta.DATE_FORMAT);
 			this.date = sdf.format(rd.getDate());
 			this.type = rd.getType();
 			FundDAO fundDAO = model.getFundDAO();
