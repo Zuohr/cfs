@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import org.genericdao.RollbackException;
 
 import pentagon.cfs.dao.FundDAO;
-import pentagon.cfs.databean.Customer;
+import pentagon.cfs.databean.Employee;
 import pentagon.cfs.databean.Fund;
 import pentagon.cfs.formbean.CreateFundForm;
 import pentagon.cfs.model.Model;
@@ -30,7 +30,7 @@ public class CreateFund implements Action {
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
 		HttpSession session = request.getSession();
-		Customer user = (Customer) session.getAttribute("user");
+		Employee user = (Employee) session.getAttribute("user");
 		if (user == null) {
 			return "login.do";
 		} else {

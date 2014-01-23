@@ -1,72 +1,88 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 
 <jsp:include page="html_header.jsp" />
-  <body>
-<div id="wrap">
-<jsp:include page="header.jsp" />
+<body>
+	<div id="wrap">
+		<jsp:include page="header.jsp" />
 
-    <div class="container">
+		<div class="container">
+			<jsp:include page="cm_nav.jsp" />
+			<div class="col-xs-12 col-sm-9">
+				<h2>Transaction History</h2>
 
-      <div class="row row-offcanvas row-offcanvas-right">
-      
-		<jsp:include page="cm_nav.jsp" />
-		 <div class="col-xs-12 col-sm-9">
-            <div class="page-header">
-              <h2>Change Password</h2>
-            </div>
-			
-		       <form class="form-horizontal" role="form">
-			  <div class="form-group">
-				<label for="inputOldPassword3" class="col-sm-2 control-label">Old Password</label>
-				<div class="col-sm-10" style="width:300px">
-				  <input type="Old Password" class="form-control" id="inputOldPassword3" placeholder="Old Password">
-				</div>
-			  </div>
-			  
-			  <div class="form-group">
-				<label for="inputNewPassword3" class="col-sm-2 control-label">New Password</label>
-				<div class="col-sm-10" style="width:300px">
-				  <input type="New Password" class="form-control" id="inputNewPassword3" placeholder="New Password">
-				</div>
-				</div>
-				
-				<div class="form-group" >
-				<label for="inputNewPassword3" class="col-sm-2 control-label">Check Password</label>
-				<div class="col-sm-10" style="width:300px">
-				  <input type="Password Confirm" class="form-control" id="inputNewPassword3" placeholder="Re-enter Password">
-				</div>
-			  </div>
-			  
-			  <div class="form-group">
-				<div class="col-sm-offset-2 col-sm-10">
-				  <button type="submit" class="btn btn-primary">Submit</button>
-				
-				
-				
-				  <button type="cancel" class="btn btn-default">cancel</button>
-				</div>
-			  </div>
-			</form>
-		
-	   
-	     </div>
-	   
-        </div><!--/span-->
+				<table class="table">
+
+					<tbody>
+						<tr>
+							<td>name</td>
+							<td>customer name</td>
+						</tr>
+						<tr>
+							<td>address</td>
+							<td>customer address</td>
+						</tr>
+						<tr>
+							<td>last trading day</td>
+							<td>last trading day</td>
+						</tr>
+						<tr>
+							<td>cash balance</td>
+							<td>balance</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
 
 
-      </div><!--/row-->
 
-     
+				<h5>Transaction history</h5>
+
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th class="header-title">Date</th>
+							<th class="header-date">Operation</th>
+							<th class="header-ac">Fund Name</th>
+							<th class="header-ac">Number</th>
+							<th class="header-ac">Price</th>
+							<th class="header-ac">Amount</th>
+							<th class="header-ac">Status</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						<c:forEach var="record" items="${requestScope.history }">
+							<tr>
+								<td>${record.date }</td>
+								<td>${record.type }</td>
+								<td><a href="#">${record.fundname }</a></td>
+								<td>${record.share }</td>
+								<td>${record.price }</td>
+								<td>${record.dollar }</td>
+								<td>${record.state }</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+
+			</div>
+			<!--/span-->
 
 
-    </div><!--/.container-->
-    
-</div>    
-    
-<jsp:include page="footer.jsp" />
-  </body>
+		</div>
+		<!--/row-->
+
+
+	</div>
+	<!--/.container-->
+
+	<jsp:include page="footer.jsp" />
+</body>
 </html>

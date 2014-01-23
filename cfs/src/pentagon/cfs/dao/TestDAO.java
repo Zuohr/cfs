@@ -27,7 +27,7 @@ public class TestDAO {
 	@Test
 	public void testCmDAO() throws DAOException {
 		ConnectionPool cp = getConnectionPool();
-		CustomerDAO cmdao = new CustomerDAO("cm_table", cp);
+		CustomerDAO cmdao = new CustomerDAO("cfs_customer", cp);
 		Customer cm = new Customer();
 		cm.setUsername("username2");
 		cm.setPassword("psw");
@@ -98,26 +98,63 @@ public class TestDAO {
 	@Test
 	public void testTransDAO() throws DAOException {
 		ConnectionPool cp = getConnectionPool();
-		TransactionDAO dao = new TransactionDAO("cfs_trans", cp);
-		/*
-		 * for(int i = 1; i <= 5; i++) { TransactionRecord tr = new
-		 * TransactionRecord(); tr.setCm_id(i); tr.setFund_id(i); tr.setDate(new
-		 * Date()); tr.setShare(10); tr.setComplete(false); tr.setType("sell");
-		 * try { dao.create(tr); } catch (RollbackException e) {
-		 * e.printStackTrace(); } } for(int i = 1; i <= 5; i++) {
-		 * TransactionRecord tr = new TransactionRecord(); tr.setCm_id(i);
-		 * tr.setFund_id(i); tr.setDate(new Date()); tr.setAmount(100);
-		 * tr.setComplete(false); tr.setType("buy"); try { dao.create(tr); }
-		 * catch (RollbackException e) { e.printStackTrace(); } } for(int i = 1;
-		 * i <= 5; i++) { TransactionRecord tr = new TransactionRecord();
-		 * tr.setCm_id(i); tr.setDate(new Date()); tr.setAmount(100);
-		 * tr.setComplete(false); tr.setType("deposit"); try { dao.create(tr); }
-		 * catch (RollbackException e) { e.printStackTrace(); } } for(int i = 1;
-		 * i <= 5; i++) { TransactionRecord tr = new TransactionRecord();
-		 * tr.setCm_id(i); tr.setDate(new Date()); tr.setAmount(100);
-		 * tr.setComplete(false); tr.setType("withdraw"); try { dao.create(tr);
-		 * } catch (RollbackException e) { e.printStackTrace(); } }
-		 */
+		TransactionDAO dao = new TransactionDAO("cfs_transaction", cp);
+
+		for (int i = 1; i <= 5; i++) {
+			TransactionRecord tr = new TransactionRecord();
+			tr.setCm_id(i);
+			tr.setFund_id(i);
+			tr.setDate(new Date());
+			tr.setShare(10);
+			tr.setComplete(false);
+			tr.setType("sell");
+			try {
+				dao.create(tr);
+			} catch (RollbackException e) {
+				e.printStackTrace();
+			}
+		}
+		for (int i = 1; i <= 5; i++) {
+			TransactionRecord tr = new TransactionRecord();
+			tr.setCm_id(i);
+			tr.setFund_id(i);
+			tr.setDate(new Date());
+			tr.setAmount(100);
+			tr.setComplete(false);
+			tr.setType("buy");
+			try {
+				dao.create(tr);
+			} catch (RollbackException e) {
+				e.printStackTrace();
+			}
+		}
+		for (int i = 1; i <= 5; i++) {
+			TransactionRecord tr = new TransactionRecord();
+			tr.setCm_id(i);
+			tr.setDate(new Date());
+			tr.setAmount(100);
+			tr.setComplete(false);
+			tr.setType("deposit");
+			try {
+				dao.create(tr);
+			} catch (RollbackException e) {
+				e.printStackTrace();
+			}
+		}
+		for (int i = 1; i <= 5; i++) {
+			TransactionRecord tr = new TransactionRecord();
+			tr.setCm_id(i);
+			tr.setDate(new Date());
+			tr.setAmount(100);
+			tr.setComplete(false);
+			tr.setType("withdraw");
+			try {
+				dao.create(tr);
+			} catch (RollbackException e) {
+				e.printStackTrace();
+			}
+		}
+
 		try {
 			TransactionRecord[] pending = dao.getPending();
 			System.out.println(pending.length);
