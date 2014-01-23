@@ -30,7 +30,7 @@ public class CreateFund implements Action {
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
 		HttpSession session = request.getSession();
-		Employee user = (Employee) session.getAttribute("user");
+		Employee user = (Employee) session.getAttribute("employee");
 		if (user == null) {
 			return "login.do";
 		} else {

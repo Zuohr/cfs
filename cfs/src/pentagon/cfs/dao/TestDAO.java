@@ -33,8 +33,8 @@ public class TestDAO {
 		Customer cm = new Customer();
 		cm.setUsername("username2");
 		cm.setPassword("psw");
-		// cm.setFirstname("first");
-		// cm.setLastname("last");
+		cm.setFirstname("first");
+		cm.setLastname("last");
 		cm.setAddr1("addr1");
 		cm.setAddr2("addr2");
 		cm.setCity("city");
@@ -48,19 +48,19 @@ public class TestDAO {
 		try {
 			Transaction.begin();
 			System.out.println(cmdao.createCustomer(cm));
-			System.out.println(cmdao.createCustomer(cm));
-			System.out.println(cmdao.createCustomer(cm));
-			Customer cm2 = cmdao.getProfile(cm.getUsername());
-			System.out.println(cm2.getFirstname() == null);
-			System.out.println(cm2.getLastname() == null);
-			System.out.println(cm2);
-			cm2.setAddr1("new addr");
-			cmdao.updateCustomer(cm2);
-			System.out.println("***");
-			Customer[] cms = cmdao.getAll();
-			for (Customer c : cms) {
-				System.out.println(c);
-			}
+			// System.out.println(cmdao.createCustomer(cm));
+			// System.out.println(cmdao.createCustomer(cm));
+			// Customer cm2 = cmdao.getProfile(cm.getUsername());
+			// System.out.println(cm2.getFirstname() == null);
+			// System.out.println(cm2.getLastname() == null);
+			// System.out.println(cm2);
+			// cm2.setAddr1("new addr");
+			// cmdao.updateCustomer(cm2);
+			// System.out.println("***");
+			// Customer[] cms = cmdao.getAll();
+			// for (Customer c : cms) {
+			// System.out.println(c);
+			// }
 			Transaction.commit();
 		} catch (RollbackException e) {
 			System.out.println("roll back exception");
@@ -101,12 +101,11 @@ public class TestDAO {
 	public void testTransDAO() throws DAOException {
 		ConnectionPool cp = getConnectionPool();
 		TransactionDAO dao = new TransactionDAO("cfs_transaction", cp);
-
-		for (int i = 1; i <= 5; i++) {
+		int size = 1;
+		for (int i = 1; i <= size; i++) {
 			TransactionRecord tr = new TransactionRecord();
 			tr.setCm_id(i);
 			tr.setFund_id(i);
-			tr.setDate(new Date());
 			tr.setShare(10);
 			tr.setComplete(false);
 			tr.setType("sell");
@@ -116,11 +115,10 @@ public class TestDAO {
 				e.printStackTrace();
 			}
 		}
-		for (int i = 1; i <= 5; i++) {
+		for (int i = 1; i <= size; i++) {
 			TransactionRecord tr = new TransactionRecord();
 			tr.setCm_id(i);
 			tr.setFund_id(i);
-			tr.setDate(new Date());
 			tr.setAmount(100);
 			tr.setComplete(false);
 			tr.setType("buy");
@@ -130,10 +128,9 @@ public class TestDAO {
 				e.printStackTrace();
 			}
 		}
-		for (int i = 1; i <= 5; i++) {
+		for (int i = 1; i <= size; i++) {
 			TransactionRecord tr = new TransactionRecord();
 			tr.setCm_id(i);
-			tr.setDate(new Date());
 			tr.setAmount(100);
 			tr.setComplete(false);
 			tr.setType("deposit");
@@ -143,10 +140,9 @@ public class TestDAO {
 				e.printStackTrace();
 			}
 		}
-		for (int i = 1; i <= 5; i++) {
+		for (int i = 1; i <= size; i++) {
 			TransactionRecord tr = new TransactionRecord();
 			tr.setCm_id(i);
-			tr.setDate(new Date());
 			tr.setAmount(100);
 			tr.setComplete(false);
 			tr.setType("withdraw");
@@ -157,43 +153,40 @@ public class TestDAO {
 			}
 		}
 
-		try {
-			TransactionRecord[] pending = dao.getPending();
-			System.out.println(pending.length);
-			for (TransactionRecord tr : pending) {
-				System.out.println(tr.getDate());
-				tr.setComplete(true);
-				dao.update(tr);
-			}
-			pending = dao.getPending();
-			System.out.println(pending.length);
-			TransactionRecord[] history = dao.getHistory(9);
-			System.out.println(history.length);
-			for (TransactionRecord tr : history) {
-				System.out.println(tr.getType());
-			}
-		} catch (RollbackException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// try {
+		// TransactionRecord[] pending = dao.getPending();
+		// System.out.println(pending.length);
+		// for (TransactionRecord tr : pending) {
+		// System.out.println(tr.getDate());
+		// tr.setComplete(true);
+		// dao.update(tr);
+		// }
+		// pending = dao.getPending();
+		// System.out.println(pending.length);
+		// TransactionRecord[] history = dao.getHistory(9);
+		// System.out.println(history.length);
+		// for (TransactionRecord tr : history) {
+		// System.out.println(tr.getType());
+		// }
+		// } catch (RollbackException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
 	}
 
 	@Test
 	public void testPosDAO() throws DAOException {
 		ConnectionPool cp = getConnectionPool();
 		PositionDAO dao = new PositionDAO("cfs_pos", cp);
-		for (int i = 1; i < 5; i++) {
-			for (int j = 1; j <= 3; j++) {
-				Position p = new Position();
-				p.setCm_id(i);
-				p.setFund_id(j);
-				p.setShare(1);
-				try {
-					dao.create(p);
-					;
-				} catch (RollbackException e) {
-					e.printStackTrace();
-				}
+		for (int j = 1; j <= 4; j++) {
+			Position p = new Position();
+			p.setCm_id(1);
+			p.setFund_id(j);
+			p.setShare(100);
+			try {
+				dao.create(p);
+			} catch (RollbackException e) {
+				e.printStackTrace();
 			}
 		}
 		try {
@@ -211,7 +204,7 @@ public class TestDAO {
 	public void testFundDAO() throws DAOException {
 		ConnectionPool cp = getConnectionPool();
 		FundDAO dao = new FundDAO("cfs_fund", cp);
-		for (int i = 0; i < 5; i++) {
+		for (int i = 1; i < 5; i++) {
 			Fund f = new Fund();
 			f.setName("fund" + i);
 			f.setSymbol("FD" + i);
@@ -240,7 +233,7 @@ public class TestDAO {
 			System.out.println(fp.getPrice());
 		}
 	}
-	
+
 	@Test
 	public void testMetaDAO() throws DAOException, RollbackException {
 		ConnectionPool cp = getConnectionPool();

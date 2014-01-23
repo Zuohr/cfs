@@ -29,7 +29,10 @@ public class ResearchFund implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		Object user = request.getSession().getAttribute("user");
+		Object user = request.getSession().getAttribute("customer");
+		if (user == null) {
+			user = request.getSession().getAttribute("employee");
+		}
 		if (user == null) {
 			return "login.do";
 		} else {
@@ -42,10 +45,10 @@ public class ResearchFund implements Action {
 				FundPriceHistoryDAO dao = model.getFundPriceHistoryDAO();
 				FundPriceHistory[] history = dao.getHistory(fund_id);
 				Record[] records = new Record[history.length];
-				for(int i = 0; i < records.length; i++) {
+				for (int i = 0; i < records.length; i++) {
 					records[i] = new Record(history[i]);
 				}
-				request.setAttribute("records",	records);
+				request.setAttribute("records", records);
 				return "researchfund.jsp";
 			}
 		}

@@ -24,4 +24,25 @@ public class PositionDAO extends GenericDAO<Position> {
 		return match(MatchArg.equals("cm_id", Integer.valueOf(cm_id)));
 	}
 
+	public void updatePosition(int cm_id, int fund_id, long share) throws RollbackException {
+		Position[] positions = match(MatchArg.and(
+				MatchArg.equals("cm_id", cm_id),
+				MatchArg.equals("fund_id", fund_id)));
+		if(positions.length == 0) {
+			Position pos = new Position();
+			pos.setCm_id(cm_id);
+			pos.setFund_id(fund_id);
+			pos.setShare(share);
+			create(pos);
+		} else {
+			Position pos = positions[0];
+			Long currShare = pos.getShare();
+			if(currShare + share == 0) {
+				delete(pos);
+			} else {
+				pos.setShare(currShare + share);
+				update(pos);
+			}
+		}
+	}
 }

@@ -32,7 +32,7 @@ public class CmViewTranHistory implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		Customer user = (Customer) request.getSession().getAttribute("user");
+		Customer user = (Customer) request.getSession().getAttribute("customer");
 		if (user == null) {
 			return "login.do";
 		} else {
