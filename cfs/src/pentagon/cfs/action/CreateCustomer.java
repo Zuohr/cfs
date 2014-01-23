@@ -1,5 +1,4 @@
 package pentagon.cfs.action;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +9,7 @@ import org.genericdao.RollbackException;
 import pentagon.cfs.action.Action;
 import pentagon.cfs.model.*;
 import pentagon.cfs.dao.*;
+import pentagon.cfs.databean.Customer;
 import pentagon.cfs.formbean.CreateCmForm;
 
 public class CreateCustomer implements Action {
@@ -24,30 +24,40 @@ public class CreateCustomer implements Action {
 	}	
 	
 	@Override
-	public String perform(HttpServletRequest request){
+	public String perform(HttpServletRequest request) throws RollbackException{
 		// TODO Auto-generated method stub
-		List<String> errors = new ArrayList<String>();
-   		CreateCmForm form = new CreateCmForm(request);
-   		if(form.getErrors().size()!=0) {
-   			errors.addAll(form.getErrors());
-   			return "ee_createcm.jsp";
-   		}else{
-   			try {
-				customerDAO.create(form.getCustomerBean());
-			} catch (RollbackException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}   			
-   		}
-   		//System.out.println(form.getCustomerBean().getAddr1().toString());
-   		
-    	return null;
-	}
+		System.out.println(request.getParameter("createcm_btn"));
+	if ("submit".equals(request.getParameter("createcm_btn"))) {
+			CreateCmForm form = new CreateCmForm(request);
+			if(form.isComplete()) {
+			    System.out.println("3");
+				Customer newCm = form.getCustomerBean();	
+				if(customerDAO.createCustomer(newCm)){
+					request.setAttribute("result", "Customer:" + newCm.getUsername() 
+							+ "created.");
+				}else{
+					request.setAttribute("result",
+							"Customer creation failed, Customer already exist.");
+				}
+				return "ee_createcm.jsp";
+			}else{
+				ArrayList<String> errors = form.getErrors();
+				request.setAttribute("errors", errors);
+				return "ee_createcm.jsp";			
+			}
+		}else{
+			System.out.println("234");
+
+			return "ee_createcm.jsp";
+		}
+}//System.out.println(form.getCustomerBean().getAddr1().toString());
+	
+		
 
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "createCustomer.do";
+		return "createcm.do";
 	}
 
 }
