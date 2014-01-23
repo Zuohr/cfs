@@ -14,36 +14,6 @@
 			<div class="col-xs-12 col-sm-9">
 				<h2>Transaction History</h2>
 
-				<table class="table">
-
-					<tbody>
-						<tr>
-							<td>name</td>
-							<td>customer name</td>
-						</tr>
-						<tr>
-							<td>address</td>
-							<td>customer address</td>
-						</tr>
-						<tr>
-							<td>last trading day</td>
-							<td>last trading day</td>
-						</tr>
-						<tr>
-							<td>cash balance</td>
-							<td>balance</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td></td>
-						</tr>
-					</tbody>
-				</table>
-
-
-
-				<h5>Transaction history</h5>
-
 				<table class="table table-striped">
 					<thead>
 						<tr>

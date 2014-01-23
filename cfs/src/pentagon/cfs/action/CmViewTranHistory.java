@@ -56,9 +56,9 @@ public class CmViewTranHistory implements Action {
 		private String date;
 		private String type;
 		private String fundname;
-		private double share;
-		private double price;
-		private double dollar;
+		private String share;
+		private String price;
+		private String dollar;
 		private String state;
 
 		public Record(TransactionRecord rd) {
@@ -70,18 +70,18 @@ public class CmViewTranHistory implements Action {
 				if (rd.getFund_id() != 0) {
 					Fund fund = fundDAO.read(Integer.valueOf(rd.getFund_id()));
 					this.fundname = fund.getName();
-					this.share = 100;
-					this.price = 0.5;
+					this.share = String.valueOf(100);
+					this.price = String.valueOf(0.1);
 				} else {
-					this.fundname = "";
-					this.share = 0;
-					this.price = 0;
+					this.fundname = "-";
+					this.share = "-";
+					this.price = "-";
 				}
 			} catch (RollbackException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			this.dollar = 50;
+			this.dollar = String.valueOf(50);
 			this.state = rd.isComplete() ? "completed" : "pending";
 		}
 
@@ -97,15 +97,15 @@ public class CmViewTranHistory implements Action {
 			return fundname;
 		}
 
-		public double getShare() {
+		public String getShare() {
 			return share;
 		}
 
-		public double getPrice() {
+		public String getPrice() {
 			return price;
 		}
 
-		public double getDollar() {
+		public String getDollar() {
 			return dollar;
 		}
 
