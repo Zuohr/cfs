@@ -1,5 +1,6 @@
 package pentagon.cfs.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 
@@ -13,6 +14,7 @@ import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Employee;
 import pentagon.cfs.databean.Fund;
 import pentagon.cfs.databean.FundPriceHistory;
+import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.Position;
 import pentagon.cfs.databean.TransactionRecord;
 
@@ -237,5 +239,21 @@ public class TestDAO {
 		for (FundPriceHistory fp : fps) {
 			System.out.println(fp.getPrice());
 		}
+	}
+	
+	@Test
+	public void testMetaDAO() throws DAOException, RollbackException {
+		ConnectionPool cp = getConnectionPool();
+		MetaDAO dao = new MetaDAO("cfs_meta", cp);
+		Meta meta = new Meta();
+		meta.setDate(new SimpleDateFormat(Meta.DATE_FORMAT).format(new Date()));
+		dao.create(meta);
+		String date = dao.read(Integer.valueOf(1)).getDate();
+		System.out.println(date);
+		meta.setId(1);
+		meta.setDate("aa");
+		dao.update(meta);
+		date = dao.read(Integer.valueOf(1)).getDate();
+		System.out.println(date);
 	}
 }

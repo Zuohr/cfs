@@ -18,7 +18,7 @@
               <h2>Create New Fund</h2>
             </div>
 			
-		       <form class="form-horizontal" action="createfund.do" id="createfund_form"><!--  role="form"> -->
+		       <form class="form-horizontal" action="createfund.do" id="createfund_form" method="post"><!--  role="form"> -->
 			  <div class="form-group">
 				<label for="inputFundName3" class="col-sm-2 control-label">Fund Name</label>
 				<div class="col-sm-10" style="width:300px">

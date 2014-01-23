@@ -20,10 +20,11 @@
      <div class="col-xs-12 col-sm-9">
             <div class="page-header">
               <h2>Transition day</h2>
+              <h4>Last trading date: ${requestScope.last_day}</h4>
             </div>
             
        <form class="form-horizontal" id="transition_form"> <!-- role="form"> -->
-		<input type="hidden" name="fund_num" value="${requestScope:fund_num }">
+		<input type="hidden" name="fund_num" value="${requestScope.fund_num }">
         <div class="form-group">
         <label for="inputFirstName3" class="col-sm-2 control-label">Date</label>
         <div class="col-sm-10" style="width:300px">
@@ -31,7 +32,7 @@
         </div>    
         </div>
 
-		<c:forEach var="fund" items="${requestScope:fund_list }">
+		<c:forEach var="fund" items="${requestScope.fund_list }">
         <div class="form-group">
         <label for="inputFirstName3" class="col-sm-2 control-label">${fund.name }(${fund.symbol })</label>
         <div class="col-sm-10" style="width:300px">
@@ -49,8 +50,8 @@
         </div>
       </form>
       <!-- error message -->
-      <p>${requestScope:result }</p>
-      <c:forEach var="error" items="${requestScope:errors }">
+      <p>${requestScope.result }</p>
+      <c:forEach var="error" items="${requestScope.errors }">
       <p>${error }</p>
       </c:forEach>
       <!-- error message -->

@@ -20,7 +20,7 @@ public class TransitionForm {
 
 	public TransitionForm(HttpServletRequest request) {
 		dateInput = (String) request.getParameter("date");
-		String num = (String) request.getParameter("fundnum");
+		String num = (String) request.getParameter("fund_num");
 		fundnum = Integer.parseInt(num);
 		int size = fundnum + 1;
 		errors = new ArrayList<String>(size);
@@ -58,8 +58,8 @@ public class TransitionForm {
 			f.setLenient(false);
 			try {
 				date = f.parse(dateInput);
-				String dateStr = f.format(date);
-				if (dateStr.compareTo(Meta.lastDate) <= 0) {
+				Date lastDate = f.parse(Meta.lastDate);
+				if (lastDate.after(date)) {
 					errors.set(0,
 							"Transition day should be later than last trading day("
 									+ Meta.lastDate + ").");
@@ -72,7 +72,7 @@ public class TransitionForm {
 		}
 
 		for (int i = 1; i <= fundnum; i++) {
-			String price = (String) request.getParameter("fund" + i);
+			String price = (String) request.getParameter("price_" + i);
 			if (price == null || price.trim().isEmpty()) {
 				errors.set(i, "Price must be provided for this fund.");
 				complete = false;
