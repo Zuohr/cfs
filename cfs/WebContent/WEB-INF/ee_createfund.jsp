@@ -18,18 +18,18 @@
               <h2>Create New Fund</h2>
             </div>
 			
-		       <form class="form-horizontal" role="form">
+		       <form class="form-horizontal" action="createfund.do" id="createfund_form"><!--  role="form"> -->
 			  <div class="form-group">
 				<label for="inputFundName3" class="col-sm-2 control-label">Fund Name</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="Fund Name" class="form-control" id="inputFundName3" placeholder="Fund Name">
+				  <input type="text" class="form-control" id="inputFundName3" name="fundname" placeholder="Fund Name">
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
 				<label for="inputTicker3" class="col-sm-2 control-label">Ticker</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="Ticker" class="form-control" id="inputTicker3" placeholder="Ticker">
+				  <input type="text" class="form-control" id="inputTicker3" name="ticker" placeholder="Ticker">
 				</div>
 			  </div>
 			  
@@ -37,15 +37,16 @@
 			  
 			  <div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-				  <button type="submit" class="btn btn-primary">Submit</button>
-				
-				
-				
-				  <button type="cancel" class="btn btn-default">cancel</button>
+				  <button type="submit" class="btn btn-primary" name="createfund_btn" value="submit" form="createfund_form">Submit</button>
+				  <button type="submit" class="btn btn-default" name="createfund_btn" value="cancel" form="createfund_form">Cancel</button>
 				</div>
 			  </div>
 			</form>
-		
+		<!--  -->
+		<p>${requestScope.result }</p>
+		<p>${requestScope.errors["0"] }</p>
+		<p>${requestScope.errors["1"] }</p>
+		<!--  -->
 	   
 	     </div>
 	   
@@ -59,7 +60,7 @@
 
     </div><!--/.container-->
     
-</div>    
+<!-- </div> -->    
     
 <jsp:include page="footer.jsp" />
   </body>
