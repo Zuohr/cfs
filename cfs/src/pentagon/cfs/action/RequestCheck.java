@@ -1,7 +1,6 @@
 //wc
 package pentagon.cfs.action;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,18 +18,18 @@ import pentagon.cfs.model.Model;
 
 public class RequestCheck implements Action {
 
-	private CustomerDAO customerDAO;
+	private Model model;
 	private TransactionDAO transactionDAO;
-	
+
 	public RequestCheck(Model model) {
-		customerDAO = model.getCustomerDAO();
-		transactionDAO=model.getTransactionDAO();
+
+		transactionDAO = model.getTransactionDAO();
 	}
 
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return "RequestCheck.do";
+		return "requestcheck.do";
 	}
 
 	@Override
@@ -38,41 +37,55 @@ public class RequestCheck implements Action {
 		List<String> errors = new ArrayList<String>();
 		request.setAttribute("errors", errors);
 
-		ReqcheckForm form = new ReqcheckForm(request);
 		
-		Customer customer = (Customer) request.getSession()
-				.getAttribute("user");
-		
-		long check = form.getCheck();
-		long cash = customer.getCash();
-		if (check<=cash){
-		TransactionRecord record = new TransactionRecord();
-				record.setCm_id(customer.getId());
-				record.setAmount(check*-1);
-				record.setComplete(false);   
-				record.setType("withdraw");
-				
-		try {
-			transactionDAO.create(record);
+
+		Customer customer = (Customer) request.getSession().getAttribute(
+				"customer");
+		if (customer == null) {
+			return "login.do";
+		} else {
 			
-			request.setAttribute("errors", "Withdraw " + form.getCheck() + "from "
-					+ customer.getLastname() + "," + customer.getFirstname()
-					+ "  successfully!");
-			return "cm_requestcheck.jsp";
-		} catch (RollbackException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
+			
+			if ("submit".equals(request.getParameter("requestcheck_btn"))) {
+				
+				ReqcheckForm form = new ReqcheckForm(request);
+				
+				long check = form.getCheck();
+				long cash = customer.getCash();
+				if (check <= cash) {
+					TransactionRecord record = new TransactionRecord();
+					record.setCm_id(customer.getId());
+					record.setAmount(check);
+					record.setComplete(false);
+					record.setType("withdraw");
+
+					try {
+						transactionDAO.create(record);
+						
+						request.setAttribute("errors",
+								"Withdraw " + form.getCheck() + "from "
+										+ customer.getLastname() + ","
+										+ customer.getFirstname()
+										+ "  successfully!");
+
+					} catch (RollbackException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					return "cm_requestcheck.jsp";
+				} else {
+					request.setAttribute(
+							"errors",
+							"Your current balance is not enough , please try later or decrease the amount !");
+					return "cm_requestcheck.jsp";
+				}
+				
+			} else {
+				
+				return "cm_requestcheck.jsp";
+			}
 		}
 		
-		}else{
-			request.setAttribute("errors", "Your current balance is not enough , please try later or decrease the amount !");
-			return "cm_requestcheck.jsp";
-		
-		
-
-		
 	}
-		return "cm_requestcheck.jsp";
-	}}
-
-
+}

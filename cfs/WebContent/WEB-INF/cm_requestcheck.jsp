@@ -20,9 +20,9 @@
 						<h2>Request Check</h2>
 					</div>
 
-					<form class="form-horizontal" role="form">
+					<form class="form-horizontal" role="form" action="requestcheck.do" method="POST">
 						<ul class="list-group">
-							<li class="list-group-item">Current Balance</li>
+							<li class="list-group-item">Current cash:${ customer.cash }</li>
 						</ul>
 						<div class="form-group">
 
@@ -30,16 +30,22 @@
 								Amount</label>
 							<div class="col-sm-10" style="width: 120px;">
 								<input type="number" class="form-control" id="inputEmail3"
-									placeholder="$">
+									placeholder="$" name="check" >
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-primary">Submit</button>
+								<button type="submit" class="btn btn-primary" name="requestcheck_btn" value="submit">Submit</button>
 							</div>
 						</div>
 					</form>
+					 <!-- error message -->
+      <p>${requestScope.result }</p>
+      <c:forEach var="error" items="${requestScope.errors }">
+      <p>${error }</p>
+      </c:forEach>
+      <!-- error message -->
 				</div>
 				<!--/span-->
 

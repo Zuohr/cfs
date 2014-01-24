@@ -10,11 +10,8 @@
 package pentagon.cfs.action;
 
 import java.text.SimpleDateFormat;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.genericdao.RollbackException;
-
 import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.TransactionDAO;
 import pentagon.cfs.databean.Customer;

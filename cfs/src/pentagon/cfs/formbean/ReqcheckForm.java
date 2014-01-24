@@ -6,9 +6,14 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 public class ReqcheckForm {
-private long check;
+	private long check;
 	
-
+	public ReqcheckForm(HttpServletRequest request) {
+		String s = request.getParameter("check");
+		this.check = Long.parseLong(s);
+		
+		
+	}
 
 	public long getCheck() {
 		return check;
@@ -20,10 +25,7 @@ private long check;
 		this.check = check;
 	}
 
-	public ReqcheckForm(HttpServletRequest request) {
-         check = Long.parseLong(request.getParameter("check"));
-		
-	}
+
 
 		
 		public List<String> getValidationErrors() {

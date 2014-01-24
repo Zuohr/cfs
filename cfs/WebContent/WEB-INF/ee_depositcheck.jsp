@@ -34,10 +34,16 @@
 
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="submit" class="btn btn-primary" name="deposit_btn" value="submit">Submit</button>
                 </div>
               </div>
             </form>
+            <!-- error message -->
+      <p>${requestScope.result }</p>
+      <c:forEach var="error" items="${requestScope.errors }">
+      <p>${error }</p>
+      </c:forEach>
+      <!-- error message -->
         </div><!--/span-->
 
 
