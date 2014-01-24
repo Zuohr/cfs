@@ -6,36 +6,49 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 public class ReqcheckForm {
-	private Double check;
+	private long check;
 	private String ch;
+	private ArrayList<String> errors;
+	private boolean complete = true;
 
-	public ReqcheckForm(HttpServletRequest request) {
-		ch = request.getParameter("check").trim();
-		if (!ch.isEmpty()) {
-			check = Double.parseDouble(request.getParameter("check"));
-		} else {
-			checkErrors();
-		}
-
+	public boolean isComplete() {
+		return complete;
 	}
 
-	public Double getCheck() {
+	public ArrayList<String> getErrors() {
+		return errors;
+	}
+
+	public ReqcheckForm(HttpServletRequest request) {
+		ch = request.getParameter("check");
+		errors = new ArrayList<String>();
+		checkErrors();
+	}
+
+	public long getCheck() {
 		return check;
 	}
 
-	public void setCheck(Double check) {
+	public void setCheck(long check) {
 		this.check = check;
 	}
 
-	public List<String> checkErrors() {
-		List<String> errors = new ArrayList<String>();
+	public void checkErrors() {
+		if (ch == null || ch.isEmpty()) {
+			errors.add("Value cannot be empty.");
+			complete = false;
+		} else {
+			try {
+				check = (long) Double.parseDouble(ch);
+				if (check <= 0) {
+					errors.add("Invalid value.");
+					complete = false;
+				}
+			} catch (NumberFormatException e) {
+				errors.add("Invalid value.");
+				complete = false;
+			}
+		}
 
-		if (check == 0||ch.isEmpty()) {
-			errors.add("Check amount is required!");
-		}
-		if (check < 0) {
-			errors.add("Check amount can not be negitive!");
-		}
-		return errors;
 	}
 }

@@ -47,7 +47,7 @@ public class Deposit implements Action {
 				
 				DepositForm form = new DepositForm(request);
 				
-				double deposit = form.getDeposit();
+				double deposit = (double)form.getDeposit()/100;
 			
 				 errors.addAll(form.checkErrors());
 			        if (errors.size() != 0) {

@@ -22,7 +22,7 @@
 
 					<form class="form-horizontal" role="form" action="requestcheck.do" method="POST">
 						<ul class="list-group">
-							<li class="list-group-item">Current cash:${ customer.balance }</li>
+							<li class="list-group-item">Current balance:${ requestScope.balance }</li>
 						</ul>
 						<div class="form-group">
 
@@ -43,7 +43,7 @@
 					 <!-- error message -->
       <p>${requestScope.result }</p>
       <c:forEach var="error" items="${requestScope.errors }">
-      <p>${error }</p>
+      <p>${errors }</p>
       </c:forEach>
       <!-- error message -->
 				</div>
