@@ -20,7 +20,7 @@
               <h2>Create New Customer</h2>
             </div>
 			
-		       <form class="form-horizontal" action="createcm.do" id="createcm_form" method="get"><!--  role="form"> -->
+		       <form class="form-horizontal" action="createcm.do" id="createcm_form" method="post"><!--  role="form"> -->
 			  <div class="form-group">
 				<label for="inputFirstName3" class="col-sm-2 control-label">First Name</label>
 				<div class="col-sm-10" style="width:300px">

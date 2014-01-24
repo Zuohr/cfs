@@ -39,15 +39,15 @@
       <ul class="nav nav-pills" id="myTab" style="width:300px; margin-left:auto; margin-right:auto;">
   <li class="active"><a href="#as_employee" data-toggle="tab">I am an employee</a></li>
   <li><a href="#as_customer" data-toggle="tab">I am a customer</a></li>
+  <font color=:#fff>${requestScope.result }</font>
+    <font color=:#fff>${requestScope.errors["0"]  }</font><br>
+    <font color=:#fff>${requestScope.errors["1"]  }</font>
   
-  		<p>${requestScope.result }</p>
-		<p>${requestScope.errors["0"] }</p>
-		<p>${requestScope.errors["1"] }</p>
 </ul>
 
 <!-- <div class="tab-content"> -->
   <div class="tab-pane active" id="as_employee">
-		       <form class="form-horizontal" action="empllogin.do" id="eelogin_form" method="post"><!--  role="form"> -->
+		       <form class="form-signin" action="empllogin.do" id="eelogin_form" method="post"><!--  role="form"> -->
        
         <input type="text" class="form-control" placeholder="Email address" name="userName" required autofocus>
         <br>
@@ -57,7 +57,7 @@
       </form>
   </div>
   <div class="tab-pane" id="as_customer">
-		       <form class="form-horizontal" action="cmlogin.do" id="cmlogin_form" method="post"><!--  role="form"> -->
+		       <form class="form-signin" action="cmlogin.do" id="cmlogin_form" method="post"><!--  role="form"> -->
        
         <input type="text" class="form-control" name="userName" placeholder="Email address" required autofocus>
         <br>

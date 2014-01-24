@@ -34,6 +34,8 @@ public class EmplLogin implements Action {
 				if(employeeDAO.getProfile(form.getUserName())!=null){
 					Employee ee = employeeDAO.getProfile(form.getUserName());
 					if(ee.getPassword().equals(form.getPassword())) {
+						request.setAttribute("employeeUsername", form.getUserName());
+
 						return "empl_main.jsp";
 					}else {
 						request.setAttribute("result", "Password not correct");	
