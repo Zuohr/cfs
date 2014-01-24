@@ -17,72 +17,59 @@
         
          <div class="col-xs-12 col-sm-9">
             <div class="page-header">
-              <h2>Create New Customer</h2>
+              <h2>Create New Employee</h2>
             </div>
 			
-		       <form class="form-horizontal" role="form">
+		       <form class="form-horizontal" action="createempl.do" id="createee_form" method="get"><!--  role="form"> -->
 			  <div class="form-group">
 				<label for="inputFirstName3" class="col-sm-2 control-label">First Name</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="First Name" class="form-control" id="inputFirstName3" placeholder="First Name">
+				  <input type="text" class="form-control" id="inputFirstName3" name="firstName" placeholder="First Name">
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
 				<label for="inputLastName3" class="col-sm-2 control-label">Last Name</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="Last Name" class="form-control" id="inputLastName3" placeholder="Last Name">
+				  <input type="text" class="form-control" id="inputLastName3" name="lastName" placeholder="Last Name">
 				</div>
 			  </div>
-			  
 			  <div class="form-group">
-				<label for="inputUserName3" class="col-sm-2 control-label">Address1</label>
-				<div class="col-sm-10" style="width:300px">
-				  <input type="User Name" class="form-control" id="inputUserName3" placeholder="Address1" >
-				</div>
-			  </div>
-			  
-			   <div class="form-group">
-				<label for="inputUserName3" class="col-sm-2 control-label">Address2</label>
-				<div class="col-sm-10" style="width:300px">
-				  <input type="User Name" class="form-control" id="inputUserName3" placeholder="Address2">
-				</div>
-			  </div>
-			  
-			   <div class="form-group">
 				<label for="inputUserName3" class="col-sm-2 control-label">User Name</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="User Name" class="form-control" id="inputUserName3" placeholder="User Name">
+				  <input type="text" class="form-control" id="inputUserName3" name="userName" placeholder="User Name">
 				</div>
 			  </div>
+
 			  
 			  
 			  <div class="form-group">
 				<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="Password" class="form-control" id="inputPassword3" placeholder="Password">
+				  <input type="Password" class="form-control" id="inputPassword3" name="password" placeholder="Password">
 				</div>
 				</div>
 				
 				<div class="form-group">
 				<label for="inputPassword3" class="col-sm-2 control-label">Check Password</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="Password" class="form-control" id="inputPassword3" placeholder="Re-enter Password">
+				  <input type="Password" class="form-control" id="inputPassword3" name="password2" placeholder="Re-enter Password">
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-				  <button type="submit" class="btn btn-primary">Submit</button>
-				
-				
-				
-				  <button type="cancel" class="btn btn-default">cancel</button>
+				  		<button type="submit" class="btn btn-primary" name="createee_btn" value="submit"  form="createee_form">Submit</button>
+				 	    <button type="submit" class="btn btn-default" name="createee_btn" value="cancel"  form="createee_form">Cancel</button>
 				</div>
 			  </div>
 			</form>
-		
-	   
+		<p>${requestScope.result }</p>
+		<p>${requestScope.errors["0"] }</p>
+		<p>${requestScope.errors["1"] }</p>
+		<p>${requestScope.errors["2"] }</p>
+		<p>${requestScope.errors["3"] }</p>
+
 	     </div>
         </div><!--/span-->
 
@@ -95,6 +82,7 @@
     </div><!--/.container-->
     
 </div>    
-	<jsp:include page="footer.jsp" />
+    
+<jsp:include page="footer.jsp" />
   </body>
 </html>
