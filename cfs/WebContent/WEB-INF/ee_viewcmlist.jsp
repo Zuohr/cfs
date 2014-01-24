@@ -52,14 +52,14 @@
                             <td>${customer.lastname}</td>
                             <td><a href="#">${customer.username}</a></td>
                             <td>
-                            	&nbsp;&nbsp;&nbsp;
-                            	<a href="#" class="btn btn-primary btn-xs" role="button">Reset Password</a>
-								&nbsp;&nbsp;
-								<a href="emplviewacct.do?usr=${customer.username}" class="btn btn-primary btn-xs" role="button">View Account</a>
-								&nbsp;&nbsp;
-								<a href="#" class="btn btn-primary btn-xs" role="button">Deposit</a>
-								&nbsp;&nbsp;
-								<a href="#" class="btn btn-primary btn-xs" role="button">transaction History</a>
+                            	
+                            	<a href="#" class="btn btn-primary btn-xs"><!--  role="button"> -->Reset Password</a>
+								
+								<a href="emplviewacct.do?usr=${customer.username}" class="btn btn-primary btn-xs"><!--  role="button"> -->View Account</a>
+								
+								<a href="#" class="btn btn-primary btn-xs"><!--  role="button"> -->Deposit</a>
+								
+								<a href="#" class="btn btn-primary btn-xs"><!--  role="button"> -->transaction History</a>
                             </td>
 
                         </tr>
@@ -77,7 +77,7 @@
     </div><!--/.container-->
     
 </div>    
-    
+</div>
 <jsp:include page="footer.jsp" />
   </body>
 </html>
