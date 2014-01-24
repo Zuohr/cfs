@@ -4,10 +4,12 @@ import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.genericdao.RollbackException;
+
 public class EmplLogin implements Action {
 
 	@Override
-	public String perform(HttpServletRequest request) throws SQLException {
+	public String perform(HttpServletRequest request) throws RollbackException {
 		// TODO Auto-generated method stub
 		return null;
 	}
