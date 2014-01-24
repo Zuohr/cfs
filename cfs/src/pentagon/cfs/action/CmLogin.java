@@ -19,7 +19,7 @@ public class CmLogin implements Action {
 	private CustomerDAO customerDAO;
 
 	public CmLogin(Model model) {
-		customerDAO = model.getCustomerDAO();
+		this.customerDAO = model.getCustomerDAO();
 
 	}	
 	@Override
@@ -30,12 +30,13 @@ public class CmLogin implements Action {
 		if(role==null){
 			return "login.jsp";
 		}else if(role.startsWith("cu")){
-			EmplLoginForm form = new EmplLoginForm(request);
-			if(form.isComplete()) {
-				System.out.println(form.getUserName());
+			
+			CmLoginForm form = new CmLoginForm(request);
+			if(form.isComplete()) {				
 				if(customerDAO.getProfile(form.getUserName())!=null){
 					Customer cm = customerDAO.getProfile(form.getUserName());
 					if(cm.getPassword().equals(form.getPassword())) {
+						request.setAttribute("customerUsername", form.getUserName());
 						return "empl_main.jsp";
 					}else {
 						request.setAttribute("result", "Password not correct");	
@@ -53,7 +54,6 @@ public class CmLogin implements Action {
 					return "login.jsp";			
 				}
 			}else{
-
 				return "login.jsp";
 			}
 			
