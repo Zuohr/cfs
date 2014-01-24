@@ -68,7 +68,7 @@ public class TransitionDay implements Action {
 								.getFundPrices();
 						FundPriceHistoryDAO fphDAO = model
 								.getFundPriceHistoryDAO();
-						if(price_list.size() != fphDAO.getCount()) {
+						if(price_list.size() != fundDAO.getCount()) {
 							request.setAttribute("result", "Fund list expired, please fill again.");
 							fund_list = fundDAO.match();
 							request.setAttribute("fund_list", fund_list);
