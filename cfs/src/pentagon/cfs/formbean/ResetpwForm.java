@@ -60,7 +60,7 @@ public class ResetpwForm {
 				errors.set(1, "Password confirm can not be empty");
 				complete = false;
 			} else if (newPw != newPwConfirm) {
-				errors.set(1, "Please confirm the right new password.");
+				errors.set(2, "Please confirm the right new password.");
 				complete = false;
 			}
 

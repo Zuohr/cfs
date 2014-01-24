@@ -28,12 +28,12 @@ public class EmplChangePw implements Action {
 		Employee employee = (Employee) request.getSession().getAttribute("employee");
 
 		if (employee == null) {
-			return "empllogin.do";
+			return "login.do";
 		} else {
 
 			ChangepwForm form = new ChangepwForm(request);
 
-			String newPassword = form.getNewPassword();
+			String newPassword = form.getnewPassword();
 			employee.setPassword(newPassword);
 			
 
@@ -43,10 +43,10 @@ public class EmplChangePw implements Action {
 
 				request.setAttribute("errors", "Password changed for "
 						+ employee.getFirstname() + " " + employee.getLastname());
-				return "cm_changepw.jsp";//empl_changepw.jsp
+				return "ee_changepw.jsp";
 			} catch (RollbackException e) {
 				errors.add(e.toString());
-				return "cm_changepw.jsp";//empl_changepw.jsp
+				return "ee_changepw.jsp";//empl_changepw.jsp
 			}
 
 		}

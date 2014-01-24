@@ -51,7 +51,7 @@ public class ChangepwForm{
 		}
 		
 		if (!newPassword.equals(checkPassword)) {
-			errors.add("New Passwords do not match");
+			errors.add("New Password do not match");
 		}
 
 		return errors;
