@@ -55,8 +55,10 @@ public class CreateFund implements Action {
 					request.setAttribute("errors", errors);
 					return "ee_createfund.jsp";
 				}
+			} else if ("cancel".equals(request.getParameter("createfund_btn"))) {
+				return "emplviewcmlist.do";
 			} else {
-				return "empl_main.jsp";
+				return "ee_createfund.jsp";
 			}
 		}
 	}

@@ -198,7 +198,7 @@ public class TransitionDay implements Action {
 					return "ee_transition.jsp";
 				}
 			} else if ("cancel".equals(request.getParameter("btn_transition"))) {
-				return "empl_main.jsp";
+				return "emplviewcmlist.do";
 			} else {
 				System.out.println("metadate4 " + Meta.lastDate);//TODO
 				request.setAttribute("last_day", Meta.lastDate);

@@ -22,7 +22,7 @@
           </ul>
           
      		<p class="navbar-text navbar-right"><a href="logout.do" class="navbar-link">Logout</a></p>
-          <p class="navbar-text navbar-right">Customer: <a href="#" class="navbar-link">Pentagon</a></p>
+          <p class="navbar-text navbar-right">Welcome, <a href="#" class="navbar-link">Pentagon</a></p>
           
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
