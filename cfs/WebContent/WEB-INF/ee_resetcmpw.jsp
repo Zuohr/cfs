@@ -36,11 +36,11 @@
 			  
 			  <div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-				  <button type="submit" class="btn btn-primary">Submit</button>
+				  
+				  <button type="submit" class="btn btn-primary" name="resetcmpw_btn" value="submit" form="resetpw_form">Submit</button>
+				  <button type="submit" class="btn btn-default" name="resetcmpw_btn" value="cancel" form="resetpw_form">Cancel</button>
 				
 				
-				
-				  <button type="cancel" class="btn btn-default">cancel</button>
 				</div>
 			  </div>
 			</form>
