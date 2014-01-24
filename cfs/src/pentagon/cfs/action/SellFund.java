@@ -16,6 +16,7 @@ import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.PositionDAO;
 import pentagon.cfs.dao.TransactionDAO;
 import pentagon.cfs.databean.Customer;
+import pentagon.cfs.databean.Fund;
 import pentagon.cfs.databean.Position;
 import pentagon.cfs.databean.TransactionRecord;
 import pentagon.cfs.formbean.SellForm;
@@ -38,9 +39,12 @@ public class SellFund implements Action {
 			PositionDAO posDAO = model.getPositionDAO();
 			Position[] pos = posDAO.getPositions(user.getId());
 			FundDAO fundDAO = model.getFundDAO();
-			PositionList[] plist = new PositionList[pos.length];
+			SellPositionList[] plist = new SellPositionList[pos.length];
+			
 			for(int i=0; i<pos.length; i++){
-				plist[i] = new PositionList(fundDAO.read(pos[i].getFund_id()).getName(), pos[i].getShare()/1000);
+				Fund fd = fundDAO.read(pos[i].getFund_id());
+				plist[i] = new SellPositionList(fd.getName(), 
+						(double)pos[i].getShare()/1000, (double)pos[i].getSharebalance()/1000, fd.getId());
 			}
 			request.setAttribute("cus_position", plist); 
 			
@@ -48,9 +52,14 @@ public class SellFund implements Action {
 				SellForm form = new SellForm(request);
 				
 				if(form.isComplete()){
+					if(form.getFundAmount()>posDAO.getCmPosition(user.getId(), form.getFundId()).getSharebalance()){
+						request.setAttribute("order_fail", "You do not have enough balance");
+						return "cm_buyfund.jsp";
+					}
 					TransactionDAO dao = model.getTransactionDAO();
 					TransactionRecord record = form.getSellFund();
 					dao.create(record);
+					request.setAttribute("order_succ", "You have successfully placed the order");
 					
 				}
 				else{
@@ -70,13 +79,33 @@ public class SellFund implements Action {
 		// TODO Auto-generated method stub
 		return "sellfund.do";
 	}
-	public class PositionList {
+	public class SellPositionList {
 		private String fundName;
+		private int fundId;
 		private double share;
+		private double shareBalance;
 		
-		public PositionList(String fundName, double share){
+		public SellPositionList(String fundName, double share, double shareBalance, int fundId){
 			this.fundName = fundName;
 			this.share=share;
+			this.shareBalance = shareBalance;
+			this.fundId = fundId;
+		}
+
+		public String getFundName() {
+			return fundName;
+		}
+
+		public double getShare() {
+			return share;
+		}
+
+		public double getShareBalance() {
+			return shareBalance;
+		}
+		
+		public int getFundId(){
+			return fundId;
 		}
 	}
 

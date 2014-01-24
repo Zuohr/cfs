@@ -8,19 +8,23 @@ import pentagon.cfs.databean.TransactionRecord;
 
 public class SellForm {
 	private int fundId;
-	private String fundName;
 	private double fundAmount;
 	private boolean complete = true;
 	private ArrayList<String> errors;
 	
 	public SellForm(HttpServletRequest request){
-		this.fundName = (String) request.getParameter("fundName");
-		this.fundAmount = Double.parseDouble(request.getParameter("fundAmount"));
+		
 		this.fundId = Integer.parseInt(request.getParameter("fundId"));
-		int size = 1;
+		int size = 2;
 		this.errors = new ArrayList<String>(size);
 		for(int i=0; i<size; i++){
 			errors.add("");
+		}
+		if(!request.getParameter("sellAmount").trim().isEmpty()){
+			this.fundAmount = Double.parseDouble(request.getParameter("sellAmount"));
+		} else{
+			errors.set(1, "Please enter some numbers");
+			complete = false;
 		}
 		checkErrors();
 	}
@@ -41,9 +45,8 @@ public class SellForm {
 		return complete;
 	}
 	
-	public String getFundName(){
-		if(fundName==null) return "";
-		else return fundName;
+	public int getFundId(){
+		return fundId;
 	}
 	
 	public double getFundAmount(){

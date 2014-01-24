@@ -51,7 +51,7 @@ public class BuyFund implements Action {
 					record.setCm_id(user.getId());
 					record.setComplete(false);
 					dao.create(record);
-					request.setAttribute("order_succ", "You have successfully buy the fund");
+					request.setAttribute("order_succ", "You have successfully placed the order");
 				} else{
 					ArrayList<String> errors = form.getErrors();
 					request.setAttribute("errors", errors);
