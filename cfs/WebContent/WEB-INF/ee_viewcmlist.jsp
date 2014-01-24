@@ -36,30 +36,28 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
-                            <th>Username</th>
-                            <th>Option</th>
+                            <th>User Name</th>
+                            <th>Options</th>
 
                         </tr>
                     </thead>
                     <tbody>
                     <c:forEach var="customer" items="${requestScope.customer_list}">
                         <tr>
-                            <td>${customer.id}</td>
                             <td>${customer.firstname}</td>
                             <td>${customer.lastname}</td>
                             <td><a href="#">${customer.username}</a></td>
                             <td>
                             	
-                            	<a href="#" class="btn btn-primary btn-xs"><!--  role="button"> -->Reset Password</a>
+                            	<a href="resetcmpw.do" class="btn btn-primary btn-xs"><!--  role="button"> -->Reset Password</a>
 								
 								<a href="emplviewacct.do?usr=${customer.username}" class="btn btn-primary btn-xs"><!--  role="button"> -->View Account</a>
 								
-								<a href="#" class="btn btn-primary btn-xs"><!--  role="button"> -->Deposit</a>
+								<a href="deposit.do?id=${customer.id }" class="btn btn-primary btn-xs"><!--  role="button"> -->Deposit</a>
 								
-								<a href="#" class="btn btn-primary btn-xs"><!--  role="button"> -->transaction History</a>
+								<a href="emplviewtranhistroy.do?id=${customer.id }" class="btn btn-primary btn-xs"><!--  role="button"> -->Transaction History</a>
                             </td>
 
                         </tr>

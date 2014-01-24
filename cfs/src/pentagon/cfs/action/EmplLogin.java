@@ -27,10 +27,10 @@ public class EmplLogin implements Action {
 		} else if (role.startsWith("em")) {
 			EmplLoginForm form = new EmplLoginForm(request);
 			if (form.isComplete()) {
-				if (employeeDAO.getProfile(form.getUserName()) != null) {
-					Employee ee = employeeDAO.getProfile(form.getUserName());
+				Employee ee = employeeDAO.getProfile(form.getUserName());
+				if (ee != null) {
 					if (ee.getPassword().equals(form.getPassword())) {
-						request.setAttribute("employee", ee);
+						request.getSession().setAttribute("employee", ee);
 						return "emplviewcmlist.do";
 					} else {
 						request.setAttribute("result", "Password not correct");

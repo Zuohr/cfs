@@ -27,7 +27,7 @@ public class EmplViewCmList implements Action {
 		HttpSession session = request.getSession();
 		Employee user = (Employee) session.getAttribute("employee");
 		if(user==null){
-			return "login.do";
+			return "empllogin.do";
 		} else{
 			CustomerDAO cusDAO = model.getCustomerDAO();
 			Customer[] cus_list = cusDAO.match();

@@ -31,7 +31,7 @@ public class CmLogin implements Action {
 				if (customerDAO.getProfile(form.getUserName()) != null) {
 					Customer cm = customerDAO.getProfile(form.getUserName());
 					if (cm.getPassword().equals(form.getPassword())) {
-						request.setAttribute("customer", cm);
+						request.getSession().setAttribute("customer", cm);
 						return "cmviewacct.do";
 					} else {
 						request.setAttribute("result", "Password not correct");
