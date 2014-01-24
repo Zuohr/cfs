@@ -2,6 +2,7 @@
 package pentagon.cfs.action;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -23,19 +24,38 @@ public class EmplLogin implements Action {
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
 		// TODO Auto-generated method stub
-		String role = request.getQueryString();
+		String role = request.getParameter("submit");
 		System.out.println(role);
 		if(role==null){
 			return "login.jsp";
 		}else if(role.startsWith("em")){
 			EmplLoginForm form = new EmplLoginForm(request);
-			form.getUserName();
-			form.getPassword();
-//			if(form.isComplete()) {
-//				Employee Ee = employeeDAO.getProfile(form.getUserName());
-//			}
-		}
-		return "login.jsp";
+			if(form.isComplete()) {
+				if(employeeDAO.getProfile(form.getUserName())!=null){
+					Employee ee = employeeDAO.getProfile(form.getUserName());
+					if(ee.getPassword().equals(form.getPassword())) {
+						return "empl_main.jsp";
+					}else {
+						request.setAttribute("result", "Password not correct");	
+						return "login.jsp";
+					}
+				}else{
+					request.setAttribute("result", "Non-exist user");
+
+					return "login.jsp";
+				}
+			}else{
+					ArrayList<String> errors = form.getErrors();
+					request.setAttribute("errors", errors);
+					System.out.println(errors);
+					return "login.jsp";			
+				}
+			}else{
+				System.out.println("5");
+
+				return "login.jsp";
+			}
+			
 	}
 
 	@Override

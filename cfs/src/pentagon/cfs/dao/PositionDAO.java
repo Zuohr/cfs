@@ -33,6 +33,7 @@ public class PositionDAO extends GenericDAO<Position> {
 			pos.setCm_id(cm_id);
 			pos.setFund_id(fund_id);
 			pos.setShare(share);
+			pos.setSharebalance(share);
 			create(pos);
 		} else {
 			Position pos = positions[0];
@@ -41,8 +42,20 @@ public class PositionDAO extends GenericDAO<Position> {
 				delete(pos);
 			} else {
 				pos.setShare(currShare + share);
+				pos.setSharebalance(pos.getShare());
 				update(pos);
 			}
+		}
+	}
+	
+	public Position getCmPosition(int cm_id, int fund_id) throws RollbackException {
+		Position[] positions = match(MatchArg.and(
+				MatchArg.equals("cm_id", cm_id),
+				MatchArg.equals("fund_id", fund_id)));
+		if(positions.length == 0) {
+			return null;
+		} else {
+			return positions[0];
 		}
 	}
 }

@@ -1,41 +1,71 @@
 package pentagon.cfs.formbean;
 
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
+
 import java.util.List;
 
-
-public class ChangepwForm {
-	private String confirmPassword;
+public class ChangepwForm{
+	private String oldPassword;
 	private String newPassword;
-	
-	public String getConfirmPassword() { return confirmPassword; }
-	public String getNewPassword()     { return newPassword;     }
-	
-	public void setConfirmPassword(String s) { confirmPassword = s.trim(); }
-	public void setNewPassword(String s)     { newPassword     = s.trim(); }
+	private String checkPassword;	
+	private boolean complete = true;			
+	private ArrayList<String> errors;
 
+	public ChangepwForm(HttpServletRequest request) {		
+		this.oldPassword = (String) request.getParameter("OldPassword");
+		this.newPassword = (String) request.getParameter("NewPassword");
+		this.checkPassword = (String) request.getParameter("CheckPassword");
+		
+		int size = 2;
+		this.errors = new ArrayList<String>(size);
+		for (int i = 0; i < size; i++) {
+			errors.add("");
+		}
+		getValidationErrors();
+	}
+	public String getoldPassword()   { return oldPassword; }
+	public String getnewPassword()   { return newPassword; }
+	public String getcheckPassword() { return checkPassword; }
+	
 	public List<String> getValidationErrors() {
 		List<String> errors = new ArrayList<String>();
 
-		if (newPassword == null || newPassword.length() == 0) {
-			errors.add("New Password is required");
+		if (oldPassword == null || oldPassword.length() == 0) {
+			errors.add("Old Password is required");
+			complete = false;
 		}
 		
-		if (confirmPassword == null || confirmPassword.length() == 0) {
-			errors.add("Confirm Pwd is required");
+		if (newPassword == null || newPassword.length() == 0) {
+			errors.add("New Password is required");
+			complete = false;
+		}
+		
+		if (checkPassword == null || checkPassword.length() == 0) {
+			errors.add("Check Password is required");
+			complete = false;
 		}
 		
 		if (errors.size() > 0) {
 			return errors;
 		}
 		
-		if (!newPassword.equals(confirmPassword)) {
-			errors.add("Passwords do not match");
+		if (!newPassword.equals(checkPassword)) {
+			errors.add("New Passwords do not match");
 		}
 
 		return errors;
 	}
+	
+
+	public boolean isComplete() {
+		return complete;
+	}
+
 }
+
+
+
 
 
 

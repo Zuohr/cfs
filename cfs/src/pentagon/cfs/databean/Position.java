@@ -15,6 +15,7 @@ public class Position {
 	private int cm_id;
 	private int fund_id;
 	private long share;
+	private long sharebalance;
 
 	public int getId() {
 		return id;
@@ -46,6 +47,14 @@ public class Position {
 
 	public void setShare(long share) {
 		this.share = share;
+	}
+
+	public long getSharebalance() {
+		return sharebalance;
+	}
+
+	public void setSharebalance(long sharebalance) {
+		this.sharebalance = sharebalance;
 	}
 
 }

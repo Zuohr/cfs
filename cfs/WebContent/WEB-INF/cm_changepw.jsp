@@ -20,31 +20,34 @@
 			  <div class="form-group">
 				<label for="inputOldPassword3" class="col-sm-2 control-label">Old Password</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="Old Password" class="form-control" id="inputOldPassword3" placeholder="Old Password">
+				  <input type="Old Password" class="form-control" id="inputOldPassword3" name="OldPassword" placeholder="Old Password">
+				   
+				  
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
 				<label for="inputNewPassword3" class="col-sm-2 control-label">New Password</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="New Password" class="form-control" id="inputNewPassword3" placeholder="New Password">
+				  <input type="New Password" class="form-control" id="inputNewPassword3" name="NewPassword" placeholder="New Password">
 				</div>
 				</div>
 				
 				<div class="form-group" >
 				<label for="inputNewPassword3" class="col-sm-2 control-label">Check Password</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="Password Confirm" class="form-control" id="inputNewPassword3" placeholder="Re-enter Password">
+				  <input type="Password Confirm" class="form-control" id="inputNewPassword3" name="CheckPassword" placeholder="Re-enter Password">
 				</div>
 			  </div>
 			  
 			  <div class="form-group">
 				<div class="col-sm-offset-2 col-sm-10">
-				  <button type="submit" class="btn btn-primary">Submit</button>
-				
-				
-				
-				  <button type="cancel" class="btn btn-default">cancel</button>
+				  				  
+				  <button type="submit" class="btn btn-primary" name="cmchangepw_btn" value="submit" form="cmchangepw_form">Submit</button>
+				  <button type="submit" class="btn btn-default" name="cmchangepw_btn" value="cancel" form="cmchangepw_form">Cancel</button>
+				  
+				  
+				  
 				</div>
 			  </div>
 			</form>
