@@ -51,23 +51,28 @@ public class RequestCheck implements Action {
 				
 				ReqcheckForm form = new ReqcheckForm(request);
 				
-				long check = form.getCheck();
-				long cash = customer.getCash();
+				errors.addAll(form.checkErrors());
+		        if (errors.size() != 0) {
+		            return "cm_requestcheck.jsp";
+		        }
+				double check = form.getCheck();
+				double cash = customer.getBalance();
 				if (check <= cash) {
 					TransactionRecord record = new TransactionRecord();
+					
+					
 					record.setCm_id(customer.getId());
-					record.setAmount(check);
+					record.setAmount((long) (check*100));
 					record.setComplete(false);
 					record.setType("withdraw");
+                    customer.setBalance((long) (cash-check));
 
+					
 					try {
 						transactionDAO.create(record);
-						
+						model.getCustomerDAO().update(customer);
 						request.setAttribute("errors",
-								"Withdraw " + form.getCheck() + "from "
-										+ customer.getLastname() + ","
-										+ customer.getFirstname()
-										+ "  successfully!");
+								"Withdraw " + form.getCheck() + "from your account successfully!");
 
 					} catch (RollbackException e) {
 						// TODO Auto-generated catch block

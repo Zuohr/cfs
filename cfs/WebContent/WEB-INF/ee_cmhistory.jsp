@@ -13,6 +13,9 @@
 			<jsp:include page="cm_nav.jsp" />
 			<div class="col-xs-12 col-sm-9">
 				<h2>Transaction History</h2>
+				  <ul class="list-group">
+                  <li class="list-group-item" >User ID=${ requestScope.id }</li>
+                </ul>
                 <h4>User ID:${requestScope.id }</h4>
 				<table class="table table-striped">
 					<thead>

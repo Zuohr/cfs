@@ -34,21 +34,28 @@ public class Deposit implements Action {
 	public String perform(HttpServletRequest request) throws RollbackException {
 		List<String> errors = new ArrayList<String>();
 		request.setAttribute("errors", errors);
-		Employee empolyee = (Employee) request.getSession().getAttribute("empolyee");
-
-		if (empolyee == null) {
+		Employee employee = (Employee) request.getSession().getAttribute("employee");
+		
+		
+		if (employee == null) {
 			return "login.do";
 		} else {
-
+			int id = Integer.parseInt(request.getParameter("id"));
+			request.setAttribute("id", id);
 			if ("submit".equals(request.getParameter("deposit_btn"))) {
+				
+				
 				DepositForm form = new DepositForm(request);
-				int id = Integer.parseInt(request.getParameter("id"));
-
-				long deposit = form.getDeposit();
-
+				
+				double deposit = form.getDeposit();
+			
+				 errors.addAll(form.checkErrors());
+			        if (errors.size() != 0) {
+			            return "ee_depositcheck.jsp";
+			        }
 				TransactionRecord record = new TransactionRecord();
 				record.setCm_id(id);
-				record.setAmount(deposit);
+				record.setAmount((long) (deposit*100));
 				record.setComplete(false);
 				record.setType("deposit"); // need to complete
 
@@ -56,7 +63,7 @@ public class Deposit implements Action {
 					transactionDAO.create(record);
 
 					request.setAttribute("errors", "Add " + form.getDeposit()
-							+ "to " + form.getUserName() + "  successfully!");
+							+ " to " + id + "'s account successfully!");
 					return "ee_depositcheck.jsp";
 				} catch (RollbackException e) {
 					// TODO Auto-generated catch block

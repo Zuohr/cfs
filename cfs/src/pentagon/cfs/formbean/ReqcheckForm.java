@@ -6,40 +6,36 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 public class ReqcheckForm {
-	private long check;
-	
+	private Double check;
+	private String ch;
+
 	public ReqcheckForm(HttpServletRequest request) {
-		String s = request.getParameter("check");
-		this.check = Long.parseLong(s);
-		
-		
+		ch = request.getParameter("check").trim();
+		if (!ch.isEmpty()) {
+			check = Double.parseDouble(request.getParameter("check"));
+		} else {
+			checkErrors();
+		}
+
 	}
 
-	public long getCheck() {
+	public Double getCheck() {
 		return check;
 	}
 
-
-
-	public void setCheck(long check) {
+	public void setCheck(Double check) {
 		this.check = check;
 	}
 
+	public List<String> checkErrors() {
+		List<String> errors = new ArrayList<String>();
 
-
-		
-		public List<String> getValidationErrors() {
-			List<String> errors = new ArrayList<String>();
-	
-		
-
-			if (check == 0) {
-				errors.add("Check amount is required!");
-			}
-			if (check< 0) {
-				errors.add("Check amount can not be negitive!");
-			}
-			return errors;
+		if (check == 0||ch.isEmpty()) {
+			errors.add("Check amount is required!");
 		}
+		if (check < 0) {
+			errors.add("Check amount can not be negitive!");
+		}
+		return errors;
 	}
-	
+}

@@ -22,7 +22,7 @@
 
 					<form class="form-horizontal" role="form" action="requestcheck.do" method="POST">
 						<ul class="list-group">
-							<li class="list-group-item">Current cash:${ customer.cash }</li>
+							<li class="list-group-item">Current cash:${ customer.balance }</li>
 						</ul>
 						<div class="form-group">
 
