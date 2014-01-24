@@ -4,7 +4,10 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pentagon.cfs.databean.TransactionRecord;
+
 public class SellForm {
+	private int fundId;
 	private String fundName;
 	private double fundAmount;
 	private boolean complete = true;
@@ -12,13 +15,22 @@ public class SellForm {
 	
 	public SellForm(HttpServletRequest request){
 		this.fundName = (String) request.getParameter("fundName");
-		this.fundAmount = Long.parseLong(request.getParameter("fundAmount"));
+		this.fundAmount = Double.parseDouble(request.getParameter("fundAmount"));
+		this.fundId = Integer.parseInt(request.getParameter("fundId"));
 		int size = 1;
 		this.errors = new ArrayList<String>(size);
 		for(int i=0; i<size; i++){
 			errors.add("");
 		}
 		checkErrors();
+	}
+	
+	public TransactionRecord getSellFund(){
+		TransactionRecord record = new TransactionRecord();
+		record.setFund_id(fundId);
+		record.setAmount((long)(fundAmount*1000));
+		record.setType("sell");
+		return record;
 	}
 	
 	public ArrayList<String> getErrors(){
