@@ -47,7 +47,7 @@ public class Deposit implements Action {
 				
 				DepositForm form = new DepositForm(request);
 				
-				double deposit = (double)form.getDeposit()/100;
+				double deposit = Double.parseDouble(request.getParameter("deposit"))*100;
 			
 				 errors.addAll(form.checkErrors());
 			        if (errors.size() != 0) {
@@ -55,7 +55,7 @@ public class Deposit implements Action {
 			        }
 				TransactionRecord record = new TransactionRecord();
 				record.setCm_id(id);
-				record.setAmount((long) (deposit*100));
+				record.setAmount((long) (deposit));
 				record.setComplete(false);
 				record.setType("deposit"); // need to complete
 

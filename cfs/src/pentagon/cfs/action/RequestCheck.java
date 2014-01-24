@@ -46,22 +46,27 @@ public class RequestCheck implements Action {
 
 				if (form.isComplete()) {
 
-					long check = form.getCheck();
+					Double amount = Double.parseDouble(request.getParameter("check"))*100;
+					
+					
+					long check = amount.longValue() ;
+					
+					
 					long balance =  customer.getBalance();
 					if (check <= balance) {
 						TransactionRecord record = new TransactionRecord();
 
 						record.setCm_id(customer.getId());
-						record.setAmount(check * 100);
+						record.setAmount(check);
 						record.setComplete(false);
 						record.setType("withdraw");
-						customer.setBalance((long) (balance - check * 100));
+						customer.setBalance(balance - check );
 
 						try {
 							transactionDAO.create(record);
 							request.setAttribute("errors",
-									"Withdraw " + form.getCheck()
-											+ "from your account successfully!");
+									" Withdraw " + form.getCheck()
+											+ " from your account successfully!");
 							
 							model.getCustomerDAO().update(customer);
 						
