@@ -33,7 +33,7 @@ public class CreateFund implements Action {
 		HttpSession session = request.getSession();
 		Employee user = (Employee) session.getAttribute("employee");
 		if (user == null) {
-			return "login.do";
+			return "login.jsp";
 		} else {
 			if ("submit".equals(request.getParameter("createfund_btn"))) {
 				CreateFundForm form = new CreateFundForm(request);

@@ -38,7 +38,6 @@ public class EmplViewCmList implements Action {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "emplviewcmlist.do";
 	}
 
