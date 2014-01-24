@@ -25,6 +25,13 @@ public class TestDAO {
 	private ConnectionPool getConnectionPool() {
 		return new ConnectionPool(jdbcName, jdbcURL);
 	}
+	
+	@Test
+	public void initDB() throws DAOException {
+		testCmDAO();
+		testTransDAO();
+		testFundDAO();
+	}
 
 	@Test
 	public void testCmDAO() throws DAOException {
@@ -40,8 +47,8 @@ public class TestDAO {
 		cm.setCity("city");
 		cm.setState("state");
 		cm.setZip("zip");
-		cm.setCash(100);
-		cm.setBalance(50);
+		cm.setCash(10000);
+		cm.setBalance(10000);
 		cm.setLasttrading(new Date());
 		cm.setLoggedin(true);
 
@@ -106,7 +113,7 @@ public class TestDAO {
 			TransactionRecord tr = new TransactionRecord();
 			tr.setCm_id(i);
 			tr.setFund_id(i);
-			tr.setShare(10);
+			tr.setShare(10000);
 			tr.setComplete(false);
 			tr.setType("sell");
 			try {
@@ -119,7 +126,7 @@ public class TestDAO {
 			TransactionRecord tr = new TransactionRecord();
 			tr.setCm_id(i);
 			tr.setFund_id(i);
-			tr.setAmount(100);
+			tr.setAmount(10000);
 			tr.setComplete(false);
 			tr.setType("buy");
 			try {
@@ -131,7 +138,7 @@ public class TestDAO {
 		for (int i = 1; i <= size; i++) {
 			TransactionRecord tr = new TransactionRecord();
 			tr.setCm_id(i);
-			tr.setAmount(100);
+			tr.setAmount(20000);
 			tr.setComplete(false);
 			tr.setType("deposit");
 			try {
@@ -143,7 +150,7 @@ public class TestDAO {
 		for (int i = 1; i <= size; i++) {
 			TransactionRecord tr = new TransactionRecord();
 			tr.setCm_id(i);
-			tr.setAmount(100);
+			tr.setAmount(10000);
 			tr.setComplete(false);
 			tr.setType("withdraw");
 			try {

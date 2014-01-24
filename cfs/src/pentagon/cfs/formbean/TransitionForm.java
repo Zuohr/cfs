@@ -1,3 +1,10 @@
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
+
 package pentagon.cfs.formbean;
 
 import java.text.ParseException;
@@ -67,12 +74,16 @@ public class TransitionForm {
 			f.setLenient(false);
 			try {
 				date = f.parse(dateInput);
-				Date lastDate = f.parse(Meta.lastDate);
-				if (lastDate.after(date) || lastDate.equals(date)) {
-					errors.set(0,
-							"Transition day should be later than last trading day("
-									+ Meta.lastDate + ").");
-					complete = false;
+				if (Meta.lastDate != null) {
+					Date lastDate = f.parse(Meta.lastDate);
+					if (lastDate.after(date) || lastDate.equals(date)) {
+						errors.set(0,
+								"Transition day should be later than last trading day("
+										+ Meta.lastDate + ").");
+						complete = false;
+					} else {
+						tradingDay = f.format(date);
+					}
 				} else {
 					tradingDay = f.format(date);
 				}

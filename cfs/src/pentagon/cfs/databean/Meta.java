@@ -1,15 +1,11 @@
 package pentagon.cfs.databean;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import org.genericdao.PrimaryKey;
 
 @PrimaryKey("id")
 public final class Meta {
 	public static final String DATE_FORMAT = "MM/dd/yyyy";
-	public static String lastDate = new SimpleDateFormat(DATE_FORMAT)
-			.format(new Date());
+	public static String lastDate = null;
 	private String date;
 	private int id;
 

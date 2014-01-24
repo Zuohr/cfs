@@ -1,7 +1,15 @@
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
+
 // hzuo
 
 package pentagon.cfs.action;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,6 +22,7 @@ import org.genericdao.Transaction;
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.FundPriceHistoryDAO;
+import pentagon.cfs.dao.MetaDAO;
 import pentagon.cfs.dao.PositionDAO;
 import pentagon.cfs.dao.TransactionDAO;
 import pentagon.cfs.databean.Customer;
@@ -35,7 +44,8 @@ public class TransitionDay implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		Employee empl = (Employee) request.getSession().getAttribute("employee");
+		Employee empl = (Employee) request.getSession()
+				.getAttribute("employee");
 		if (empl == null) {
 			return "login.do";
 		} else {
@@ -47,7 +57,6 @@ public class TransitionDay implements Action {
 			if ("submit".equals(request.getParameter("btn_transition"))) {
 				TransitionForm form = new TransitionForm(request);
 				if (form.isComplete()) {
-					// request.setAttribute("result", "bingo");
 					try {
 						Transaction.begin();
 
@@ -75,36 +84,90 @@ public class TransitionDay implements Action {
 								long price = priceMap.get(fund_id);
 								long amount = rd.getAmount();
 								double share = (double) amount / price;
-								rd.setShare((long) share * 1000);
+								rd.setShare((long) (share * 1000));
 								rd.setComplete(true);
 								rd.setDate(tradingDate);
-
+								tranDAO.update(rd);
+								// TODO change share balance
 								Customer cm = cmDAO.read(Integer.valueOf(rd
 										.getCm_id()));
 								cm.setCash(cm.getCash()
-										- (long) (price * share) * 100);
+										- (long) (price * share));
 								cm.setBalance(cm.getCash());
+								cm.setLasttrading(tradingDate);
 								cmDAO.update(cm);
 
 								posDAO.updatePosition(rd.getCm_id(),
 										rd.getFund_id(), (long) share * 1000);
 							} else if ("sell".equals(rd.getType())) {
+								int fund_id = rd.getFund_id();
+								long price = priceMap.get(fund_id);
+								long share = rd.getShare();
+								long amount = (long) (((double) price / 100
+										* (double) share / 1000) * 100);
+								rd.setAmount(amount);
+								rd.setComplete(true);
+								rd.setDate(tradingDate);
+								tranDAO.update(rd);
+								// TODO change share balance
+								Customer cm = cmDAO.read(Integer.valueOf(rd
+										.getCm_id()));
+								cm.setCash(cm.getCash() + amount);
+								cm.setBalance(cm.getCash());
+								cm.setLasttrading(tradingDate);
+								cmDAO.update(cm);
 
+								posDAO.updatePosition(rd.getCm_id(),
+										rd.getFund_id(), -1 * share);
 							} else if ("deposit".equals(rd.getType())) {
-
+								long amount = rd.getAmount();
+								Customer cm = cmDAO.read(Integer.valueOf(rd
+										.getCm_id()));
+								cm.setCash(cm.getCash() + amount);
+								cm.setBalance(cm.getCash());
+								cm.setLasttrading(tradingDate);
+								cmDAO.update(cm);
+								
+								rd.setComplete(true);
+								rd.setDate(tradingDate);
+								tranDAO.update(rd);
 							} else if ("withdraw".equals(rd.getType())) {
-
+								long amount = rd.getAmount();
+								Customer cm = cmDAO.read(Integer.valueOf(rd
+										.getCm_id()));
+								cm.setCash(cm.getCash() - amount);
+								cm.setBalance(cm.getCash());
+								cm.setLasttrading(tradingDate);
+								cmDAO.update(cm);
+								
+								rd.setComplete(true);
+								rd.setDate(tradingDate);
+								tranDAO.update(rd);
 							}
 						}
 
 						// set last trading day
+						MetaDAO metaDAO = model.getMetaDAO();
+						String lastDate = new SimpleDateFormat(Meta.DATE_FORMAT)
+								.format(tradingDate);
+						Meta m = new Meta();
+						m.setDate(lastDate);
+						if (Meta.lastDate == null) {
+							metaDAO.create(m);
+						} else {
+							m.setId(1);
+							metaDAO.update(m);
+						}
+						Meta.lastDate = lastDate;
+
+						// set result
 						request.setAttribute("result",
 								pendings.length + " transactions processed on "
 										+ form.getTradingDay());
-
+						request.setAttribute("last_day", Meta.lastDate);
 						Transaction.commit();
 					} catch (RollbackException e) {
-						e.printStackTrace();// TODO
+						e.printStackTrace();
 					} finally {
 						if (Transaction.isActive()) {
 							Transaction.rollback();
