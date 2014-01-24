@@ -20,7 +20,6 @@ import pentagon.cfs.databean.Meta;
 public class TransitionForm {
 	private String dateInput;
 	private Date date;
-	private String tradingDay = "";
 	private int fundnum;
 	private boolean complete = true;
 	private ArrayList<String> errors;
@@ -58,10 +57,6 @@ public class TransitionForm {
 		return date;
 	}
 
-	public String getTradingDay() {
-		return tradingDay;
-	}
-
 	private void checkErrors(HttpServletRequest request) {
 		if (dateInput == null || dateInput.trim().isEmpty()) {
 			errors.set(0, "Date cannot be empty.");
@@ -77,15 +72,14 @@ public class TransitionForm {
 				if (Meta.lastDate != null) {
 					Date lastDate = f.parse(Meta.lastDate);
 					if (lastDate.after(date) || lastDate.equals(date)) {
+						System.out.println("after or equal: " + dateInput);// TODO
 						errors.set(0,
 								"Transition day should be later than last trading day("
 										+ Meta.lastDate + ").");
 						complete = false;
 					} else {
-						tradingDay = f.format(date);
+						System.out.println("before: " + dateInput); //TODO
 					}
-				} else {
-					tradingDay = f.format(date);
 				}
 			} catch (ParseException e) {
 				errors.set(0, "Invalid date.");

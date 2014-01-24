@@ -6,7 +6,6 @@
  */
 
 // hzuo
-
 package pentagon.cfs.action;
 
 import java.text.SimpleDateFormat;

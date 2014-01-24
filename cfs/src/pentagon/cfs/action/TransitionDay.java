@@ -49,10 +49,11 @@ public class TransitionDay implements Action {
 		if (empl == null) {
 			return "login.do";
 		} else {
-			FundDAO dao = model.getFundDAO();
-			Fund[] fund_list = dao.match();
+			FundDAO fundDAO = model.getFundDAO();
+			Fund[] fund_list = fundDAO.match();
 			request.setAttribute("fund_list", fund_list);
 			request.setAttribute("fund_num", fund_list.length);
+			System.out.println("metadate1 " + Meta.lastDate);//TODO
 			request.setAttribute("last_day", Meta.lastDate);
 			if ("submit".equals(request.getParameter("btn_transition"))) {
 				TransitionForm form = new TransitionForm(request);
@@ -67,6 +68,15 @@ public class TransitionDay implements Action {
 								.getFundPrices();
 						FundPriceHistoryDAO fphDAO = model
 								.getFundPriceHistoryDAO();
+						if(price_list.size() != fphDAO.getCount()) {
+							request.setAttribute("result", "Fund list expired, please fill again.");
+							fund_list = fundDAO.match();
+							request.setAttribute("fund_list", fund_list);
+							request.setAttribute("fund_num", fund_list.length);
+							System.out.println("metadate5 " + Meta.lastDate);//TODO
+							request.setAttribute("last_day", Meta.lastDate);
+							return "ee_transition.jsp";
+						}
 						HashMap<Integer, Long> priceMap = new HashMap<Integer, Long>();
 						for (FundPriceHistory item : price_list) {
 							fphDAO.create(item);
@@ -127,7 +137,7 @@ public class TransitionDay implements Action {
 								cm.setBalance(cm.getCash());
 								cm.setLasttrading(tradingDate);
 								cmDAO.update(cm);
-								
+
 								rd.setComplete(true);
 								rd.setDate(tradingDate);
 								tranDAO.update(rd);
@@ -139,7 +149,7 @@ public class TransitionDay implements Action {
 								cm.setBalance(cm.getCash());
 								cm.setLasttrading(tradingDate);
 								cmDAO.update(cm);
-								
+
 								rd.setComplete(true);
 								rd.setDate(tradingDate);
 								tranDAO.update(rd);
@@ -158,31 +168,40 @@ public class TransitionDay implements Action {
 							m.setId(1);
 							metaDAO.update(m);
 						}
+						System.out.println("setmeta1 " + lastDate);
 						Meta.lastDate = lastDate;
 
 						// set result
-						request.setAttribute("result",
-								pendings.length + " transactions processed on "
-										+ form.getTradingDay());
+						request.setAttribute(
+								"result",
+								pendings.length
+										+ " transactions processed on "
+										+ new SimpleDateFormat(Meta.DATE_FORMAT)
+												.format(tradingDate));
+						System.out.println("metadate2 " + Meta.lastDate);//TODO
 						request.setAttribute("last_day", Meta.lastDate);
 						Transaction.commit();
 					} catch (RollbackException e) {
 						e.printStackTrace();
+						request.setAttribute("result", "Operation failed.");
 					} finally {
 						if (Transaction.isActive()) {
 							Transaction.rollback();
-							request.setAttribute("result", "Operation failed.");
 						}
 					}
 					return "ee_transition.jsp";
 				} else {
 					ArrayList<String> errors = form.getErrors();
 					request.setAttribute("errors", errors);
+					System.out.println("metadate3 " + Meta.lastDate);//TODO
+					request.setAttribute("last_day", Meta.lastDate);
 					return "ee_transition.jsp";
 				}
 			} else if ("cancel".equals(request.getParameter("btn_transition"))) {
 				return "empl_main.jsp";
 			} else {
+				System.out.println("metadate4 " + Meta.lastDate);//TODO
+				request.setAttribute("last_day", Meta.lastDate);
 				return "ee_transition.jsp";
 			}
 		}
