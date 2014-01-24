@@ -42,6 +42,13 @@ public class EmplLoginForm{
 		return complete;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
 	public void checkError() {
 		
 		if (userName == null || userName.trim().isEmpty()) {
