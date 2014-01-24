@@ -98,7 +98,7 @@ public class TransitionDay implements Action {
 								rd.setComplete(true);
 								rd.setDate(tradingDate);
 								tranDAO.update(rd);
-								// TODO change share balance
+								
 								Customer cm = cmDAO.read(Integer.valueOf(rd
 										.getCm_id()));
 								cm.setCash(cm.getCash()
@@ -119,7 +119,7 @@ public class TransitionDay implements Action {
 								rd.setComplete(true);
 								rd.setDate(tradingDate);
 								tranDAO.update(rd);
-								// TODO change share balance
+								
 								Customer cm = cmDAO.read(Integer.valueOf(rd
 										.getCm_id()));
 								cm.setCash(cm.getCash() + amount);
