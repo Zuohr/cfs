@@ -2,7 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 
 
-    <div class="navbar navbar-fixed-top navbar-inverse" role="navigation">
+    <div class="navbar navbar-fixed-top navbar-inverse"><!--  role="navigation"> -->
     
       <div class="container">
         <div class="navbar-header">
@@ -21,8 +21,8 @@
             <li><a href="#contact">Contact</a></li>
           </ul>
           
-     		<p class="navbar-text navbar-right"><a href="#" class="navbar-link">Logout</a></p>
-          <p class="navbar-text navbar-right">Customer: <a href="#" class="navbar-link">Hao Ge</a></p>
+     		<p class="navbar-text navbar-right"><a href="logout.do" class="navbar-link">Logout</a></p>
+          <p class="navbar-text navbar-right">Customer: <a href="#" class="navbar-link">Pentagon</a></p>
           
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
