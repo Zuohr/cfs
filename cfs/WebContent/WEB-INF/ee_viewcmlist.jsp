@@ -36,51 +36,34 @@
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>ID</th>
                             <th>First Name</th>
                             <th>Last Name</th>
                             <th>Username</th>
-                            <th>rest Password</th>
+                            <th>Option</th>
 
                         </tr>
                     </thead>
                     <tbody>
+                    <c:forEach var="customer" items="${requestScope.customer_list}">
                         <tr>
-                            <td>1</td>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td><a href="#">@mdo</a></td>
+                            <td>${customer.id}</td>
+                            <td>${customer.firstname}</td>
+                            <td>${customer.lastname}</td>
+                            <td><a href="#">${customer.username}</a></td>
                             <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#buyFund">Reset Password</button>
-                                </div>
+                            	&nbsp;&nbsp;&nbsp;
+                            	<a href="#" class="btn btn-primary btn-xs" role="button">Reset Password</a>
+								&nbsp;&nbsp;
+								<a href="emplviewacct.do?usr=${customer.username}" class="btn btn-primary btn-xs" role="button">View Account</a>
+								&nbsp;&nbsp;
+								<a href="#" class="btn btn-primary btn-xs" role="button">Deposit</a>
+								&nbsp;&nbsp;
+								<a href="#" class="btn btn-primary btn-xs" role="button">transaction History</a>
                             </td>
 
                         </tr>
-                                                <tr>
-                            <td>2</td>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td><a href="#">@mdo</a></td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#buyFund">Reset Password</button>
-                                </div>
-                            </td>
-
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>Larry the Bird</td>
-                            <td>Jacob</td>
-                            <td><a href="#">@mdo</a></td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#buyFund">Reset Password</button>
-                                </div>
-                            </td>
-
-                        </tr>
+                     </c:forEach>
                     </tbody>
                 </table>
         </div><!--/span-->

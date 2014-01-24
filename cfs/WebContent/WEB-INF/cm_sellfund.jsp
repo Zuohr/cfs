@@ -29,7 +29,10 @@
                    	Fund Name
                   </th>
                   <th class="header-date">
-                    Price
+                    Position
+                  </th>
+                  <th class="header-date">
+                    Balance
                   </th>
                   <th class="header-ac">
                     Action
@@ -37,18 +40,21 @@
                 </tr>
               </thead>
               <tbody>
+              <c:forEach var = "plist" items = "${requestScope.plist}">
                 <tr>
                   <td>
                     <span class="None"> </span>
                   </td>
-                  <td><a href="#">Fund A</a></td>
+                  <td><a href="#">plist.fundName</a></td>
                   <td>20</td>
+                  <td>10</td>
                   <td>
                		<div class="btn-group">
                       <button type="button" class="btn btn-default" data-toggle="modal" data-target="#buyFund">Sell</button>
                     </div>
                   </td>
                 </tr>
+                </c:forEach>
               </tbody>
             </table>
 
@@ -58,14 +64,14 @@
                 <div class="modal fade" id="buyFund" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
-                    <form class="form-horizontal" role="form">
+                    <form class="form-horizontal" action="sellfund.do" id="sellfund_form" method="post" role="form">
                       <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                         <h4 class="modal-title" id="myModalLabel">Sell Fund</h4>
                       </div>
                       <div class="modal-body">
                         <ul class="list-group">
-                          <li class="list-group-item">Avaliable Shares:	</li>
+                          <li class="list-group-item">Position:</li>
                         </ul>
                       <div class="form-group">
                         <label for="inputEmail3" class="col-sm-2 control-label" >Amount:</label>
@@ -76,7 +82,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Place Order</button>
+                        <button type="submit" class="btn btn-primary" name="sellfund_btn" value="submit" >Place Order</button>
                       </div>
                       </form>
                     </div><!-- /.modal-content -->
