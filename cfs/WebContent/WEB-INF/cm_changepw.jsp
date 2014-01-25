@@ -20,15 +20,7 @@
             </div>
 			
 		       <form class="form-horizontal" role="form" action="cmchangepw.do" method="POST">
-			  <div class="form-group">
-				<label for="inputOldPassword3" class="col-sm-2 control-label">Old Password</label>
-				<div class="col-sm-10" style="width:300px">
-				  <input type="Old Password" class="form-control" id="inputOldPassword3" name="OldPassword" placeholder="Old Password">
-				   
-				  
-				</div>
-			  </div>
-			  
+			
 			  <div class="form-group">
 				<label for="inputNewPassword3" class="col-sm-2 control-label">New Password</label>
 				<div class="col-sm-10" style="width:300px">
