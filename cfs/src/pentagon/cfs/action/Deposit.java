@@ -10,6 +10,7 @@ import org.genericdao.RollbackException;
 
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.TransactionDAO;
+import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Employee;
 import pentagon.cfs.databean.TransactionRecord;
 import pentagon.cfs.formbean.DepositForm;
@@ -41,7 +42,15 @@ public class Deposit implements Action {
 			return "login.do";
 		} else {
 			int id = Integer.parseInt(request.getParameter("id"));
+			
+			
 			request.setAttribute("id", id);
+			
+             Customer customer =customerDAO.read(id);
+			
+			  request.setAttribute("FirstName", customer.getFirstname());
+              request.setAttribute("LastName", customer.getLastname());
+              
 			if ("submit".equals(request.getParameter("deposit_btn"))) {
 				
 				
@@ -63,7 +72,7 @@ public class Deposit implements Action {
 					transactionDAO.create(record);
 
 					request.setAttribute("errors", "Add " + form.getDeposit()
-							+ " to " + id + "'s account successfully!");
+							+ " to " + customer.getFirstname()+","+customer.getLastname() + "'s account successfully!");
 					return "ee_depositcheck.jsp";
 				} catch (RollbackException e) {
 					// TODO Auto-generated catch block

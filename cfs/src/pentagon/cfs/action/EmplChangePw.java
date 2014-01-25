@@ -1,8 +1,8 @@
 package pentagon.cfs.action;
 
 import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import pentagon.cfs.model.Model;
 import pentagon.cfs.dao.EmployeeDAO;
 import org.genericdao.RollbackException;
@@ -10,11 +10,12 @@ import pentagon.cfs.databean.Employee;
 import pentagon.cfs.formbean.ChangepwForm;
 
 public class EmplChangePw implements Action {
-
-	private EmployeeDAO EmployeeDAO;
+	private Model model;
+	
 
 	public EmplChangePw(Model model) {
-		EmployeeDAO = model.getEmployeeDAO();
+		
+		this.model = model;
 	}
 
 	public String getName() {
@@ -22,33 +23,51 @@ public class EmplChangePw implements Action {
 	}
 
 	public String perform(HttpServletRequest request) {
-
-		List<String> errors = new ArrayList<String>();
-		request.setAttribute("errors", errors);
-		Employee employee = (Employee) request.getSession().getAttribute("employee");
+		HttpSession session = request.getSession();
+		Employee employee = (Employee) session.getAttribute("employee");
 
 		if (employee == null) {
 			return "login.do";
 		} else {
+			if ("submit".equals(request.getParameter("eechangepw_btn"))) {
+				ChangepwForm form = new ChangepwForm(request);
 
-			ChangepwForm form = new ChangepwForm(request);
+				if (form.isComplete()) {
+					if (employee.getPassword() == form.getnewPassword()) {
+						employee.setPassword(form.getnewPassword());
+						employee.setId(employee.getId());
 
-			String newPassword = form.getnewPassword();
-			employee.setPassword(newPassword);
-			
+						EmployeeDAO employeeDAO = model.getEmployeeDAO();
 
-			try {
-				// Change the password
-				EmployeeDAO.updateEmployee(employee);
+						try {
+							employeeDAO.updateEmployee(employee);
+						} catch (RollbackException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
-				request.setAttribute("errors", "Password changed for "
-						+ employee.getFirstname() + " " + employee.getLastname());
+						request.setAttribute(
+								"result",
+								"Password changed for "
+										+ employee.getFirstname() + " "
+										+ employee.getLastname());
+						return "ee_changepw.jsp";
+					} else {
+						request.setAttribute("result",
+								"Your Old Password is wrong! ");
+						return "ee_changepw.jsp";
+					}
+
+				} else {
+					ArrayList<String> errors = form.getErrors();
+					request.setAttribute("errors", errors);
+					return "ee_changepw.jsp";
+				}
+			} else if ("cancel".equals(request.getParameter("cancel_btn"))) {
+				return "emplchangepw.do";
+			} else {
 				return "ee_changepw.jsp";
-			} catch (RollbackException e) {
-				errors.add(e.toString());
-				return "ee_changepw.jsp";//empl_changepw.jsp
 			}
-
 		}
 	}
 }

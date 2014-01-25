@@ -20,12 +20,11 @@
             </div>
 			
 		       <form class="form-horizontal" role="form" action="emplchangepw.do" method="POST">
-			  <div class="form-group">
+			  			  
+			  	<div class="form-group">
 				<label for="inputOldPassword3" class="col-sm-2 control-label">Old Password</label>
 				<div class="col-sm-10" style="width:300px">
 				  <input type="Old Password" class="form-control" id="inputOldPassword3" name="OldPassword" placeholder="Old Password">
-				   
-				  
 				</div>
 			  </div>
 			  
@@ -47,7 +46,7 @@
 				<div class="col-sm-offset-2 col-sm-10">
 				  				  
 				  <button type="submit" class="btn btn-primary" name="eechangepw_btn" value="submit" >Submit</button>
-				  <button type="submit" class="btn btn-default" name="change_btn" value="cancel" >Cancel</button>
+				  <button type="submit" class="btn btn-default" name="cancel_btn" value="cancel" >Cancel</button>
 				  
 				  
 				  

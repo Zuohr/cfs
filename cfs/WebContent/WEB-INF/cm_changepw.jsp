@@ -5,7 +5,7 @@
     
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <jsp:include page="html_header.jsp" />
-  <body>
+<body>
 <div id="wrap">
 <jsp:include page="header.jsp" />
     <div class="container">
@@ -20,7 +20,15 @@
             </div>
 			
 		       <form class="form-horizontal" role="form" action="cmchangepw.do" method="POST">
-			
+			  <div class="form-group">
+				<label for="inputOldPassword3" class="col-sm-2 control-label">Old Password</label>
+				<div class="col-sm-10" style="width:300px">
+				  <input type="Old Password" class="form-control" id="inputOldPassword3" name="OldPassword" placeholder="Old Password">
+				   
+				  
+				</div>
+			  </div>
+			  
 			  <div class="form-group">
 				<label for="inputNewPassword3" class="col-sm-2 control-label">New Password</label>
 				<div class="col-sm-10" style="width:300px">
@@ -39,7 +47,7 @@
 				<div class="col-sm-offset-2 col-sm-10">
 				  				  
 				  <button type="submit" class="btn btn-primary" name="cmchangepw_btn" value="submit" >Submit</button>
-				  <button type="submit" class="btn btn-default" name="change_btn" value="cancel" >Cancel</button>
+				  <button type="submit" class="btn btn-default" name="cancel_btn" value="cancel" >Cancel</button>
 				  
 				  
 				  

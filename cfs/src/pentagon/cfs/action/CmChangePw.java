@@ -2,7 +2,6 @@ package pentagon.cfs.action;
 
 import java.util.ArrayList;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -24,7 +23,7 @@ public class CmChangePw implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		
+
 		HttpSession session = request.getSession();
 		Customer customer = (Customer) session.getAttribute("customer");
 
@@ -33,34 +32,42 @@ public class CmChangePw implements Action {
 		} else {
 			if ("submit".equals(request.getParameter("cmchangepw_btn"))) {
 				ChangepwForm form = new ChangepwForm(request);
+
 				if (form.isComplete()) {
 
-					customer.setPassword(form.getnewPassword());
-					customer.setId(customer.getId());
+					if (customer.getPassword() == form.getnewPassword()) {
 
-					CustomerDAO customerDAO = model.getCustomerDAO();
+						customer.setPassword(form.getnewPassword());
+						customer.setId(customer.getId());
 
-					customerDAO.updateCustomer(customer);
+						CustomerDAO customerDAO = model.getCustomerDAO();
 
-					request.setAttribute("result",
-							"Password changed for " + customer.getFirstname()
-									+ " " + customer.getLastname());
-					return "cm_changepw.jsp";
+						customerDAO.updateCustomer(customer);
+
+						request.setAttribute(
+								"result",
+								"Password changed for "
+										+ customer.getFirstname() + " "
+										+ customer.getLastname()
+										+ " successfully!");
+						return "cm_changepw.jsp";
+					} else {
+						request.setAttribute("result", "Your Old Password is wrong! ");
+						return "cm_changepw.jsp";
+					}
 
 				} else {
 					ArrayList<String> errors = form.getErrors();
 					request.setAttribute("errors", errors);
 					return "cm_changepw.jsp";
 				}
-			} else if ("cancel".equals(request.getParameter("createfund_btn"))) {
+			} else if ("cancel".equals(request.getParameter("cancel_btn"))) {
 				return "cmchangepw.do";
 			} else {
 				return "cm_changepw.jsp";
 			}
 		}
 	}
-
-
 
 	@Override
 	public String getName() {

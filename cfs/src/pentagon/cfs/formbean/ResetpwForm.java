@@ -6,64 +6,60 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ResetpwForm {
 
-		private String newPw;
-		private String newPwConfirm;
-		private boolean complete = true;
-		public String getNewPw() {
-			return newPw;
+	private String newPassword;
+	private String checkPassword;
+	private boolean complete = true;
+	private ArrayList<String> errors;
+
+	public ResetpwForm(HttpServletRequest request) {
+		
+		this.newPassword = (String) request.getParameter("NewPassword");
+		this.checkPassword = (String) request.getParameter("CheckPassword");
+		int size = 2;
+		this.errors = new ArrayList<String>(size);
+		for (int i = 0; i < size; i++) {
+			errors.add("");
+		}
+		checkErrors();
+	}
+
+	public String getnewPassword() {
+		return newPassword;
+	}
+
+	public String getcheckPassword() {
+		return checkPassword;
+	}
+
+	public boolean isComplete() {
+		return complete;
+	}
+
+	public ArrayList<String> getErrors() {
+		return errors;
+	}
+
+	public void checkErrors() {
+		
+		if (newPassword == null || newPassword.trim().isEmpty()) {
+			errors.set(0, "New Password is required!");
+			complete = false;
+
 		}
 
-		public void setNewPw(String newPw) {
-			this.newPw = newPw;
+		if (checkPassword == null || checkPassword.trim().isEmpty()) {
+			errors.set(1, "Please comfirm password!");
+			complete = false;
 		}
 
-		public String getNewPwConfirm() {
-			return newPwConfirm;
-		}
-
-		public void setNewPwConfirm(String newPwConfirm) {
-			this.newPwConfirm = newPwConfirm;
-		}
-
-		private ArrayList<String> errors;
-
-		public ResetpwForm(HttpServletRequest request) {
-
-			this.newPw = (String) request.getParameter("newPw");
-			this.newPwConfirm = (String) request.getParameter("newPwConfirm");
-			int size = 2;
-			this.errors = new ArrayList<String>(size);
-			for (int i = 0; i < size; i++) {
-				errors.add("");
-			}
-			checkErrors();
-		}
-
-		public ArrayList<String> getErrors() {
-			return errors;
-		}
-
-		public boolean isComplete() {
-			return complete;
-		}
-
-		private void checkErrors() {
-			if (newPw == null || "".equals(newPw.trim())) {
-				errors.set(0, "Password can not be empty");
-				complete = false;
-			} else if (newPwConfirm.length() > 18) {
-				errors.set(0, "Length of Password can not exceed 18 digits.");
-				complete = false;
-			}
-
-			if (newPwConfirm == null || "".equals(newPwConfirm.trim())) {
-				errors.set(1, "Password confirm can not be empty");
-				complete = false;
-			} else if (newPw != newPwConfirm) {
-				errors.set(2, "Please confirm the right new password.");
+		if (complete == true) {
+			if (!newPassword.trim().equals(checkPassword.trim())) {
+				System.out.println("5");
+				errors.set(1,
+						"Please make sure the password you re-enter is correct!");
 				complete = false;
 			}
-
 		}
 	}
 
+}

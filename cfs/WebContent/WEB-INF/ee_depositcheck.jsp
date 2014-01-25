@@ -21,9 +21,9 @@
         
             </div>
 
-            <form class="form-horizontal" role="form" action="deposit.do?id=${ requestScope.id }" method="POST">
+            <form class="form-horizontal" role="form" action="deposit.do" method="POST">
                 <ul class="list-group">
-                  <li class="list-group-item" >User ID=${ requestScope.id }</li>
+                  <li class="list-group-item" >${ requestScope.FirstName },${ requestScope.LastName }</li>
                 </ul>
               <div class="form-group" >
 
