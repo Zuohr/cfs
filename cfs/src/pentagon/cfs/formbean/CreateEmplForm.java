@@ -12,8 +12,8 @@ public class CreateEmplForm {
 	private String userName;
 	private String password;
 	private String password2;
-	boolean complete = true;
-	ArrayList<String> errors;
+	private boolean complete = true;
+	private ArrayList<String> errors;
 	
 	public CreateEmplForm(HttpServletRequest request) {
 		firstName = (String) request.getParameter("firstName");
@@ -65,11 +65,17 @@ public class CreateEmplForm {
 			complete = false;
 		}
 
-		if (password == null || password2 == null || password.trim().isEmpty()
-				|| password2.trim().isEmpty()) {
-			errors.set(3, "Password cannot be empty.");
+		if (password == null || password.trim().isEmpty()) {
+			errors.set(3, "Please enter password.");
 			complete = false;
-		} else if (!password.equals(password2)) {
+		}
+		
+		if (password2 == null || password2.trim().isEmpty()) {
+			errors.set(3, "Please confirm password.");
+			complete = false;
+		}
+		
+		if (!password.equals(password2)) {
 			errors.set(3, "Password does not match.");
 			complete = false;
 		}

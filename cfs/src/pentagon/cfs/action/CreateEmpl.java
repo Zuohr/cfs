@@ -1,7 +1,4 @@
-//shidong
 package pentagon.cfs.action;
-
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,19 +22,17 @@ public class CreateEmpl implements Action {
 		if ("submit".equals(request.getParameter("createee_btn"))) {
 			CreateEmplForm form = new CreateEmplForm(request);
 			if (form.isComplete()) {
-				System.out.println("3");
-				Employee newEe = form.getEmployeeBean();
-				if (employeeDAO.createEmployee(newEe)) {
+				Employee newEmployee = form.getEmployeeBean();
+				if (employeeDAO.createEmployee(newEmployee)) {
 					request.setAttribute("result",
-							"Employee:" + newEe.getUsername() + "created.");
+							"Employee: " + newEmployee.getUsername() + " created.");
 				} else {
 					request.setAttribute("result",
-							"Employee creation failed, Employee already exist.");
+							"Employee creation failed, user already exist.");
 				}
 				return "ee_createempl.jsp";
 			} else {
-				ArrayList<String> errors = form.getErrors();
-				request.setAttribute("errors", errors);
+				request.setAttribute("errors", form.getErrors());
 				return "ee_createempl.jsp";
 			}
 		} else if ("cancel".equals(request.getParameter("createee_btn"))) {

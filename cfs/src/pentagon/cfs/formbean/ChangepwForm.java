@@ -11,6 +11,10 @@ public class ChangepwForm {
 	private boolean complete = true;
 	private ArrayList<String> errors;
 
+	public String getOldPassword() {
+		return oldPassword;
+	}
+
 	public ChangepwForm(HttpServletRequest request) {
 		this.oldPassword = (String) request.getParameter("OldPassword");
 		this.newPassword = (String) request.getParameter("NewPassword");
@@ -59,7 +63,6 @@ public class ChangepwForm {
 
 		if (complete == true) {
 			if (!newPassword.trim().equals(checkPassword.trim())) {
-				System.out.println("5");
 				errors.set(2,
 						"Please make sure the password you re-enter is correct!");
 				complete = false;

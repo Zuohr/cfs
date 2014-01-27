@@ -1,7 +1,4 @@
-//shidong
 package pentagon.cfs.action;
-
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,23 +19,20 @@ public class CreateCustomer implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		System.out.println(request.getParameter("createcm_btn"));
 		if ("submit".equals(request.getParameter("createcm_btn"))) {
 			CreateCmForm form = new CreateCmForm(request);
 			if (form.isComplete()) {
-				System.out.println("3");
-				Customer newCm = form.getCustomerBean();
-				if (customerDAO.createCustomer(newCm)) {
+				Customer newCustomer = form.getCustomerBean();
+				if (customerDAO.createCustomer(newCustomer)) {
 					request.setAttribute("result",
-							"Customer:" + newCm.getUsername() + "created.");
+							"Customer: " + newCustomer.getUsername() + " created.");
 				} else {
 					request.setAttribute("result",
 							"Customer creation failed, customer already exist.");
 				}
 				return "ee_createcm.jsp";
 			} else {
-				ArrayList<String> errors = form.getErrors();
-				request.setAttribute("errors", errors);
+				request.setAttribute("errors", form.getErrors());
 				return "ee_createcm.jsp";
 			}
 		} else if ("cancel".equals(request.getParameter("createcm_btn"))) {

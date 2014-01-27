@@ -11,46 +11,38 @@ import pentagon.cfs.formbean.ChangepwForm;
 
 public class EmplChangePw implements Action {
 	private Model model;
-	
 
 	public EmplChangePw(Model model) {
-		
 		this.model = model;
 	}
 
+	@Override
 	public String getName() {
 		return "emplchangepw.do";
 	}
 
-	public String perform(HttpServletRequest request) {
+	@Override
+	public String perform(HttpServletRequest request) throws RollbackException {
 		HttpSession session = request.getSession();
 		Employee employee = (Employee) session.getAttribute("employee");
 
 		if (employee == null) {
-			return "login.do";
+			return "login.jsp";
 		} else {
 			if ("submit".equals(request.getParameter("eechangepw_btn"))) {
 				ChangepwForm form = new ChangepwForm(request);
 
 				if (form.isComplete()) {
-					if (employee.getPassword() == form.getnewPassword()) {
+					if (employee.getPassword().equals(form.getOldPassword())) {
 						employee.setPassword(form.getnewPassword());
-						employee.setId(employee.getId());
 
 						EmployeeDAO employeeDAO = model.getEmployeeDAO();
+						employeeDAO.update(employee);
 
-						try {
-							employeeDAO.updateEmployee(employee);
-						} catch (RollbackException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-
-						request.setAttribute(
-								"result",
-								"Password changed for "
-										+ employee.getFirstname() + " "
-										+ employee.getLastname());
+						request.setAttribute("result",
+								String.format("Password changed for %s %s.",
+										employee.getFirstname(),
+										employee.getLastname()));
 						return "ee_changepw.jsp";
 					} else {
 						request.setAttribute("result",
@@ -64,7 +56,7 @@ public class EmplChangePw implements Action {
 					return "ee_changepw.jsp";
 				}
 			} else if ("cancel".equals(request.getParameter("cancel_btn"))) {
-				return "emplchangepw.do";
+				return "emplviewcmlist.do";
 			} else {
 				return "ee_changepw.jsp";
 			}
