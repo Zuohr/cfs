@@ -11,9 +11,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import pentagon.cfs.databean.Customer;
-
-public class CmLoginForm{
+public class CmLoginForm {
 
 	private String userName;
 	private String password;
@@ -32,8 +30,6 @@ public class CmLoginForm{
 		checkError();
 	}
 
-	
-
 	public ArrayList<String> getErrors() {
 		return errors;
 	}
@@ -45,24 +41,21 @@ public class CmLoginForm{
 	public String getUserName() {
 		return userName;
 	}
-	
+
 	public String getPassword() {
 		return password;
 	}
-	
+
 	public void checkError() {
-		
+
 		if (userName == null || userName.trim().isEmpty()) {
 			errors.set(0, "User name cannot be empty.");
 			complete = false;
 		}
 
-		
-		if (password == null||password.trim().isEmpty()) {
+		if (password == null || password.trim().isEmpty()) {
 			errors.set(1, "Password cannot be empty.");
 			complete = false;
-		
 		}
-
 	}
 }

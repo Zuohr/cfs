@@ -11,8 +11,6 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import pentagon.cfs.databean.Customer;
-
 public class EmplLoginForm{
 
 	private String userName;

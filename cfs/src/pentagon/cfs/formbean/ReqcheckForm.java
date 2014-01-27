@@ -1,7 +1,6 @@
 package pentagon.cfs.formbean;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
