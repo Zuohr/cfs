@@ -44,10 +44,10 @@
                    	Fund Name
                   </th>
                   <th class="header-date">
-                    Position
+                    Shares
                   </th>
                   <th class="header-date">
-                    Balance
+                    Avaliable Shares
                   </th>
                   <th class="header-ac">
                     Action

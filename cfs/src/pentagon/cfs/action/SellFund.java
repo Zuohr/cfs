@@ -11,7 +11,6 @@ import javax.servlet.http.HttpSession;
 
 import org.genericdao.RollbackException;
 
-import pentagon.cfs.action.EmplViewAcct.PositionList;
 import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.PositionDAO;
 import pentagon.cfs.dao.TransactionDAO;
@@ -52,7 +51,9 @@ public class SellFund implements Action {
 				SellForm form = new SellForm(request);
 				
 				if(form.isComplete()){
-					if(form.getFundAmount()>posDAO.getCmPosition(user.getId(), form.getFundId()).getSharebalance()){
+					long inputFund = (long)form.getFundAmount()*1000;
+					long avaShares = posDAO.getCmPosition(user.getId(), form.getFundId()).getSharebalance();
+					if(inputFund>avaShares){
 						request.setAttribute("order_fail", "You do not have enough balance");
 						return "cm_buyfund.jsp";
 					}
@@ -61,6 +62,22 @@ public class SellFund implements Action {
 					dao.create(record);
 					request.setAttribute("order_succ", "You have successfully placed the order");
 					
+					long balance = avaShares-inputFund;
+					Position cmPos = posDAO.getCmPosition(user.getId(), form.getFundId());
+					cmPos.setSharebalance(balance);
+					posDAO.updatePosGeneric(cmPos);
+					
+					
+					pos = posDAO.getPositions(user.getId());
+					fundDAO = model.getFundDAO();
+					plist = new SellPositionList[pos.length];
+					
+					for(int i=0; i<pos.length; i++){
+						Fund fd = fundDAO.read(pos[i].getFund_id());
+						plist[i] = new SellPositionList(fd.getName(), 
+								(double)pos[i].getShare()/1000, (double)pos[i].getSharebalance()/1000, fd.getId());
+					}
+					request.setAttribute("cus_position", plist); 
 				}
 				else{
 					ArrayList<String> errors = form.getErrors();
@@ -70,6 +87,8 @@ public class SellFund implements Action {
 			} else{
 				return "cm_sellfund.jsp";
 			}
+			
+
 		}
 		return "cm_sellfund.jsp";
 	}

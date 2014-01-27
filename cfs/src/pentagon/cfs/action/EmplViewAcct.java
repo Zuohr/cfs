@@ -29,10 +29,11 @@ public class EmplViewAcct implements Action {
 		HttpSession session = request.getSession();
 		Employee user = (Employee) session.getAttribute("employee");
 		if (user == null) {
-			return "login.do";
+			return "login.jsp";
 		} else {
 			CustomerDAO cusDAO = model.getCustomerDAO();
 			Customer cus = cusDAO.getProfile(request.getParameter("usr"));
+			
 			PositionDAO posDAO = model.getPositionDAO();
 			Position[] pos = posDAO.getPositions(cus.getId());
 			FundDAO fundDAO = model.getFundDAO();

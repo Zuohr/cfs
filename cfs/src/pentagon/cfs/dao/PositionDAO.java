@@ -23,6 +23,10 @@ public class PositionDAO extends GenericDAO<Position> {
 	public Position[] getPositions(int cm_id) throws RollbackException {
 		return match(MatchArg.equals("cm_id", Integer.valueOf(cm_id)));
 	}
+	
+	public void updatePosGeneric(Position pos) throws RollbackException {
+		update(pos);
+	}
 
 	public void updatePosition(int cm_id, int fund_id, long share) throws RollbackException {
 		Position[] positions = match(MatchArg.and(
