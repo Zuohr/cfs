@@ -8,7 +8,6 @@
 package pentagon.cfs.controller;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
@@ -21,9 +20,26 @@ import org.genericdao.RollbackException;
 
 import pentagon.cfs.action.Action;
 import pentagon.cfs.action.ActionMap;
+import pentagon.cfs.action.BuyFund;
+import pentagon.cfs.action.CmChangePw;
+import pentagon.cfs.action.CmLogin;
+import pentagon.cfs.action.CmViewAcct;
+import pentagon.cfs.action.CmViewTranHistory;
+import pentagon.cfs.action.CreateCustomer;
+import pentagon.cfs.action.CreateEmpl;
+import pentagon.cfs.action.CreateFund;
 import pentagon.cfs.action.Deposit;
+import pentagon.cfs.action.EmplChangePw;
+import pentagon.cfs.action.EmplLogin;
+import pentagon.cfs.action.EmplViewAcct;
+import pentagon.cfs.action.EmplViewCmList;
 import pentagon.cfs.action.EmplViewTranHistroy;
+import pentagon.cfs.action.Logout;
 import pentagon.cfs.action.RequestCheck;
+import pentagon.cfs.action.ResearchFund;
+import pentagon.cfs.action.ResetCmPw;
+import pentagon.cfs.action.SellFund;
+import pentagon.cfs.action.TransitionDay;
 import pentagon.cfs.model.Model;
 
 /**
@@ -42,10 +58,27 @@ public class Controller extends HttpServlet {
 	public void init() throws ServletException {
 		model = new Model(getServletConfig());
 		actions = new ActionMap();
-		actions.addAction(new Deposit(model));
-		actions.addAction(new EmplViewTranHistroy(model));
-		actions.addAction(new RequestCheck(model));
 		// add actions
+		actions.addAction(new BuyFund(model));
+		actions.addAction(new CmChangePw(model));
+		actions.addAction(new CmLogin(model));
+		actions.addAction(new CmViewAcct(model));
+		actions.addAction(new CmViewTranHistory(model));
+		actions.addAction(new CreateCustomer(model));
+		actions.addAction(new CreateEmpl(model));
+		actions.addAction(new CreateFund(model));
+		actions.addAction(new Deposit(model));
+		actions.addAction(new EmplChangePw(model));
+		actions.addAction(new EmplLogin(model));
+		actions.addAction(new EmplViewAcct(model));
+		actions.addAction(new EmplViewCmList(model));
+		actions.addAction(new EmplViewTranHistroy(model));
+		actions.addAction(new Logout());
+		actions.addAction(new RequestCheck(model));
+		actions.addAction(new ResearchFund(model));
+		actions.addAction(new ResetCmPw(model));
+		actions.addAction(new SellFund(model));
+		actions.addAction(new TransitionDay(model));
 	}
 
 	protected void doGet(HttpServletRequest request,
@@ -56,16 +89,14 @@ public class Controller extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		// String nextStep;
-		// try {
-		// nextStep = processRequest(request);
-		// proceedToNext(nextStep, request, response);
-		// } catch (SQLException e) {
-		// throw new RuntimeException(e.getCause());
-		// }
+		String nextStep;
+		try {
+			nextStep = processRequest(request);
+			proceedToNext(nextStep, request, response);
+		} catch (RollbackException e) {
+			throw new RuntimeException(e.getCause());
+		}
 
-		request.getRequestDispatcher(jspPath + "ee_createfund.jsp").forward(
-				request, response);
 	}
 
 	private String processRequest(HttpServletRequest request)
