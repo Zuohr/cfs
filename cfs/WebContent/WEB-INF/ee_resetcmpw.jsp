@@ -25,6 +25,14 @@
 						</ul> --%>
 
 						<div class="form-group">
+							<label for="inputPassword3" class="col-sm-2 control-label">User Name</label>
+							<div class="col-sm-10" style="width: 300px">
+								<input type="text" class="form-control" id="inputPassword3"
+									placeholder="User Name" name="UserName" value="${requestScope.username}">
+							</div>
+						</div>
+						
+						<div class="form-group">
 							<label for="inputPassword3" class="col-sm-2 control-label">New
 								Password</label>
 							<div class="col-sm-10" style="width: 300px">

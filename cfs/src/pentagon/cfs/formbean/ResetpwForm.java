@@ -8,14 +8,16 @@ public class ResetpwForm {
 
 	private String newPassword;
 	private String checkPassword;
+	private String userName;
 	private boolean complete = true;
 	private ArrayList<String> errors;
 
 	public ResetpwForm(HttpServletRequest request) {
-		
+
 		this.newPassword = (String) request.getParameter("NewPassword");
 		this.checkPassword = (String) request.getParameter("CheckPassword");
-		int size = 2;
+		this.userName = (String) request.getParameter("UserName");
+		int size = 3;
 		this.errors = new ArrayList<String>(size);
 		for (int i = 0; i < size; i++) {
 			errors.add("");
@@ -23,12 +25,12 @@ public class ResetpwForm {
 		checkErrors();
 	}
 
-	public String getnewPassword() {
-		return newPassword;
+	public String getUserName() {
+		return userName;
 	}
 
-	public String getcheckPassword() {
-		return checkPassword;
+	public String getNewPassword() {
+		return newPassword;
 	}
 
 	public boolean isComplete() {
@@ -40,15 +42,20 @@ public class ResetpwForm {
 	}
 
 	public void checkErrors() {
-		
+		if (userName == null || userName.trim().isEmpty()) {
+			errors.set(0, "User Name is required!");
+			complete = false;
+
+		}
+
 		if (newPassword == null || newPassword.trim().isEmpty()) {
-			errors.set(0, "New Password is required!");
+			errors.set(1, "New Password is required!");
 			complete = false;
 
 		}
 
 		if (checkPassword == null || checkPassword.trim().isEmpty()) {
-			errors.set(1, "Please comfirm password!");
+			errors.set(2, "Please comfirm password!");
 			complete = false;
 		}
 

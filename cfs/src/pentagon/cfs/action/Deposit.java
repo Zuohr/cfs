@@ -1,8 +1,11 @@
-//wc
-package pentagon.cfs.action;
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
 
-import java.util.ArrayList;
-import java.util.List;
+package pentagon.cfs.action;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,75 +20,65 @@ import pentagon.cfs.formbean.DepositForm;
 import pentagon.cfs.model.Model;
 
 public class Deposit implements Action {
-	private CustomerDAO customerDAO;
-	private TransactionDAO transactionDAO;
+	private Model model;
 
 	public Deposit(Model model) {
-		customerDAO = model.getCustomerDAO();
-		transactionDAO = model.getTransactionDAO();
+		this.model = model;
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "deposit.do";
 	}
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		List<String> errors = new ArrayList<String>();
-		request.setAttribute("errors", errors);
-		Employee employee = (Employee) request.getSession().getAttribute("employee");
-		
-		
+		Employee employee = (Employee) request.getSession().getAttribute(
+				"employee");
+
 		if (employee == null) {
-			return "login.do";
+			return "login.jsp";
 		} else {
-			int id = Integer.parseInt(request.getParameter("id"));
-			
-			
-			request.setAttribute("id", id);
-			
-             Customer customer =customerDAO.read(id);
-			
-			  request.setAttribute("FirstName", customer.getFirstname());
-              request.setAttribute("LastName", customer.getLastname());
-              
 			if ("submit".equals(request.getParameter("deposit_btn"))) {
-				
-				
 				DepositForm form = new DepositForm(request);
-				
-				double deposit = Double.parseDouble(request.getParameter("deposit"))*100;
-			
-				 errors.addAll(form.checkErrors());
-			        if (errors.size() != 0) {
-			            return "ee_depositcheck.jsp";
-			        }
-				TransactionRecord record = new TransactionRecord();
-				record.setCm_id(id);
-				record.setAmount((long) (deposit));
-				record.setComplete(false);
-				record.setType("deposit"); // need to complete
+				if (form.isComplete()) {
+					String username = form.getUserName();
+					CustomerDAO cmDAO = model.getCustomerDAO();
+					Customer customer = cmDAO.getProfile(username);
+					if (customer == null) {
+						request.setAttribute("result", "User does not exist");
+						return "ee_depositcheck.jsp";
+					} else {
+						TransactionDAO transDAO = model.getTransactionDAO();
+						TransactionRecord rd = new TransactionRecord();
+						rd.setAmount(form.getDepositAmount());
+						rd.setCm_id(customer.getId());
+						rd.setComplete(false);
+						rd.setType("deposit");
+						transDAO.create(rd);
 
-				try {
-					transactionDAO.create(record);
-
-					request.setAttribute("errors", "Add " + form.getDeposit()
-							+ " to " + customer.getFirstname()+","+customer.getLastname() + "'s account successfully!");
-					return "ee_depositcheck.jsp";
-				} catch (RollbackException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+						request.setAttribute(
+								"result",
+								String.format(
+										"Transaction registered: Deposit $%.2f for user %s.",
+										(double) form.getDepositAmount() / 100,
+										customer.getUsername()));
+						return "ee_depositcheck.jsp";
+					}
+				} else {
+					request.setAttribute("errors", form.getErrors());
 					return "ee_depositcheck.jsp";
 				}
-
-			}else{
+			} else if ("cancel".equals(request.getParameter("deposit_btn"))) {
+				return "emplviewcmlist.do";
+			} else if (request.getParameter("usr") != null) {
+				String username = request.getParameter("usr");
+				request.setAttribute("username", username);
+				return "ee_depositcheck.jsp";
+			} else {
 				return "ee_depositcheck.jsp";
 			}
-
 		}
-		
 
 	}
 }

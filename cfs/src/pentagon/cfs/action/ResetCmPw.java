@@ -1,3 +1,10 @@
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
+
 package pentagon.cfs.action;
 
 import java.util.ArrayList;
@@ -37,20 +44,23 @@ public class ResetCmPw implements Action {
 				if (form.isComplete()) {
 					CustomerDAO customerDAO = model.getCustomerDAO();
 
-					String usr = request.getParameter("username");
-					System.out.println(usr);
-					Customer customer = customerDAO.getProfile(usr);
+					Customer customer = customerDAO.getProfile(form
+							.getUserName());
+					if (customer == null) {
+						request.setAttribute("result",
+								"Resetting password failed: user does not exist.");
+					} else {
+						request.setAttribute("FirstName",
+								customer.getFirstname());
+						request.setAttribute("LastName", customer.getLastname());
 
-					request.setAttribute("FirstName", customer.getFirstname());
-					request.setAttribute("LastName", customer.getLastname());
+						customer.setPassword(form.getNewPassword());
+						customerDAO.update(customer);
 
-					customer.setPassword(form.getnewPassword());
-
-					customerDAO.update(customer);
-
-					request.setAttribute("result", String.format(
-							"Password changed for %s %s.",
-							customer.getFirstname(), customer.getLastname()));
+						request.setAttribute("result", String.format(
+								"Password changed for %s.",
+								customer.getUsername()));
+					}
 					return "ee_resetcmpw.jsp";
 
 				} else {
@@ -63,9 +73,9 @@ public class ResetCmPw implements Action {
 			} else if (request.getParameter("usr") != null) {
 				String username = request.getParameter("usr");
 				request.setAttribute("username", username);
-				return "emplviewcmlist.do";
-			} else {
 				return "ee_resetcmpw.jsp";
+			} else {
+				return "emplviewcmlist.do";
 			}
 		}
 	}
