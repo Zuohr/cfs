@@ -29,7 +29,7 @@ public class ResetCmPw implements Action {
 		Employee employee = (Employee) session.getAttribute("employee");
 
 		if (employee == null) {
-			return "login.do";
+			return "login.jsp";
 		} else {
 			if ("submit".equals(request.getParameter("resetcmpw_btn"))) {
 				ResetpwForm form = new ResetpwForm(request);
@@ -37,21 +37,20 @@ public class ResetCmPw implements Action {
 				if (form.isComplete()) {
 					CustomerDAO customerDAO = model.getCustomerDAO();
 
-					int id = Integer.parseInt(request.getParameter("id"));
-					Customer customer = customerDAO.read(id);
+					String usr = request.getParameter("username");
+					System.out.println(usr);
+					Customer customer = customerDAO.getProfile(usr);
 
 					request.setAttribute("FirstName", customer.getFirstname());
 					request.setAttribute("LastName", customer.getLastname());
 
 					customer.setPassword(form.getnewPassword());
-					customer.setId(id);
 
-					customerDAO.updateCustomer(customer);
+					customerDAO.update(customer);
 
-					request.setAttribute("result",
-							"Password changed for " + customer.getFirstname()
-									+ "," + customer.getLastname()
-									+ " successfully!");
+					request.setAttribute("result", String.format(
+							"Password changed for %s %s.",
+							customer.getFirstname(), customer.getLastname()));
 					return "ee_resetcmpw.jsp";
 
 				} else {
@@ -59,8 +58,12 @@ public class ResetCmPw implements Action {
 					request.setAttribute("errors", errors);
 					return "ee_resetcmpw.jsp";
 				}
-			} else if ("cancel".equals(request.getParameter("cancel_btn"))) {
-				return "resetcmpw.do";
+			} else if ("cancel".equals(request.getParameter("resetcmpw_btn"))) {
+				return "emplviewcmlist.do";
+			} else if (request.getParameter("usr") != null) {
+				String username = request.getParameter("usr");
+				request.setAttribute("username", username);
+				return "emplviewcmlist.do";
 			} else {
 				return "ee_resetcmpw.jsp";
 			}

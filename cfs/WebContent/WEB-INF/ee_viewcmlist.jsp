@@ -51,13 +51,13 @@
                             <td><a href="#">${customer.username}</a></td>
                             <td>
                             	
-                            	<a href="resetcmpw.do" class="btn btn-primary btn-xs"><!--  role="button"> -->Reset Password</a>
+                            	<a href="resetcmpw.do?usr=${customer.username}" class="btn btn-primary btn-xs"><!--  role="button"> -->Reset Password</a>
 								
 								<a href="emplviewacct.do?usr=${customer.username}" class="btn btn-primary btn-xs"><!--  role="button"> -->View Account</a>
 								
-								<a href="deposit.do?id=${customer.id }" class="btn btn-primary btn-xs"><!--  role="button"> -->Deposit</a>
+								<a href="deposit.do?usr=${customer.username }" class="btn btn-primary btn-xs"><!--  role="button"> -->Deposit</a>
 								
-								<a href="emplviewtranhistroy.do?id=${customer.id }" class="btn btn-primary btn-xs"><!--  role="button"> -->Transaction History</a>
+								<a href="emplviewtranhistroy.do?usr=${customer.username }" class="btn btn-primary btn-xs"><!--  role="button"> -->Transaction History</a>
                             </td>
 
                         </tr>
