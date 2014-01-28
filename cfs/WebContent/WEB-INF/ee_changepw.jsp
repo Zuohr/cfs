@@ -19,7 +19,7 @@
 					<div class="page-header">
 						<h2>Change Password</h2>
 					</div>
-
+					<jsp:include page="pop_result.jsp" />
 					<form class="form-horizontal" action="emplchangepw.do"
 						method="POST">
 						<!--  role="form"> -->
