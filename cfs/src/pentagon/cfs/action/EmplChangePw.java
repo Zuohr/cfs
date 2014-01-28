@@ -30,6 +30,7 @@ public class EmplChangePw implements Action {
 			return "login.jsp";
 		} else {
 			request.setAttribute("nav_eechangepw", "active");
+			request.setAttribute("header_name", employee.getFirstname()+","+employee.getLastname());
 			if ("submit".equals(request.getParameter("eechangepw_btn"))) {
 				ChangepwForm form = new ChangepwForm(request);
 
@@ -40,7 +41,7 @@ public class EmplChangePw implements Action {
 						EmployeeDAO employeeDAO = model.getEmployeeDAO();
 						employeeDAO.update(employee);
 
-						request.setAttribute("result",
+						request.setAttribute("op_success",
 								String.format("Password changed for %s %s.",
 										employee.getFirstname(),
 										employee.getLastname()));
@@ -52,6 +53,7 @@ public class EmplChangePw implements Action {
 					}
 
 				} else {
+					request.setAttribute("op_fail", "Password change failed!");
 					ArrayList<String> errors = form.getErrors();
 					request.setAttribute("errors", errors);
 					return "ee_changepw.jsp";
