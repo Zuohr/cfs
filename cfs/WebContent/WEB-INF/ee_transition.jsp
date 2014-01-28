@@ -22,7 +22,7 @@
               <h2>Transition day</h2>
               <h4>Last trading date: ${requestScope.last_day}</h4>
             </div>
-            
+       <jsp:include page="pop_result.jsp" />     
        <form class="form-horizontal" id="transition_form"> <!-- role="form"> -->
 		<input type="hidden" name="fund_num" value="${requestScope.fund_num }">
         <div class="form-group">

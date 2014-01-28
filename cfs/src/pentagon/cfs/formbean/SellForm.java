@@ -14,14 +14,6 @@ public class SellForm {
 	private boolean complete = true;
 	private ArrayList<String> errors;
 
-	public int getFund_id() {
-		return fund_id;
-	}
-
-	public long getShare() {
-		return share;
-	}
-
 	public SellForm(HttpServletRequest request) {
 		this.idInput = request.getParameter("fundId");
 		this.shareAmountInput = request.getParameter("sellAmount");
@@ -31,6 +23,14 @@ public class SellForm {
 			errors.add("");
 		}
 		checkErrors();
+	}
+
+	public int getFund_id() {
+		return fund_id;
+	}
+
+	public long getShare() {
+		return share;
 	}
 
 	public TransactionRecord getSellFund() {
@@ -74,15 +74,13 @@ public class SellForm {
 				} else if (d <= 0.001) {
 					errors.set(1, "The minimum amount is 0.001.");
 					complete = false;
-				}else {
+				} else {
 					share = (long) (d * 1000);
 				}
 			} catch (NumberFormatException e) {
 				errors.set(1, "Invalid number.");
 				complete = false;
 			}
-
 		}
-
 	}
 }

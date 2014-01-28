@@ -56,14 +56,14 @@ public class SellFund implements Action {
 							.read(Integer.valueOf(form.getFund_id()));
 					// check if fund exists
 					if (fund == null) {
-						return "cm_buyfund.jsp";
+						return "cm_sellfund.jsp";
 					} else {
 						long inputAmount = form.getShare();
 						Position currPos = posDAO.getCmPosition(user.getId(),
 								fund.getId());
 						// check if position exists
 						if (currPos == null) {
-							request.setAttribute("order_fail",
+							request.setAttribute("op_fail",
 									"You do not have enough balance.");
 							return "cm_sellfund.jsp";
 						} else {
@@ -71,7 +71,7 @@ public class SellFund implements Action {
 							// check available balance
 							if (inputAmount > availAmount) {
 								System.out.println("should be here");
-								request.setAttribute("order_fail",
+								request.setAttribute("op_fail",
 										"You do not have enough balance.");
 								return "cm_sellfund.jsp";
 							} else {
@@ -87,10 +87,10 @@ public class SellFund implements Action {
 								rd.setFund_id(fund.getId());
 								rd.setComplete(false);
 								transDao.create(rd);
-								request.setAttribute("order_succ",
+								request.setAttribute("op_succ",
 										"You have successfully placed the order");
 
-								// update available balance
+								// update available share
 								availAmount -= inputAmount;
 								currPos.setSharebalance(availAmount);
 								posDAO.update(currPos);

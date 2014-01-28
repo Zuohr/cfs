@@ -20,7 +20,7 @@
 						<h2>Deposit Check</h2>
 
 					</div>
-
+					<jsp:include page="pop_result.jsp" />
 					<form class="form-horizontal" action="deposit.do" method="POST">
 						<!--  role="form"> -->
 						<div class="form-group">
