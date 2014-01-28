@@ -31,7 +31,7 @@ public class CmViewAcct implements Action{
 		if(user==null){
 			return "login.jsp";
 		} else{
-			request.setAttribute("nav", "active");
+			request.setAttribute("nav_cmviewacct", "active");
 			PositionDAO posDAO = model.getPositionDAO();
 			Position[] pos = posDAO.getPositions(user.getId());
 			

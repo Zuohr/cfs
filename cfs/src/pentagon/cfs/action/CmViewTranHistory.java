@@ -33,6 +33,7 @@ public class CmViewTranHistory implements Action {
 		if (user == null) {
 			return "login.do";
 		} else {
+			request.setAttribute("nav_cmtranhistory", "active");
 			int cm_id = user.getId();
 			TransactionDAO dao = model.getTransactionDAO();
 			TransactionRecord[] transactions = dao.getHistory(cm_id);

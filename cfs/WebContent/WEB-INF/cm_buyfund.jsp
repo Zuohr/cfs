@@ -19,6 +19,7 @@
             <div class="page-header">
               <h2>Buy Fund</h2>
             </div>
+           
 			<c:choose>
 			<c:when test="${requestScope.order_succ!=null}">
 			<div class="alert alert-success alert-dismissable">
@@ -35,6 +36,7 @@
 			</c:choose>
 		<p style="color:red">${requestScope.errors["0"] }</p>
 		<p style="color:red">${requestScope.errors["1"] }</p>
+		 <h3>Current Balance:  $${requestScope.ava_bal} </h3>
             <table class="table table-striped">
               <thead>
                 <tr>
@@ -43,28 +45,42 @@
                   <th class="header-title">
                    	Fund Name
                   </th>
+                  <th class="header-title">
+                   	Ticker
+                  </th>
+                  <th class="header-title">
+                   	Last Trading Day Price
+                  </th>
                   <th class="header-ac">
                     Action
                   </th>
                 </tr>
               </thead>
               <tbody>
-              <c:forEach var="fund" items = "${requestScope.fund_list}">
+              <c:forEach var="fund" items = "${requestScope.bf_list}">
                 <tr>
                   <td>
                     <span class="None"> </span>
                   </td>
-                  <td><a href="#">${fund.name}(${fund.symbol})</a></td>
-                  
                   <td>
+                  	<a href="#">${fund.fundName}</a>
+                  </td>
+                  <td>
+                  	<a href="#">${fund.ticker}</a>
+                  </td>
+                  <td>
+                  	$ ${fund.price}
+                  </td>
+                  <td>
+
                		<div class="btn-group">
-                      <button type="button" class="btn btn-default" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-target="#${fund.id}">Buy</button>
+                      <button type="button" class="btn btn-default" data-backdrop="static" data-keyboard="false"  data-toggle="modal" data-target="#${fund.fundId}">Buy</button>
                     </div>
                   </td>
                   
                                   <!-- Modal -->
                 </tr>
-                <div class="modal fade" id="${fund.id}" tabindex="-1"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal fade" id="${fund.fundId}" tabindex="-1"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
                     <form class="form-horizontal" action = "buyfund.do" id="buyfund_form" method="post" role="form">
@@ -74,7 +90,7 @@
                       </div>
                       <div class="modal-body">
                         <ul class="list-group">
-                          <li class="list-group-item">Fund Name: ${fund.name}</li>
+                          <li class="list-group-item">Fund Name: ${fund.fundName}</li>
                           <li class="list-group-item">Avaliable Cash:${requestScope.ava_bal}</li>
                         </ul>
                       <div class="form-group">
@@ -83,7 +99,7 @@
                           <input type="number" class="form-control" name="deposit" style="width:80px;" id="inputAmount" >
 							<p style="color:red">${requestScope.result }</p>
 							<p style="color:red">${requestScope.errors["0"] }</p>
-                          <input type="hidden" name="fundId" value="${fund.id}"> 
+                          <input type="hidden" name="fundId" value="${fund.fundId}"> 
                         </div>
                       </div>
                       </div>

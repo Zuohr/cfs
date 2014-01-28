@@ -37,8 +37,9 @@ public class RequestCheck implements Action {
 		
 
 		if (customer == null) {
-			return "login.do";
+			return "login.jsp";
 		} else {
+			request.setAttribute("nav_cmreqcheck", "active");
 			request.setAttribute("balance", (double) customer.getBalance() / 100);
 			if ("submit".equals(request.getParameter("requestcheck_btn"))) {
 

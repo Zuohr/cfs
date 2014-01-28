@@ -33,8 +33,9 @@ public class SellFund implements Action {
 		HttpSession session = request.getSession();
 		Customer user = (Customer) session.getAttribute("customer");
 		if(user ==null){
-			return "login.do";
+			return "login.jsp";
 		} else{
+			request.setAttribute("nav_cmsellfund", "active");
 			PositionDAO posDAO = model.getPositionDAO();
 			Position[] pos = posDAO.getPositions(user.getId());
 			FundDAO fundDAO = model.getFundDAO();

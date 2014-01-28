@@ -28,8 +28,9 @@ public class CmChangePw implements Action {
 		Customer customer = (Customer) session.getAttribute("customer");
 
 		if (customer == null) {
-			return "login.do";
+			return "login.jsp";
 		} else {
+			request.setAttribute("nav_cmchgpw", "active");
 			if ("submit".equals(request.getParameter("cmchangepw_btn"))) {
 				ChangepwForm form = new ChangepwForm(request);
 
