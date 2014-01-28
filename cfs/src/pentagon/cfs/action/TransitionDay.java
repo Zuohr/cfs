@@ -49,6 +49,8 @@ public class TransitionDay implements Action {
 		if (empl == null) {
 			return "login.jsp";
 		} else {
+			request.setAttribute("nav_eetransition", "active");
+			
 			FundDAO fundDAO = model.getFundDAO();
 			Fund[] fund_list = fundDAO.match();
 			request.setAttribute("fund_list", fund_list);

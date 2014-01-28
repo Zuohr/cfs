@@ -29,6 +29,7 @@ public class EmplViewCmList implements Action {
 		if(user==null){
 			return "login.jsp";
 		} else{
+			request.setAttribute("nav_eeviewcmlist", "active");
 			CustomerDAO cusDAO = model.getCustomerDAO();
 			Customer[] cus_list = cusDAO.match();
 			request.setAttribute("customer_list", cus_list);

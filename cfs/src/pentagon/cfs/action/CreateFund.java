@@ -32,6 +32,8 @@ public class CreateFund implements Action {
 		if (user == null) {
 			return "login.jsp";
 		} else {
+			request.setAttribute("nav_eecreatefund", "active");
+			
 			if ("submit".equals(request.getParameter("createfund_btn"))) {
 				CreateFundForm form = new CreateFundForm(request);
 				if (form.isComplete()) {
