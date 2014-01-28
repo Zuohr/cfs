@@ -36,9 +36,9 @@ public class CmViewAcct implements Action{
 			Position[] pos = posDAO.getPositions(user.getId());
 			
 			FundDAO fundDAO = model.getFundDAO();
-			PositionList[] plist = new PositionList[pos.length];
+			PositionRecord[] plist = new PositionRecord[pos.length];
 			for (int i = 0; i < pos.length; i++) {
-				plist[i] = new PositionList(fundDAO.read(pos[i].getFund_id())
+				plist[i] = new PositionRecord(fundDAO.read(pos[i].getFund_id())
 						.getName(), pos[i].getShare() / 1000);
 			}
 			request.setAttribute("view_customer", user);
@@ -53,11 +53,11 @@ public class CmViewAcct implements Action{
 		return "cmviewacct.do";
 	}
 	
-	public class PositionList {
+	public class PositionRecord {
 		private String fundName;
 		private double share;
 
-		public PositionList(String fundName, double share) {
+		public PositionRecord(String fundName, double share) {
 			this.fundName = fundName;
 			this.share = share;
 		}
