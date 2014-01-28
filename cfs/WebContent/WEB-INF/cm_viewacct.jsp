@@ -32,17 +32,19 @@
 								<td>address</td>
 								<td>
 								${requestScope.view_customer.addr1}
-								&nbsp;
+								<br />
 								${requestScope.view_customer.addr2}
+								<br />
+								${requestScope.view_customer.city }, ${requestScope.view_customer.state }, ${requestScope.view_customer.zip } 
 								</td>
 							</tr>
 							<tr>
 								<td>last trading day</td>
-								<td>${requestScope.view_customer.lasttrading}</td>
+								<td>${requestScope.lastTradingDay}</td>
 							</tr>
 							<tr>
 								<td>cash balance</td>
-								<td>${requestScope.view_customer.balance}</td>
+								<td>${requestScope.cash}</td>
 							</tr>
 							<tr>
 								<td></td>

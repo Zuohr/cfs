@@ -26,9 +26,14 @@
 									${requestScope.view_customer.lastname}</td>
 							</tr>
 							<tr>
-								<td>Address</td>
-								<td>${requestScope.view_customer.addr1}<br />
-									${requestScope.view_customer.addr2}</td>
+								<td>address</td>
+								<td>
+								${requestScope.view_customer.addr1}
+								<br />
+								${requestScope.view_customer.addr2}
+								<br />
+								${requestScope.view_customer.city }, ${requestScope.view_customer.state }, ${requestScope.view_customer.zip } 
+								</td>
 							</tr>
 							<tr>
 								<td>Last trading day</td>
