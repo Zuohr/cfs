@@ -54,10 +54,16 @@ public class ChangepwForm {
 			errors.set(1, "New Password is required!");
 			complete = false;
 
+		} else if(!CommonUtil.isLegal(newPassword)){
+			errors.set(1, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 
 		if (checkPassword == null || checkPassword.trim().isEmpty()) {
 			errors.set(2, "Please comfirm password!");
+			complete = false;
+		} else if(!CommonUtil.isLegal(checkPassword)){
+			errors.set(2, "Can not contain special characters or input is too long.");
 			complete = false;
 		}
 
