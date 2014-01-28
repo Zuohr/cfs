@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pentagon.cfs.model.CommonUtil;
+
 public class DepositForm {
 
 	private String userName;
@@ -52,6 +54,9 @@ public class DepositForm {
 		if(userName == null || userName.isEmpty()) {
 			errors.set(0, "Please provide user name.");
 			complete = false;
+		}else if (!CommonUtil.isLegal(userName)) {
+			errors.set(0, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 		
 		if (depositInput == null || depositInput.isEmpty()) {
@@ -60,7 +65,11 @@ public class DepositForm {
 		} else if (depositInput.length() > 13) {
 			errors.set(1, "Invalid input.");
 			complete = false;
-		} else {
+		}else if (!CommonUtil.isLegal(depositInput)) {
+			errors.set(1, "Can not contain special characters or input is too long.");
+			complete = false;
+		}
+		else {
 			double amount;
 			try {
 				amount = Double.parseDouble(depositInput);

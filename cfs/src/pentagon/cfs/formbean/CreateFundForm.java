@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import pentagon.cfs.databean.Fund;
+import pentagon.cfs.model.CommonUtil;
 
 public class CreateFundForm {
 	private String fundName;
@@ -42,9 +43,15 @@ public class CreateFundForm {
 		if (fundName == null || fundName.trim().isEmpty()) {
 			errors.set(0, "Fund name cannot be empty.");
 			complete = false;
+		}else if (!CommonUtil.isLegal(fundName)) {
+			errors.set(0, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 		if (fundTicker == null || fundTicker.trim().isEmpty()) {
 			errors.set(1, "Fund ticker cannot be empty");
+			complete = false;
+		}else if (!CommonUtil.isLegal(fundTicker)) {
+			errors.set(1, "Can not contain special characters or input is too long.");
 			complete = false;
 		}
 	}
