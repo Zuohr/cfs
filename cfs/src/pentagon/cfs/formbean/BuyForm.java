@@ -1,63 +1,76 @@
-
 package pentagon.cfs.formbean;
 
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import pentagon.cfs.databean.TransactionRecord;
-
 public class BuyForm {
-	private int fundId;
-	private double deposit;
+	private String idInput;
+	private String amountInput;
+	private long amount;
+	private int fund_id;
 	private boolean complete = true;
 	private ArrayList<String> errors;
-	
-	public BuyForm(HttpServletRequest request){
-		this.fundId = Integer.parseInt(request.getParameter("fundId"));
-		
+
+	public BuyForm(HttpServletRequest request) {
+		this.idInput = request.getParameter("fundId");
+		this.amountInput = request.getParameter("buyAmount");
 		int size = 2;
 		this.errors = new ArrayList<String>(size);
-		for(int i=0; i<size; i++){
+		for (int i = 0; i < size; i++) {
 			errors.add("");
-		}
-		if(!request.getParameter("deposit").trim().isEmpty())
-			this.deposit = Double.parseDouble(request.getParameter("deposit"));
-		else{
-			errors.set(1, "Please enter some numbers");
-			complete = false;
 		}
 		checkErrors();
 	}
-	
-	public TransactionRecord getBuyFund(){
-		TransactionRecord record = new TransactionRecord();
-		record.setFund_id(fundId);
-		record.setAmount((long)(deposit*100));
-		record.setType("buy");
-		return record;
+
+	public int getFund_id() {
+		return fund_id;
 	}
-	
-	public ArrayList<String> getErrors(){
+
+	public long getAmount() {
+		return amount;
+	}
+
+	public ArrayList<String> getErrors() {
 		return errors;
 	}
-	
-	public boolean isComplete(){
+
+	public boolean isComplete() {
 		return complete;
 	}
-	
-	public double getDeposit(){
-		return deposit;
-	}
-	
-	public void setDeposit(long num){
-		deposit = num;
-	}
-	
-	private void checkErrors(){
-		if(deposit<0.00){
-			errors.set(0, "Amount of deposit cannot be negative.");
+
+	private void checkErrors() {
+		if (idInput == null
+				|| !idInput.matches("\\d+")
+				|| idInput.length() > 10
+				|| (idInput.length() == 10 && idInput.compareTo(String
+						.valueOf(Integer.MAX_VALUE)) > 0)) {
+			errors.set(0, "Invalid fund ID.");
 			complete = false;
+		} else {
+			fund_id = Integer.parseInt(idInput);
+		}
+
+		if (amountInput == null || amountInput.trim().isEmpty()) {
+			errors.set(1, "Please provide amount.");
+			complete = false;
+		} else {
+			try {
+				double inputParse = Double.parseDouble(amountInput);
+				double max = (double) Long.MAX_VALUE / 100;
+				if (inputParse > max) {
+					errors.set(1, "Amount too large.");
+					complete = false;
+				} else if (inputParse <= 0.01) {
+					errors.set(1, "The minimum amount is 0.01.");
+					complete = false;
+				} else {
+					amount = (long) (inputParse * 100);
+				}
+			} catch (NumberFormatException e) {
+				errors.set(1, "Invalid number.");
+				complete = false;
+			}
 		}
 	}
 }
