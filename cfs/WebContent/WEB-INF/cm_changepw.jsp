@@ -17,7 +17,7 @@
 					<div class="page-header">
 						<h2>Change Password</h2>
 					</div>
-
+					<jsp:include page="pop_result.jsp" />
 					<form class="form-horizontal" action="cmchangepw.do" method="POST">
 						<!-- role="form"> -->
 						<div class="form-group">

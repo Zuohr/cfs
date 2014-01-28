@@ -19,7 +19,7 @@
 					<div class="page-header">
 						<h2>Request Check</h2>
 					</div>
-
+					<jsp:include page="pop_result.jsp" />
 					<form class="form-horizontal" role="form" action="requestcheck.do" method="POST">
 						<ul class="list-group">
 							<li class="list-group-item">Available balance:${ requestScope.balance }</li>

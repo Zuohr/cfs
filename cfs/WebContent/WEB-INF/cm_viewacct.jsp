@@ -15,8 +15,9 @@
 				<jsp:include page="cm_nav.jsp" />
 
 				<div class="col-xs-12 col-sm-9">
-					<h2>Customer Information</h2>
-
+					<div class="page-header">
+						<h2>Customer Information</h2>
+					</div>
 					<table class="table">
 
 						<tbody>
