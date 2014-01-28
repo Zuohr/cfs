@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.genericdao.RollbackException;
 
+import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.FundPriceHistoryDAO;
+import pentagon.cfs.databean.Fund;
 import pentagon.cfs.databean.FundPriceHistory;
 import pentagon.cfs.databean.Meta;
 import pentagon.cfs.model.Model;
@@ -47,6 +49,9 @@ public class ResearchFund implements Action {
 				for (int i = 0; i < records.length; i++) {
 					records[i] = new Record(history[i]);
 				}
+				FundDAO fundDAO = model.getFundDAO();
+				Fund fund = fundDAO.read(fund_id);
+				request.setAttribute("fund", fund);
 				request.setAttribute("records", records);
 				return "researchfund.jsp";
 			}
@@ -65,7 +70,7 @@ public class ResearchFund implements Action {
 		public Record(FundPriceHistory rd) {
 			SimpleDateFormat sdf = new SimpleDateFormat(Meta.DATE_FORMAT);
 			this.date = sdf.format(rd.getDate());
-			this.price = String.valueOf((double) rd.getPrice() / 100);
+			this.price = String.format("%.2f", (double) rd.getPrice() / 100);
 		}
 
 		public String getDate() {

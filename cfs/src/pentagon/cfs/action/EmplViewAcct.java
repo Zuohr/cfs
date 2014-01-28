@@ -49,9 +49,13 @@ public class EmplViewAcct implements Action {
 				} else {
 					double cash = (double) customer.getCash() / 100;
 					request.setAttribute("cash", String.format("%.2f", cash));
-					request.setAttribute("lastTradingDay",
-							new SimpleDateFormat(Meta.DATE_FORMAT)
-									.format(customer.getLasttrading()));
+					if (customer.getLasttrading() == null) {
+						request.setAttribute("lastTradingDay", "-");
+					} else {
+						request.setAttribute("lastTradingDay",
+								new SimpleDateFormat(Meta.DATE_FORMAT)
+										.format(customer.getLasttrading()));
+					}
 					request.setAttribute("view_customer", customer);
 
 					PositionDAO posDAO = model.getPositionDAO();

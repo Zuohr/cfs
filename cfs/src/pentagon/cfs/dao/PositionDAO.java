@@ -43,7 +43,7 @@ public class PositionDAO extends GenericDAO<Position> {
 			Position pos = positions[0];
 			Long currShare = pos.getShare();
 			if(currShare + share == 0) {
-				delete(pos);
+				delete(pos.getId());
 			} else {
 				pos.setShare(currShare + share);
 				pos.setSharebalance(pos.getShare());

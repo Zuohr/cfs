@@ -4,8 +4,6 @@
  * */
 package pentagon.cfs.action;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -23,91 +21,118 @@ import pentagon.cfs.model.Model;
 
 public class SellFund implements Action {
 	private Model model;
-	
-	public SellFund(Model model){
+
+	public SellFund(Model model) {
 		this.model = model;
 	}
+
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		Customer user = (Customer) session.getAttribute("customer");
-		if(user ==null){
+		if (user == null) {
 			return "login.jsp";
-		} else{
+		} else {
 			request.setAttribute("nav_cmsellfund", "active");
 			PositionDAO posDAO = model.getPositionDAO();
 			Position[] pos = posDAO.getPositions(user.getId());
 			FundDAO fundDAO = model.getFundDAO();
 			SellPositionList[] plist = new SellPositionList[pos.length];
-			
-			for(int i=0; i<pos.length; i++){
+
+			for (int i = 0; i < pos.length; i++) {
 				Fund fd = fundDAO.read(pos[i].getFund_id());
-				plist[i] = new SellPositionList(fd.getName(), 
-						(double)pos[i].getShare()/1000, (double)pos[i].getSharebalance()/1000, fd.getId());
+				plist[i] = new SellPositionList(fd.getName(),
+						(double) pos[i].getShare() / 1000,
+						(double) pos[i].getSharebalance() / 1000, fd.getId());
 			}
-			request.setAttribute("cus_position", plist); 
-			
-			if("submit".equals(request.getParameter("sellfund_btn"))){
+			request.setAttribute("cus_position", plist);
+
+			if ("submit".equals(request.getParameter("sellfund_btn"))) {
 				SellForm form = new SellForm(request);
-				
-				if(form.isComplete()){
-					long inputFund = (long)form.getFundAmount()*1000;
-					long avaShares = posDAO.getCmPosition(user.getId(), form.getFundId()).getSharebalance();
-					if(inputFund>avaShares){
-						request.setAttribute("order_fail", "You do not have enough balance");
+
+				// check if form is complete
+				if (form.isComplete()) {
+					Fund fund = fundDAO
+							.read(Integer.valueOf(form.getFund_id()));
+					// check if fund exists
+					if (fund == null) {
 						return "cm_buyfund.jsp";
+					} else {
+						long inputAmount = form.getShare();
+						Position currPos = posDAO.getCmPosition(user.getId(),
+								fund.getId());
+						// check if position exists
+						if (currPos == null) {
+							request.setAttribute("order_fail",
+									"You do not have enough balance.");
+							return "cm_sellfund.jsp";
+						} else {
+							long availAmount = currPos.getSharebalance();
+							// check available balance
+							if (inputAmount > availAmount) {
+								System.out.println("should be here");
+								request.setAttribute("order_fail",
+										"You do not have enough balance.");
+								return "cm_sellfund.jsp";
+							} else {
+								// succeed
+
+								// update transaction
+								TransactionDAO transDao = model
+										.getTransactionDAO();
+								TransactionRecord rd = new TransactionRecord();
+								rd.setCm_id(user.getId());
+								rd.setType("sell");
+								rd.setShare(inputAmount);
+								rd.setFund_id(fund.getId());
+								rd.setComplete(false);
+								transDao.create(rd);
+								request.setAttribute("order_succ",
+										"You have successfully placed the order");
+
+								// update available balance
+								availAmount -= inputAmount;
+								currPos.setSharebalance(availAmount);
+								posDAO.update(currPos);
+
+								// update position list
+								pos = posDAO.getPositions(user.getId());
+								plist = new SellPositionList[pos.length];
+
+								for (int i = 0; i < pos.length; i++) {
+									Fund fd = fundDAO.read(pos[i].getFund_id());
+									plist[i] = new SellPositionList(
+											fd.getName(),
+											(double) pos[i].getShare() / 1000,
+											(double) pos[i].getSharebalance() / 1000,
+											fd.getId());
+								}
+								request.setAttribute("cus_position", plist);
+								return "cm_sellfund.jsp";
+							}
+						}
 					}
-					TransactionDAO dao = model.getTransactionDAO();
-					TransactionRecord record = form.getSellFund();
-					dao.create(record);
-					request.setAttribute("order_succ", "You have successfully placed the order");
-					
-					long balance = avaShares-inputFund;
-					Position cmPos = posDAO.getCmPosition(user.getId(), form.getFundId());
-					cmPos.setSharebalance(balance);
-					posDAO.updatePosGeneric(cmPos);
-					
-					
-					pos = posDAO.getPositions(user.getId());
-					fundDAO = model.getFundDAO();
-					plist = new SellPositionList[pos.length];
-					
-					for(int i=0; i<pos.length; i++){
-						Fund fd = fundDAO.read(pos[i].getFund_id());
-						plist[i] = new SellPositionList(fd.getName(), 
-								(double)pos[i].getShare()/1000, (double)pos[i].getSharebalance()/1000, fd.getId());
-					}
-					request.setAttribute("cus_position", plist); 
-				}
-				else{
-					ArrayList<String> errors = form.getErrors();
-					request.setAttribute("errors", errors);
+				} else {
+					request.setAttribute("errors", form.getErrors());
 					return "cm_sellfund.jsp";
 				}
-			} else{
+			} else {
 				return "cm_sellfund.jsp";
 			}
-			
-
 		}
-		return "cm_sellfund.jsp";
 	}
 
-	@Override
-	public String getName() {
-		// TODO Auto-generated method stub
-		return "sellfund.do";
-	}
+	// bean for fund position display in jsp
 	public class SellPositionList {
 		private String fundName;
 		private int fundId;
 		private double share;
 		private double shareBalance;
-		
-		public SellPositionList(String fundName, double share, double shareBalance, int fundId){
+
+		public SellPositionList(String fundName, double share,
+				double shareBalance, int fundId) {
 			this.fundName = fundName;
-			this.share=share;
+			this.share = share;
 			this.shareBalance = shareBalance;
 			this.fundId = fundId;
 		}
@@ -123,10 +148,15 @@ public class SellFund implements Action {
 		public double getShareBalance() {
 			return shareBalance;
 		}
-		
-		public int getFundId(){
+
+		public int getFundId() {
 			return fundId;
 		}
+	}
+
+	@Override
+	public String getName() {
+		return "sellfund.do";
 	}
 
 }

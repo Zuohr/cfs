@@ -16,24 +16,24 @@ import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Position;
 import pentagon.cfs.model.Model;
 
-public class CmViewAcct implements Action{
+public class CmViewAcct implements Action {
 	private Model model;
 
-	public CmViewAcct (Model model) {
+	public CmViewAcct(Model model) {
 		this.model = model;
 	}
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
 		HttpSession session = request.getSession();
-		Customer user = (Customer)session.getAttribute("customer");
-		if(user==null){
+		Customer user = (Customer) session.getAttribute("customer");
+		if (user == null) {
 			return "login.jsp";
-		} else{
+		} else {
 			request.setAttribute("nav_cmviewacct", "active");
 			PositionDAO posDAO = model.getPositionDAO();
 			Position[] pos = posDAO.getPositions(user.getId());
-			
+
 			FundDAO fundDAO = model.getFundDAO();
 			PositionRecord[] plist = new PositionRecord[pos.length];
 			for (int i = 0; i < pos.length; i++) {
@@ -51,7 +51,7 @@ public class CmViewAcct implements Action{
 	public String getName() {
 		return "cmviewacct.do";
 	}
-	
+
 	public class PositionRecord {
 		private String fundName;
 		private double share;
@@ -59,6 +59,14 @@ public class CmViewAcct implements Action{
 		public PositionRecord(String fundName, double share) {
 			this.fundName = fundName;
 			this.share = share;
+		}
+
+		public String getFundName() {
+			return fundName;
+		}
+
+		public double getShare() {
+			return share;
 		}
 	}
 }

@@ -62,7 +62,6 @@
 							<c:forEach var="pos" items="${requestScope.cus_position}">
 								<tr>
 									<td><span class="None"> </span></td>
-									<td>1</td>
 									<td><a href="#">${pos.fundName}</a></td>
 									<td>${pos.share}</td>
 								</tr>
