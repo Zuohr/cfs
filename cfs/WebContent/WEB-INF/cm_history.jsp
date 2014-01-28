@@ -20,7 +20,7 @@
 							<th class="header-title">Date</th>
 							<th class="header-date">Operation</th>
 							<th class="header-ac">Fund Name</th>
-							<th class="header-ac">Number</th>
+							<th class="header-ac">Share</th>
 							<th class="header-ac">Price</th>
 							<th class="header-ac">Amount</th>
 							<th class="header-ac">Status</th>
