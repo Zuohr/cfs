@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar"> <!-- role="navigation"> -->
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" style="margin-top:40px;"> <!-- role="navigation"> -->
           <div class="list-group">
             <a href="emplviewcmlist.do" class="list-group-item ${ requestScope.nav_eeviewcmlist }">View Customer</a>
             <a href="emplchangepw.do" class="list-group-item ${ requestScope.nav_eechangepw }">Change My Password</a>

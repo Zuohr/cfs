@@ -15,11 +15,11 @@
         
         <div class="col-xs-12 col-sm-9">
 
-<div class="row">
-    <div class="col-lg-6">
+
+    <div class="page-header">
         <h2>Customer List</h2>
-    </div><!-- /.col-lg-6 -->
-<div class="col-lg-6">
+    </div>
+
 
     <div class="input-group">
         
@@ -28,11 +28,7 @@
                 <button class="btn btn-default" type="button">Go!</button>
             </span>
             </div><!-- /input-group -->
-    <br>
-</div><!-- /.col-lg-6 -->
-
-
-                
+    <br>        
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -67,7 +63,7 @@
         </div><!--/span-->
 
 
-      </div><!--/row-->
+    
 
      
 

@@ -21,12 +21,12 @@
 
 						<tbody>
 							<tr>
-								<td>Name</td>
+								<td><strong>Name</strong></td>
 								<td>${requestScope.view_customer.firstname} &nbsp;
 									${requestScope.view_customer.lastname}</td>
 							</tr>
 							<tr>
-								<td>address</td>
+								<td><strong>Address</strong></td>
 								<td>
 								${requestScope.view_customer.addr1}
 								<br />
@@ -36,11 +36,11 @@
 								</td>
 							</tr>
 							<tr>
-								<td>Last trading day</td>
+								<td><strong>Last Trading Day</strong></td>
 								<td>${requestScope.lastTradingDay}</td>
 							</tr>
 							<tr>
-								<td>Balance</td>
+								<td><strong>Balance</strong></td>
 								<td>${requestScope.cash}</td>
 							</tr>
 							<tr>

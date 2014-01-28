@@ -22,7 +22,7 @@
 
 						<tbody>
 							<tr>
-								<td>name</td>
+								<td><strong>Name</strong></td>
 								<td>
 								${requestScope.view_customer.firstname} 
 								&nbsp;
@@ -30,7 +30,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td>address</td>
+								<td><strong>Address</strong></td>
 								<td>
 								${requestScope.view_customer.addr1}
 								<br />
@@ -40,11 +40,11 @@
 								</td>
 							</tr>
 							<tr>
-								<td>last trading day</td>
+								<td><strong>Last Trading Day</strong></td>
 								<td>${requestScope.lastTradingDay}</td>
 							</tr>
 							<tr>
-								<td>cash balance</td>
+								<td><strong>Balance</strong></td>
 								<td>${requestScope.cash}</td>
 							</tr>
 							<tr>
