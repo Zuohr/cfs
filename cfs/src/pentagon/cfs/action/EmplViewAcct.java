@@ -21,6 +21,7 @@ import pentagon.cfs.databean.Employee;
 import pentagon.cfs.databean.Fund;
 import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.Position;
+import pentagon.cfs.formbean.DepositForm;
 import pentagon.cfs.model.Model;
 
 public class EmplViewAcct implements Action {
@@ -37,6 +38,10 @@ public class EmplViewAcct implements Action {
 		if (user == null) {
 			return "login.jsp";
 		} else {
+			DepositForm form = new DepositForm(request);
+			request.setAttribute("nav_eeviewcmlist", "active");
+			request.setAttribute("header_type", "Employee");
+			request.setAttribute("header_name", user.getFirstname()+" "+user.getLastname());
 			String username = request.getParameter("usr");
 			if (username == null || username.isEmpty()) {
 				return "emplviewcmlist.do";

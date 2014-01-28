@@ -26,13 +26,15 @@ public class CreateCustomer implements Action {
 			return "login.jsp";
 		}
 		request.setAttribute("nav_eecreatecm", "active");
+		request.setAttribute("header_type", "Employee");
+		request.setAttribute("header_name", employee.getFirstname()+" "+employee.getLastname());
 		if ("submit".equals(request.getParameter("createcm_btn"))) {
 			CreateCmForm form = new CreateCmForm(request);
 			if (form.isComplete()) {
 				Customer newCustomer = form.getCustomerBean();
 				customerDAO = model.getCustomerDAO();
 				if (customerDAO.createCustomer(newCustomer)) {
-					request.setAttribute("result",
+					request.setAttribute("op_success",
 							"Customer: " + newCustomer.getUsername() + " created.");
 				} else {
 					request.setAttribute("result",
@@ -41,6 +43,7 @@ public class CreateCustomer implements Action {
 				return "ee_createcm.jsp";
 			} else {
 				request.setAttribute("errors", form.getErrors());
+				request.setAttribute("op_fail", "New customer create failed!");
 				return "ee_createcm.jsp";
 			}
 		} else if ("cancel".equals(request.getParameter("createcm_btn"))) {

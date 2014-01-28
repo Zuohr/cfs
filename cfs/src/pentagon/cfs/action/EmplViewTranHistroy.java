@@ -37,6 +37,9 @@ public class EmplViewTranHistroy implements Action {
 		if (employee == null) {
 			return "login.jsp";
 		} else {
+			request.setAttribute("nav_eeviewcmlist", "active");
+			request.setAttribute("header_type", "Employee");
+			request.setAttribute("header_name", employee.getFirstname()+" "+employee.getLastname());
 			String username = request.getParameter("usr");
 			if (username == null) {
 				return "emplviewcmlist.do";

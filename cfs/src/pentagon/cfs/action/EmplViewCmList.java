@@ -30,6 +30,10 @@ public class EmplViewCmList implements Action {
 			return "login.jsp";
 		} else{
 			request.setAttribute("nav_eeviewcmlist", "active");
+			request.setAttribute("header_type", "Employee");
+			request.setAttribute("header_name", user.getFirstname() + " "
+					+ user.getLastname());
+			
 			CustomerDAO cusDAO = model.getCustomerDAO();
 			Customer[] cus_list = cusDAO.match();
 			request.setAttribute("customer_list", cus_list);

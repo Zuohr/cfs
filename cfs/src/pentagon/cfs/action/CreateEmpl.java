@@ -25,20 +25,24 @@ public class CreateEmpl implements Action {
 			return "login.jsp";
 		}
 		request.setAttribute("nav_eecreateempl", "active");
+		request.setAttribute("header_type", "Employee");
+		request.setAttribute("header_name", employee.getFirstname()+" "+employee.getLastname());
 		if ("submit".equals(request.getParameter("createee_btn"))) {
 			CreateEmplForm form = new CreateEmplForm(request);
 			if (form.isComplete()) {
 				Employee newEmployee = form.getEmployeeBean();
 				employeeDAO = model.getEmployeeDAO();
 				if (employeeDAO.createEmployee(newEmployee)) {
-					request.setAttribute("result",
+					request.setAttribute("op_success",
 							"Employee: " + newEmployee.getUsername() + " created.");
 				} else {
-					request.setAttribute("result",
+					request.setAttribute("op_fail",
 							"Employee creation failed, user already exist.");
 				}
 				return "ee_createempl.jsp";
 			} else {
+				request.setAttribute("op_fail",
+						"Employee creation failed.");
 				request.setAttribute("errors", form.getErrors());
 				return "ee_createempl.jsp";
 			}

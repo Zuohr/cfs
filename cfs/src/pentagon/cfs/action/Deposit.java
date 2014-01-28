@@ -41,12 +41,16 @@ public class Deposit implements Action {
 		} else {
 			if ("submit".equals(request.getParameter("deposit_btn"))) {
 				DepositForm form = new DepositForm(request);
+				request.setAttribute("nav_eeviewcmlist", "active");
+				request.setAttribute("header_type", "Employee");
+				request.setAttribute("header_name", employee.getFirstname()+" "+employee.getLastname());
+				
 				if (form.isComplete()) {
 					String username = form.getUserName();
 					CustomerDAO cmDAO = model.getCustomerDAO();
 					Customer customer = cmDAO.getProfile(username);
 					if (customer == null) {
-						request.setAttribute("result", "User does not exist");
+						request.setAttribute("op_fail", "User does not exist!");
 						return "ee_depositcheck.jsp";
 					} else {
 						TransactionDAO transDAO = model.getTransactionDAO();
@@ -58,7 +62,7 @@ public class Deposit implements Action {
 						transDAO.create(rd);
 
 						request.setAttribute(
-								"result",
+								"op_success",
 								String.format(
 										"Transaction registered: Deposit $%.2f for user %s.",
 										(double) form.getDepositAmount() / 100,
@@ -67,6 +71,7 @@ public class Deposit implements Action {
 					}
 				} else {
 					request.setAttribute("errors", form.getErrors());
+					request.setAttribute("op_fail", "Deposit check failed!");
 					return "ee_depositcheck.jsp";
 				}
 			} else if ("cancel".equals(request.getParameter("deposit_btn"))) {

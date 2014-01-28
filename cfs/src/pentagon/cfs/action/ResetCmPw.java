@@ -35,6 +35,9 @@ public class ResetCmPw implements Action {
 		if (employee == null) {
 			return "login.jsp";
 		} else {
+			request.setAttribute("nav_eeviewcmlist", "active");
+			request.setAttribute("header_type", "Employee");
+			request.setAttribute("header_name", employee.getFirstname()+" "+employee.getLastname());
 			if ("submit".equals(request.getParameter("resetcmpw_btn"))) {
 				ResetpwForm form = new ResetpwForm(request);
 
@@ -44,7 +47,7 @@ public class ResetCmPw implements Action {
 					Customer customer = customerDAO.getProfile(form
 							.getUserName());
 					if (customer == null) {
-						request.setAttribute("result",
+						request.setAttribute("op_fail",
 								"Resetting password failed: user does not exist.");
 					} else {
 						request.setAttribute("FirstName",
@@ -54,7 +57,7 @@ public class ResetCmPw implements Action {
 						customer.setPassword(form.getNewPassword());
 						customerDAO.update(customer);
 
-						request.setAttribute("result", String.format(
+						request.setAttribute("op_success", String.format(
 								"Password changed for %s.",
 								customer.getUsername()));
 					}
@@ -63,6 +66,8 @@ public class ResetCmPw implements Action {
 				} else {
 					ArrayList<String> errors = form.getErrors();
 					request.setAttribute("errors", errors);
+					request.setAttribute("op_fail",
+							"Resetting password failed!");
 					return "ee_resetcmpw.jsp";
 				}
 			} else if ("cancel".equals(request.getParameter("resetcmpw_btn"))) {
