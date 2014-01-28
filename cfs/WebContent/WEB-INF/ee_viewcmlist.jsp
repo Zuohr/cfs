@@ -18,17 +18,7 @@
 
     <div class="page-header">
         <h2>Customer List</h2>
-    </div>
-
-
-    <div class="input-group">
-        
-        <input type="text" class="form-control">
-            <span class="input-group-btn">
-                <button class="btn btn-default" type="button">Go!</button>
-            </span>
-            </div><!-- /input-group -->
-    <br>        
+    </div>      
                 <table class="table table-bordered">
                     <thead>
                         <tr>

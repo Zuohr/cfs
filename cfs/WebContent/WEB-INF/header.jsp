@@ -15,11 +15,7 @@
           <a class="navbar-brand" href="#">Carnegie Finance</a>
         </div>
         <div class="collapse navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-          </ul>
+
           
      		<p class="navbar-text navbar-right"><a href="logout.do" class="navbar-link">Logout</a></p>
           <p class="navbar-text navbar-right">Welcome! ${requestScope.header_type}: <a href="#" class="navbar-link">${requestScope.header_name}</a></p>

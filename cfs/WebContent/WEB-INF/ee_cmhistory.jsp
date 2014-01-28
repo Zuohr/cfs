@@ -12,8 +12,11 @@
 		<div class="container">
 			<jsp:include page="ee_nav.jsp" />
 			<div class="col-xs-12 col-sm-9">
-				<h2>Transaction History for ${customer_tran.firstname }
-					${customer_tran.lastname }</h2>
+				<div class="page-header">
+				<h2>Transaction History </h2>
+				<h3>${customer_tran.firstname }
+					${customer_tran.lastname }</h3>
+				</div>
 				<table class="table table-striped">
 					<thead>
 						<tr>
@@ -22,7 +25,7 @@
 							<th class="header-ac">Fund Name</th>
 							<th class="header-ac">Share</th>
 							<th class="header-ac">Price</th>
-							<th class="header-ac">Amount</th>
+							<th class="header-ac" style="text-align:right; padding-right:40px;">Amount</th>
 							<th class="header-ac">Status</th>
 						</tr>
 					</thead>
@@ -36,7 +39,7 @@
 								<%-- <td><a href="#">${record.fundname }</a></td> --%>
 								<td>${record.share }</td>
 								<td>${record.price }</td>
-								<td>${record.dollar }</td>
+								<td style="text-align:right;  padding-right:40px;">${record.dollar }</td>
 								<td>${record.state }</td>
 							</tr>
 						</c:forEach>
