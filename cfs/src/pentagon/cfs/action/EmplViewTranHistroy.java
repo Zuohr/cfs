@@ -1,13 +1,20 @@
-//wc
 package pentagon.cfs.action;
 
 import java.text.SimpleDateFormat;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.genericdao.MatchArg;
 import org.genericdao.RollbackException;
+
+import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.FundDAO;
+import pentagon.cfs.dao.FundPriceHistoryDAO;
 import pentagon.cfs.dao.TransactionDAO;
+import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Employee;
 import pentagon.cfs.databean.Fund;
+import pentagon.cfs.databean.FundPriceHistory;
 import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.TransactionRecord;
 import pentagon.cfs.model.Model;
@@ -23,30 +30,38 @@ public class EmplViewTranHistroy implements Action {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "emplviewtranhistroy.do";
 	}
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-
 		Employee employee = (Employee) request.getSession().getAttribute(
 				"employee");
 
 		if (employee == null) {
-			return "login.do";
+			return "login.jsp";
 		} else {
-			int cm_id = Integer.parseInt(request.getParameter("id"));
-			request.setAttribute("id", request.getParameter("id"));
-			TransactionDAO dao = model.getTransactionDAO();
-			TransactionRecord[] transactions = dao.getHistory(cm_id);
-			Record[] records = new Record[transactions.length];
-			for (int i = 0; i < records.length; i++) {
-				records[i] = new Record(transactions[i]);
+			String username = request.getParameter("usr");
+			if (username == null) {
+				return "emplviewcmlist.do";
+			} else {
+				CustomerDAO cmDAO = model.getCustomerDAO();
+				Customer customer = cmDAO.getProfile(username);
+				if (customer == null) {
+					return "emplviewcmlist.do";
+				} else {
+					TransactionDAO dao = model.getTransactionDAO();
+					TransactionRecord[] transactions = dao.getHistory(customer
+							.getId());
+					Record[] records = new Record[transactions.length];
+					for (int i = 0; i < records.length; i++) {
+						records[i] = new Record(transactions[i]);
+					}
+					request.setAttribute("records", records);
+					request.setAttribute("customer", customer);
+					return "ee_cmhistory.jsp";
+				}
 			}
-			request.setAttribute("records", records);
-			return "ee_cmhistory.jsp";
-
 		}
 	}
 
@@ -72,15 +87,27 @@ public class EmplViewTranHistroy implements Action {
 							.format("<a href=\"researchfund.do?fund_id=%s\">%s(%s)</a>",
 									String.valueOf(rd.getFund_id()),
 									fund.getName(), fund.getSymbol());
-					this.share = String.valueOf(100);
-					this.price = String.valueOf(0.1);
+					this.share = String.valueOf((double) rd.getShare() / 1000);
+
+					if (rd.isComplete()) {
+						FundPriceHistoryDAO priceDAO = model
+								.getFundPriceHistoryDAO();
+						FundPriceHistory[] fph = priceDAO
+								.match(MatchArg.and(MatchArg.equals("fund_id",
+										Integer.valueOf(rd.getFund_id())),
+										MatchArg.equals("date", rd.getDate())));
+						long priceLong = fph[0].getPrice();
+						this.price = String.valueOf((double) priceLong / 100);
+					} else {
+						this.price = "-";
+					}
+
 				} else {
 					this.fundname = "-";
 					this.share = "-";
 					this.price = "-";
 				}
 			} catch (RollbackException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			this.dollar = String.valueOf(50);

@@ -6,7 +6,7 @@
 <jsp:include page="html_header.jsp" />
 <body>
 	<div id="wrap">
-<jsp:include page="header.jsp" />
+		<jsp:include page="header.jsp" />
 
 		<div class="container">
 
@@ -21,28 +21,22 @@
 
 						<tbody>
 							<tr>
-								<td>name</td>
-								<td>
-								${requestScope.view_customer.firstname} 
-								&nbsp;
-								${requestScope.view_customer.lastname}
-								</td>
+								<td>Name</td>
+								<td>${requestScope.view_customer.firstname} &nbsp;
+									${requestScope.view_customer.lastname}</td>
 							</tr>
 							<tr>
-								<td>address</td>
-								<td>
-								${requestScope.view_customer.addr1}
-								&nbsp;
-								${requestScope.view_customer.addr2}
-								</td>
+								<td>Address</td>
+								<td>${requestScope.view_customer.addr1}<br />
+									${requestScope.view_customer.addr2}</td>
 							</tr>
 							<tr>
-								<td>last trading day</td>
-								<td>${requestScope.view_customer.lasttrading}</td>
+								<td>Last trading day</td>
+								<td>${requestScope.lastTradingDay}</td>
 							</tr>
 							<tr>
-								<td>cash balance</td>
-								<td>${requestScope.view_customer.balance}</td>
+								<td>Balance</td>
+								<td>${requestScope.cash}</td>
 							</tr>
 							<tr>
 								<td></td>
@@ -59,20 +53,20 @@
 						<thead>
 							<tr>
 								<th class="header-status"></th>
-								
+
 								<th class="header-date">Fund Name</th>
 								<th class="header-ac">Position</th>
 							</tr>
 						</thead>
 						<tbody>
-						<c:forEach var="pos" items = "${requestScope.cus_position}">
-							<tr>
-								<td><span class="None"> </span></td>
-								<td>1</td>
-								<td><a href="#">${pos.fundName}</a></td>
-								<td>${pos.share}</td>
-							</tr>
-						</c:forEach>
+							<c:forEach var="pos" items="${requestScope.cus_position}">
+								<tr>
+									<td><span class="None"> </span></td>
+									<td>1</td>
+									<td><a href="#">${pos.fundName}</a></td>
+									<td>${pos.share}</td>
+								</tr>
+							</c:forEach>
 						</tbody>
 					</table>
 
@@ -88,6 +82,6 @@
 
 	</div>
 
-<jsp:include page="footer.jsp" />
+	<jsp:include page="footer.jsp" />
 </body>
 </html>
