@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pentagon.cfs.model.CommonUtil;
+
 public class ChangepwForm {
 	private String oldPassword;
 	private String newPassword;
@@ -43,7 +45,8 @@ public class ChangepwForm {
 		if (oldPassword == null || oldPassword.trim().isEmpty()) {
 			errors.set(0, "Old Password is required!");
 			complete = false;
-
+		} else if (!CommonUtil.isLegal(oldPassword)) {
+			errors.set(0, "Can not contain special characters.");
 		}
 
 		if (newPassword == null || newPassword.trim().isEmpty()) {
