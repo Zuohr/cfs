@@ -21,7 +21,6 @@ import pentagon.cfs.databean.Employee;
 import pentagon.cfs.databean.Fund;
 import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.Position;
-import pentagon.cfs.formbean.DepositForm;
 import pentagon.cfs.model.Model;
 
 public class EmplViewAcct implements Action {
@@ -37,40 +36,41 @@ public class EmplViewAcct implements Action {
 				.getAttribute("employee");
 		if (user == null) {
 			return "login.jsp";
+		}
+		request.setAttribute("nav_eeviewcmlist", "active");
+
+		request.setAttribute("header_type", "Employee");
+		request.setAttribute("header_name",
+				user.getFirstname() + " " + user.getLastname());
+
+		String username = request.getParameter("usr");
+		if (username == null || username.isEmpty()) {
+			return "emplviewcmlist.do";
 		} else {
-			DepositForm form = new DepositForm(request);
-			request.setAttribute("nav_eeviewcmlist", "active");
-			request.setAttribute("header_type", "Employee");
-			request.setAttribute("header_name", user.getFirstname()+" "+user.getLastname());
-			String username = request.getParameter("usr");
-			if (username == null || username.isEmpty()) {
+			CustomerDAO cmDAO = model.getCustomerDAO();
+			Customer customer = cmDAO.getProfile(username);
+			if (customer == null) {
 				return "emplviewcmlist.do";
 			} else {
-				CustomerDAO cmDAO = model.getCustomerDAO();
-				Customer customer = cmDAO.getProfile(username);
-				if (customer == null) {
-					return "emplviewcmlist.do";
+				double cash = (double) customer.getCash() / 100;
+				request.setAttribute("cash", String.format("%.2f", cash));
+				if (customer.getLasttrading() == null) {
+					request.setAttribute("lastTradingDay", "-");
 				} else {
-					double cash = (double) customer.getCash() / 100;
-					request.setAttribute("cash", String.format("%.2f", cash));
-					if (customer.getLasttrading() == null) {
-						request.setAttribute("lastTradingDay", "-");
-					} else {
-						request.setAttribute("lastTradingDay",
-								new SimpleDateFormat(Meta.DATE_FORMAT)
-										.format(customer.getLasttrading()));
-					}
-					request.setAttribute("view_customer", customer);
-
-					PositionDAO posDAO = model.getPositionDAO();
-					Position[] pos = posDAO.getPositions(customer.getId());
-					PositionRecord[] posRd = new PositionRecord[pos.length];
-					for (int i = 0; i < pos.length; i++) {
-						posRd[i] = new PositionRecord(pos[i]);
-					}
-					request.setAttribute("cus_position", posRd);
-					return "ee_viewcmacct.jsp";
+					request.setAttribute("lastTradingDay",
+							new SimpleDateFormat(Meta.DATE_FORMAT)
+									.format(customer.getLasttrading()));
 				}
+				request.setAttribute("view_customer", customer);
+
+				PositionDAO posDAO = model.getPositionDAO();
+				Position[] pos = posDAO.getPositions(customer.getId());
+				PositionRecord[] posRd = new PositionRecord[pos.length];
+				for (int i = 0; i < pos.length; i++) {
+					posRd[i] = new PositionRecord(pos[i]);
+				}
+				request.setAttribute("cus_position", posRd);
+				return "ee_viewcmacct.jsp";
 			}
 		}
 	}
