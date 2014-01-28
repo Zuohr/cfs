@@ -50,7 +50,8 @@ public class TransitionDay implements Action {
 			return "login.jsp";
 		} else {
 			request.setAttribute("nav_eetransition", "active");
-			
+			request.setAttribute("header_type", "Employee");
+			request.setAttribute("header_name", empl.getFirstname()+" "+empl.getLastname());
 			FundDAO fundDAO = model.getFundDAO();
 			Fund[] fund_list = fundDAO.match();
 			request.setAttribute("fund_list", fund_list);
@@ -75,7 +76,7 @@ public class TransitionDay implements Action {
 						FundPriceHistoryDAO fphDAO = model
 								.getFundPriceHistoryDAO();
 						if (price_list.size() != fundDAO.getCount()) {
-							request.setAttribute("result",
+							request.setAttribute("op_fail",
 									"Fund list expired, please fill again.");
 							fund_list = fundDAO.match();
 							request.setAttribute("fund_list", fund_list);
@@ -180,7 +181,7 @@ public class TransitionDay implements Action {
 						Meta.lastDate = lastDate;
 
 						// set result
-						request.setAttribute("result", pendings.length
+						request.setAttribute("op_success", pendings.length
 								+ " transactions processed on " + Meta.lastDate);
 						// System.out.println("metadate2 " +
 						// Meta.lastDate);//TODO
@@ -188,7 +189,7 @@ public class TransitionDay implements Action {
 						Transaction.commit();
 					} catch (RollbackException e) {
 						e.printStackTrace();
-						request.setAttribute("result", "Operation failed.");
+						request.setAttribute("op_fail", "Operation failed.");
 					} finally {
 						if (Transaction.isActive()) {
 							Transaction.rollback();
@@ -198,6 +199,7 @@ public class TransitionDay implements Action {
 				} else {
 					ArrayList<String> errors = form.getErrors();
 					request.setAttribute("errors", errors);
+					request.setAttribute("op_fail", "Operation failed.");
 					// System.out.println("metadate3 " + Meta.lastDate);//TODO
 					// request.setAttribute("last_day", Meta.lastDate);
 					return "ee_transition.jsp";
