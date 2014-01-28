@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import pentagon.cfs.databean.Employee;
+import pentagon.cfs.model.CommonUtil;
 
 public class CreateEmplForm {
 	private String firstName;
@@ -22,7 +23,7 @@ public class CreateEmplForm {
 		password = (String) request.getParameter("password");
 		password2 = (String) request.getParameter("password2");
 
-		int size = 4;
+		int size = 5;
 		errors = new ArrayList<String>(size);
 		for (int i = 0; i < size; i++) {
 			errors.add("");
@@ -53,30 +54,45 @@ public class CreateEmplForm {
 		if (firstName == null || firstName.trim().isEmpty()) {
 			errors.set(0, "First name cannot be empty.");
 			complete = false;
+		}else if (!CommonUtil.isLegal(firstName)) {
+			errors.set(0, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 
 		if (lastName == null || lastName.trim().isEmpty()) {
 			errors.set(1, "Last name cannot be empty.");
+			complete = false;
+		}else if (!CommonUtil.isLegal(lastName)) {
+			errors.set(1, "Can not contain special characters or input is too long.");
 			complete = false;
 		}
 
 		if (userName == null || userName.trim().isEmpty()) {
 			errors.set(2, "User name cannot be empty.");
 			complete = false;
+		}else if (!CommonUtil.isLegal(userName)) {
+			errors.set(2, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 
 		if (password == null || password.trim().isEmpty()) {
 			errors.set(3, "Please enter password.");
 			complete = false;
+		}else if (!CommonUtil.isLegal(password)) {
+			errors.set(3, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 		
 		if (password2 == null || password2.trim().isEmpty()) {
-			errors.set(3, "Please confirm password.");
+			errors.set(4, "Please confirm password.");
+			complete = false;
+		}else if (!CommonUtil.isLegal(password2)) {
+			errors.set(4, "Can not contain special characters or input is too long.");
 			complete = false;
 		}
 		
 		if (!password.equals(password2)) {
-			errors.set(3, "Password does not match.");
+			errors.set(4, "Password does not match.");
 			complete = false;
 		}
 	}
