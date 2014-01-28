@@ -64,7 +64,7 @@ public class BuyFund implements Action {
 				
 				if(form.isComplete()){
 					if(form.getDeposit()>user.getBalance()){
-						request.setAttribute("order_fail", "You do not have enough balance");
+						request.setAttribute("op_fail", "You do not have enough balance");
 						return "cm_buyfund.jsp";
 					}
 					TransactionDAO dao = model.getTransactionDAO();
@@ -72,7 +72,7 @@ public class BuyFund implements Action {
 					record.setCm_id(user.getId());
 					record.setComplete(false);
 					dao.create(record);
-					request.setAttribute("order_succ", "You have successfully placed the order");
+					request.setAttribute("op_success", "You have successfully placed the order");
 					
 					bal = bal-form.getDeposit();
 

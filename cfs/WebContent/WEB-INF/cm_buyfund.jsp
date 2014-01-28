@@ -20,20 +20,7 @@
               <h2>Buy Fund</h2>
             </div>
            
-			<c:choose>
-			<c:when test="${requestScope.order_succ!=null}">
-			<div class="alert alert-success alert-dismissable">
-			  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			  <strong>Congratulations!</strong> ${requestScope.order_succ }
-			</div>
-			</c:when>
-			<c:when test="${requestScope.order_fail!=null}">
-			<div class="alert alert-danger alert-dismissable">
-			  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-			  <strong>Error!</strong> ${requestScope.order_fail }
-			</div>
-			</c:when>
-			</c:choose>
+		<jsp:include page="pop_result.jsp" />
 		<p style="color:red">${requestScope.errors["0"] }</p>
 		<p style="color:red">${requestScope.errors["1"] }</p>
 		 <h3>Current Balance:  $${requestScope.ava_bal} </h3>
