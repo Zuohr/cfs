@@ -35,7 +35,7 @@ public class ResearchFund implements Action {
 			user = request.getSession().getAttribute("employee");
 		}
 		if (user == null) {
-			return "login.do";
+			return "login.jsps";
 		} else {
 			String input = request.getParameter("fund_id");
 			if (input == null || !input.matches("\\d+")) {

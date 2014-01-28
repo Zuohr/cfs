@@ -47,7 +47,7 @@ public class TransitionDay implements Action {
 		Employee empl = (Employee) request.getSession()
 				.getAttribute("employee");
 		if (empl == null) {
-			return "cmlogin.do";
+			return "login.jsp";
 		} else {
 			FundDAO fundDAO = model.getFundDAO();
 			Fund[] fund_list = fundDAO.match();

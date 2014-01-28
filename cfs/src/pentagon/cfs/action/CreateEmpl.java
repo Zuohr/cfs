@@ -12,17 +12,24 @@ import pentagon.cfs.model.Model;
 public class CreateEmpl implements Action {
 
 	private EmployeeDAO employeeDAO;
+	private Model model;
 
 	public CreateEmpl(Model model) {
-		employeeDAO = model.getEmployeeDAO();
+		this.model = model;
 	}
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
+		Employee employee = (Employee) request.getSession().getAttribute("employee");
+		if(employee == null) {
+			return "login.jsp";
+		}
+		
 		if ("submit".equals(request.getParameter("createee_btn"))) {
 			CreateEmplForm form = new CreateEmplForm(request);
 			if (form.isComplete()) {
 				Employee newEmployee = form.getEmployeeBean();
+				employeeDAO = model.getEmployeeDAO();
 				if (employeeDAO.createEmployee(newEmployee)) {
 					request.setAttribute("result",
 							"Employee: " + newEmployee.getUsername() + " created.");

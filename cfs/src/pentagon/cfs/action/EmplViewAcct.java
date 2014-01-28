@@ -10,7 +10,6 @@ package pentagon.cfs.action;
 import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.genericdao.RollbackException;
 
@@ -33,8 +32,8 @@ public class EmplViewAcct implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		HttpSession session = request.getSession();
-		Employee user = (Employee) session.getAttribute("employee");
+		Employee user = (Employee) request.getSession()
+				.getAttribute("employee");
 		if (user == null) {
 			return "login.jsp";
 		} else {

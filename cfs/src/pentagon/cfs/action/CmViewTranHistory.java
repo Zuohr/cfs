@@ -38,7 +38,7 @@ public class CmViewTranHistory implements Action {
 	public String perform(HttpServletRequest request) throws RollbackException {
 		Customer user = (Customer) request.getSession().getAttribute("customer");
 		if (user == null) {
-			return "login.do";
+			return "login.jsp";
 		} else {
 			request.setAttribute("nav_cmtranhistory", "active");
 			int cm_id = user.getId();

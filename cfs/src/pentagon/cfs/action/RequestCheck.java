@@ -25,7 +25,6 @@ public class RequestCheck implements Action {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "requestcheck.do";
 	}
 
@@ -34,26 +33,25 @@ public class RequestCheck implements Action {
 
 		Customer customer = (Customer) request.getSession().getAttribute(
 				"customer");
-		
 
 		if (customer == null) {
 			return "login.jsp";
 		} else {
 			request.setAttribute("nav_cmreqcheck", "active");
-			request.setAttribute("balance", (double) customer.getBalance() / 100);
+			request.setAttribute("balance",
+					(double) customer.getBalance() / 100);
 			if ("submit".equals(request.getParameter("requestcheck_btn"))) {
 
 				ReqcheckForm form = new ReqcheckForm(request);
 
 				if (form.isComplete()) {
 
-					Double amount = Double.parseDouble(request.getParameter("check"))*100;
-					
-					
-					long check = amount.longValue() ;
-					
-					
-					long balance =  customer.getBalance();
+					Double amount = Double.parseDouble(request
+							.getParameter("check")) * 100;
+
+					long check = amount.longValue();
+
+					long balance = customer.getBalance();
 					if (check <= balance) {
 						TransactionRecord record = new TransactionRecord();
 
@@ -61,25 +59,24 @@ public class RequestCheck implements Action {
 						record.setAmount(check);
 						record.setComplete(false);
 						record.setType("withdraw");
-						customer.setBalance(balance - check );
+						customer.setBalance(balance - check);
 
 						try {
 							transactionDAO.create(record);
-							request.setAttribute("errors",
-									" Withdraw " + form.getCheck()
+							request.setAttribute(
+									"errors",
+									" Withdraw "
+											+ form.getCheck()
 											+ " from your account successfully!");
-							
+
 							model.getCustomerDAO().update(customer);
-						
-							
-							
+
 							return "cm_requestcheck.jsp";
 						} catch (RollbackException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 							return "cm_requestcheck.jsp";
 						}
-						
+
 					} else {
 						request.setAttribute(
 								"errors",

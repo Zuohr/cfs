@@ -10,17 +10,14 @@ package pentagon.cfs.action;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import pentagon.cfs.model.Model;
-import pentagon.cfs.dao.CustomerDAO;
 
 import org.genericdao.RollbackException;
 
+import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Employee;
-
 import pentagon.cfs.formbean.ResetpwForm;
+import pentagon.cfs.model.Model;
 
 public class ResetCmPw implements Action {
 	private Model model;
@@ -32,8 +29,8 @@ public class ResetCmPw implements Action {
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
 
-		HttpSession session = request.getSession();
-		Employee employee = (Employee) session.getAttribute("employee");
+		Employee employee = (Employee) request.getSession().getAttribute(
+				"employee");
 
 		if (employee == null) {
 			return "login.jsp";

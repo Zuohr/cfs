@@ -29,11 +29,6 @@ public class EmplViewTranHistroy implements Action {
 	}
 
 	@Override
-	public String getName() {
-		return "emplviewtranhistroy.do";
-	}
-
-	@Override
 	public synchronized String perform(HttpServletRequest request)
 			throws RollbackException {
 		Employee employee = (Employee) request.getSession().getAttribute(
@@ -64,6 +59,11 @@ public class EmplViewTranHistroy implements Action {
 				}
 			}
 		}
+	}
+
+	@Override
+	public String getName() {
+		return "emplviewtranhistroy.do";
 	}
 
 	public class Record {
