@@ -42,7 +42,7 @@
 						</div>
 
 						<div class="form-group">
-							<label for="inputPassword3" class="col-sm-2 control-label">Check
+							<label for="inputPassword3" class="col-sm-2 control-label">Confirm
 								Password</label>
 							<div class="col-sm-10" style="width: 300px">
 								<input type="password" class="form-control" id="inputPassword3"

@@ -51,7 +51,7 @@
 				</div>
 				
 				<div class="form-group">
-				<label for="inputPassword3" class="col-sm-2 control-label">Check Password</label>
+				<label for="inputPassword3" class="col-sm-2 control-label">Confirm Password</label>
 				<div class="col-sm-10" style="width:300px">
 				  <input type="Password" class="form-control" id="inputPassword3" name="password2" placeholder="Re-enter Password">
 				</div>
