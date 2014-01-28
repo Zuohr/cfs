@@ -11,14 +11,10 @@ public class ChangepwForm {
 	private boolean complete = true;
 	private ArrayList<String> errors;
 
-	public String getOldPassword() {
-		return oldPassword;
-	}
-
 	public ChangepwForm(HttpServletRequest request) {
-		this.oldPassword = (String) request.getParameter("OldPassword");
-		this.newPassword = (String) request.getParameter("NewPassword");
-		this.checkPassword = (String) request.getParameter("CheckPassword");
+		this.oldPassword = request.getParameter("OldPassword");
+		this.newPassword = request.getParameter("NewPassword");
+		this.checkPassword = request.getParameter("CheckPassword");
 		int size = 3;
 		this.errors = new ArrayList<String>(size);
 		for (int i = 0; i < size; i++) {
@@ -27,12 +23,12 @@ public class ChangepwForm {
 		checkErrors();
 	}
 
-	public String getnewPassword() {
-		return newPassword;
+	public String getOldPassword() {
+		return oldPassword;
 	}
 
-	public String getcheckPassword() {
-		return checkPassword;
+	public String getNewPassword() {
+		return newPassword;
 	}
 
 	public boolean isComplete() {
@@ -63,7 +59,7 @@ public class ChangepwForm {
 
 		if (complete == true) {
 			if (!newPassword.trim().equals(checkPassword.trim())) {
-				errors.set(2,
+				errors.set(1,
 						"Please make sure the password you re-enter is correct!");
 				complete = false;
 			}

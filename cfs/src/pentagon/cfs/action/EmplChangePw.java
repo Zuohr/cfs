@@ -34,7 +34,7 @@ public class EmplChangePw implements Action {
 
 				if (form.isComplete()) {
 					if (employee.getPassword().equals(form.getOldPassword())) {
-						employee.setPassword(form.getnewPassword());
+						employee.setPassword(form.getNewPassword());
 
 						EmployeeDAO employeeDAO = model.getEmployeeDAO();
 						employeeDAO.update(employee);
@@ -55,7 +55,7 @@ public class EmplChangePw implements Action {
 					request.setAttribute("errors", errors);
 					return "ee_changepw.jsp";
 				}
-			} else if ("cancel".equals(request.getParameter("cancel_btn"))) {
+			} else if ("cancel".equals(request.getParameter("cmchangepw_btn"))) {
 				return "emplviewcmlist.do";
 			} else {
 				return "ee_changepw.jsp";

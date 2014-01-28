@@ -1,17 +1,13 @@
 package pentagon.cfs.action;
 
-import java.util.ArrayList;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import pentagon.cfs.model.Model;
-import pentagon.cfs.dao.CustomerDAO;
 
 import org.genericdao.RollbackException;
 
+import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.databean.Customer;
 import pentagon.cfs.formbean.ChangepwForm;
+import pentagon.cfs.model.Model;
 
 public class CmChangePw implements Action {
 
@@ -23,56 +19,41 @@ public class CmChangePw implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-
-		HttpSession session = request.getSession();
-		Customer customer = (Customer) session.getAttribute("customer");
-
+		Customer customer = (Customer) request.getSession().getAttribute(
+				"customer");
 		if (customer == null) {
 			return "login.jsp";
-		} else {
-			request.setAttribute("nav_cmchgpw", "active");
-			if ("submit".equals(request.getParameter("cmchangepw_btn"))) {
-				ChangepwForm form = new ChangepwForm(request);
+		}
+		request.setAttribute("nav_cmchgpw", "active");
+		if ("submit".equals(request.getParameter("cmchangepw_btn"))) {
+			ChangepwForm form = new ChangepwForm(request);
+			if (form.isComplete()) {
+				if (customer.getPassword().equals(form.getOldPassword())) {
+					CustomerDAO customerDAO = model.getCustomerDAO();
+					customer.setPassword(form.getNewPassword());
+					customerDAO.updateCustomer(customer);
 
-				if (form.isComplete()) {
-
-					if (customer.getPassword() == form.getnewPassword()) {
-
-						customer.setPassword(form.getnewPassword());
-						customer.setId(customer.getId());
-
-						CustomerDAO customerDAO = model.getCustomerDAO();
-
-						customerDAO.updateCustomer(customer);
-
-						request.setAttribute(
-								"result",
-								"Password changed for "
-										+ customer.getFirstname() + " "
-										+ customer.getLastname()
-										+ " successfully!");
-						return "cm_changepw.jsp";
-					} else {
-						request.setAttribute("result", "Your Old Password is wrong! ");
-						return "cm_changepw.jsp";
-					}
-
+					request.setAttribute("result", String.format(
+							"Password changed for %s %s.",
+							customer.getFirstname(), customer.getLastname()));
+					return "cm_changepw.jsp";
 				} else {
-					ArrayList<String> errors = form.getErrors();
-					request.setAttribute("errors", errors);
+					request.setAttribute("result", "Old Password is wrong!");
 					return "cm_changepw.jsp";
 				}
-			} else if ("cancel".equals(request.getParameter("cancel_btn"))) {
-				return "cmchangepw.do";
 			} else {
+				request.setAttribute("errors", form.getErrors());
 				return "cm_changepw.jsp";
 			}
+		} else if ("cancel".equals(request.getParameter("cmchangepw_btn"))) {
+			return "cmviewacct.do";
+		} else {
+			return "cm_changepw.jsp";
 		}
 	}
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
 		return "cmchangepw.do";
 	}
 
