@@ -22,7 +22,6 @@ public class CmLogin implements Action {
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
 		String role = request.getParameter("submit");
-		System.out.println(role);
 		if (role == null) {
 			return "login.jsp";
 		} else if (role.startsWith("cu")) {

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.genericdao.ConnectionPool;
 import org.genericdao.DAOException;
+import org.genericdao.MatchArg;
 import org.genericdao.RollbackException;
 import org.genericdao.Transaction;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class TestDAO {
 	private ConnectionPool getConnectionPool() {
 		return new ConnectionPool(jdbcName, jdbcURL);
 	}
-	
+
 	@Test
 	public void initDB() throws DAOException {
 		testCmDAO();
@@ -255,5 +256,85 @@ public class TestDAO {
 		dao.update(meta);
 		date = dao.read(Integer.valueOf(1)).getDate();
 		System.out.println(date);
+	}
+
+	@Test
+	public void testNullDate() throws DAOException, RollbackException {
+		ConnectionPool cp = getConnectionPool();
+		TransactionDAO dao = new TransactionDAO("cfs_transaction", cp);
+		TransactionRecord[] rd = dao.getPending();
+		System.out.println(rd[0].getDate());
+		System.out.println(rd[0].getDate() == null);
+		rd = dao.getHistory(Integer.valueOf(1));
+		Date date = rd[0].getDate();
+		TransactionRecord[] rds = dao.match(MatchArg.equals("date", date));
+		System.out.println(rds.length);
+	}
+
+	@Test
+	public void outer() throws DAOException, RollbackException {
+		ConnectionPool cp = getConnectionPool();
+		TestBeanDAO dao = new TestBeanDAO(cp);
+		bundle(dao);
+	}
+	
+	@Test
+	public static void bundle(TestBeanDAO dao) throws RollbackException {
+		if(!Transaction.isActive()) {
+			try {
+				Transaction.begin();
+				
+				bundle(dao);
+				
+				Transaction.commit();
+			} catch (RollbackException e) {
+				e.printStackTrace();
+			} finally {
+				if(Transaction.isActive()) {
+					Transaction.rollback();
+				}
+			}
+		}
+		dao.bundle();
+	}
+	
+	@Test
+	public void testTestDAO() throws DAOException, RollbackException {
+		ConnectionPool cp = getConnectionPool();
+		TestBeanDAO dao = new TestBeanDAO(cp);
+
+		if (!Transaction.isActive()) {
+			try {
+				Transaction.begin();
+
+				testTestDAO();
+
+				Transaction.commit();
+			} catch (RollbackException e) {
+				e.printStackTrace();
+			} finally {
+				if (Transaction.isActive()) {
+					Transaction.rollback();
+				}
+			}
+		}
+		
+		dao.bundle();
+		// try {
+		// Transaction.begin();
+		//
+		// dao.bundle();
+		//
+		// Transaction.commit();
+		// } catch (RollbackException e) {
+		// e.printStackTrace();
+		// } finally {
+		// if(Transaction.isActive()) {
+		// Transaction.rollback();
+		// }
+		// }
+
+		// TestBeanDAO dao = new TestBeanDAO(cp);
+		// dao.bundle();
 	}
 }

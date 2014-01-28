@@ -17,6 +17,7 @@ import pentagon.cfs.databean.Fund;
 import pentagon.cfs.databean.FundPriceHistory;
 import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.TransactionRecord;
+import pentagon.cfs.model.CommonUtil;
 import pentagon.cfs.model.Model;
 
 public class EmplViewTranHistroy implements Action {
@@ -99,7 +100,7 @@ public class EmplViewTranHistroy implements Action {
 			} else {
 				FundDAO fundDAO = model.getFundDAO();
 				Fund fund = fundDAO.read(Integer.valueOf(rd.getFund_id()));
-				this.fundname = fund.getName();
+				this.fundname = CommonUtil.getResearchURL(fund);
 
 				FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();
 				FundPriceHistory[] fphs = fphDAO.match(MatchArg.and(

@@ -12,8 +12,8 @@
 		<div class="container">
 			<jsp:include page="cm_nav.jsp" />
 			<div class="col-xs-12 col-sm-9">
-				<h2>Transaction History</h2>
-
+				<h2>Transaction History for ${customer_tran.firstname }
+					${customer_tran.lastname }</h2>
 				<table class="table table-striped">
 					<thead>
 						<tr>
