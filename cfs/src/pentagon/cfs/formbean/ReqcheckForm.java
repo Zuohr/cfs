@@ -4,13 +4,21 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
-import pentagon.cfs.model.CommonUtil;
-
 public class ReqcheckForm {
-	private long check;
-	private String ch;
+	private long amount;
+	private String amountInput;
 	private ArrayList<String> errors;
 	private boolean complete = true;
+
+	public ReqcheckForm(HttpServletRequest request) {
+		amountInput = request.getParameter("request_amount");
+		int size = 1;
+		errors = new ArrayList<String>(size);
+		for (int i = 0; i < size; i++) {
+			errors.add("");
+		}
+		checkErrors();
+	}
 
 	public boolean isComplete() {
 		return complete;
@@ -20,38 +28,29 @@ public class ReqcheckForm {
 		return errors;
 	}
 
-	public ReqcheckForm(HttpServletRequest request) {
-		ch = request.getParameter("check");
-		errors = new ArrayList<String>();
-		checkErrors();
-	}
-
-	public long getCheck() {
-		return check;
-	}
-
-	public void setCheck(long check) {
-		this.check = check;
+	public long getAmount() {
+		return amount;
 	}
 
 	public void checkErrors() {
-		if (ch == null || ch.isEmpty()) {
-			errors.add("Value cannot be empty.");
+		if (amountInput == null || amountInput.isEmpty()) {
+			errors.set(0, "Please provide amount.");
 			complete = false;
-		} 
-		else if(!CommonUtil.isLegal(ch)){
-			errors.add("Can not contain special characters or input is too long.");
-			complete = false;
-		}
-		else {
+		} else {
 			try {
-				check = (long) Double.parseDouble(ch);
-				if (check <= 0) {
-					errors.add("Invalid value.");
+				double inputParse = Double.parseDouble(amountInput);
+				double max = (double) Long.MAX_VALUE / 100;
+				if (inputParse > max) {
+					errors.set(1, "Amount too large.");
 					complete = false;
+				} else if (inputParse <= 0.01) {
+					errors.set(1, "The minimum amount is 0.01.");
+					complete = false;
+				} else {
+					amount = (long) (inputParse * 100);
 				}
 			} catch (NumberFormatException e) {
-				errors.add("Invalid value.");
+				errors.set(1, "Invalid number.");
 				complete = false;
 			}
 		}

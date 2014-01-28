@@ -20,32 +20,35 @@
 						<h2>Request Check</h2>
 					</div>
 					<jsp:include page="pop_result.jsp" />
-					<form class="form-horizontal" role="form" action="requestcheck.do" method="POST">
+					<form class="form-horizontal" action="requestcheck.do"
+						method="POST">
+						<!-- role="form"> -->
 						<ul class="list-group">
-							<li class="list-group-item">Available balance:${ requestScope.balance }</li>
+							<li class="list-group-item">Available balance : ${ requestScope.balance }</li>
 						</ul>
 						<div class="form-group">
 
 							<label for="inputEmail3" class="col-sm-2 control-label">Request
 								Amount</label>
 							<div class="col-sm-10" style="width: 120px;">
-								<input type="number" class="form-control" id="inputEmail3"
-									placeholder="$" name="check" >
+								<input type="text" class="form-control" id="inputEmail3"
+									placeholder="$" name="request_amount">
 							</div>
 						</div>
 
 						<div class="form-group">
 							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" class="btn btn-primary" name="requestcheck_btn" value="submit">Submit</button>
+								<button type="submit" class="btn btn-primary"
+									name="requestcheck_btn" value="submit">Submit</button>
 							</div>
 						</div>
 					</form>
-					 <!-- error message -->
-      <p>${requestScope.result }</p>
-      <c:forEach var="error" items="${requestScope.errors }">
-      <p>${errors }</p>
-      </c:forEach>
-      <!-- error message -->
+					<!-- error message -->
+					<p>${requestScope.result }</p>
+					<c:forEach var="error" items="${requestScope.errors }">
+						<p>${errors }</p>
+					</c:forEach>
+					<!-- error message -->
 				</div>
 				<!--/span-->
 
@@ -56,7 +59,7 @@
 		</div>
 		<!--/.container-->
 	</div>
-	
+
 	<jsp:include page="footer.jsp" />
 </body>
 </html>
