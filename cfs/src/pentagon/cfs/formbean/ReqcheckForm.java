@@ -44,7 +44,7 @@ public class ReqcheckForm {
 					errors.set(0, "Amount too large.");
 					complete = false;
 				} else if (inputParse <= 0.01) {
-					errors.set(1, "The minimum amount is 0.01.");
+					errors.set(0, "The minimum amount is 0.01.");
 					complete = false;
 				} else {
 					amount = (long) (inputParse * 100);
