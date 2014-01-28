@@ -49,7 +49,7 @@
   <div class="tab-pane active" id="as_employee">
 		       <form class="form-signin" action="empllogin.do" id="eelogin_form" method="post"><!--  role="form"> -->
        
-        <input type="text" class="form-control" placeholder="Email address" name="userName" required autofocus>
+        <input type="text" class="form-control" placeholder="UserName" name="userName" required autofocus>
         <br>
         <input type="password" class="form-control" placeholder="Password" name = "password" required>
         
@@ -59,7 +59,7 @@
   <div class="tab-pane" id="as_customer">
 		       <form class="form-signin" action="cmlogin.do" id="cmlogin_form" method="post"><!--  role="form"> -->
        
-        <input type="text" class="form-control" name="userName" placeholder="Email address" required autofocus>
+        <input type="text" class="form-control" name="userName" placeholder="UserName" required autofocus>
         <br>
         <input type="password" class="form-control" name = "password" placeholder="Password" required>
         
