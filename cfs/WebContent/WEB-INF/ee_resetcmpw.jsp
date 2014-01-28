@@ -17,7 +17,7 @@
 					<div class="page-header">
 						<h2>Reset Customer Password</h2>
 					</div>
-
+					<jsp:include page="pop_result.jsp" />
 					<form class="form-horizontal" action="resetcmpw.do" method="POST">
 						<!--  role="form"> -->
 						<%-- <ul class="list-group">

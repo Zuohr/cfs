@@ -17,7 +17,7 @@
             <div class="page-header">
               <h2>Create New Fund</h2>
             </div>
-			
+			<jsp:include page="pop_result.jsp" />
 		       <form class="form-horizontal" action="createfund.do" id="createfund_form" method="post"><!--  role="form"> -->
 			  <div class="form-group">
 				<label for="inputFundName3" class="col-sm-2 control-label">Fund Name</label>
