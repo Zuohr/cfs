@@ -46,7 +46,8 @@ public class ChangepwForm {
 			errors.set(0, "Old Password is required!");
 			complete = false;
 		} else if (!CommonUtil.isLegal(oldPassword)) {
-			errors.set(0, "Can not contain special characters.");
+			errors.set(0, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 
 		if (newPassword == null || newPassword.trim().isEmpty()) {
