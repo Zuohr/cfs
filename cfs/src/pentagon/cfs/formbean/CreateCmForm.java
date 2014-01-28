@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 
 import pentagon.cfs.databean.Customer;
+import pentagon.cfs.model.CommonUtil;
 
 public class CreateCmForm {
 	private String firstName;
@@ -75,25 +76,41 @@ public class CreateCmForm {
 		if (firstName == null || firstName.trim().isEmpty()) {
 			errors.set(0, "First name cannot be empty.");
 			complete = false;
+		}else if (!CommonUtil.isLegal(userName)) {
+			errors.set(0, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 
 		if (lastName == null || lastName.trim().isEmpty()) {
 			errors.set(1, "Last name cannot be empty.");
+			complete = false;
+		}else if (!CommonUtil.isLegal(userName)) {
+			errors.set(1, "Can not contain special characters or input is too long.");
 			complete = false;
 		}
 
 		if (userName == null || userName.trim().isEmpty()) {
 			errors.set(2, "User name cannot be empty.");
 			complete = false;
+		}else if (!CommonUtil.isLegal(userName)) {
+			errors.set(2, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
+		
 
 		if (addr1 == null || addr1.trim().isEmpty()) {
 			errors.set(3, "Address line 1 cannot be empty.");
+			complete = false;
+		}else if (!CommonUtil.isLegal(userName)) {
+			errors.set(3, "Can not contain special characters or input is too long.");
 			complete = false;
 		}
 
 		if (city == null || city.trim().isEmpty()) {
 			errors.set(4, "City cannot be empty.");
+			complete = false;
+		}else if (!CommonUtil.isLegal(userName)) {
+			errors.set(4, "Can not contain special characters or input is too long.");
 			complete = false;
 		}
 
@@ -103,6 +120,9 @@ public class CreateCmForm {
 		} else if (!zip.matches("\\d{5}")) {
 			errors.set(5, "Zip format should be 5 digits.");
 			complete = false;
+		}else if (!CommonUtil.isLegal(userName)) {
+			errors.set(5, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 
 		if (password == null || password2 == null || password.trim().isEmpty()
@@ -111,6 +131,9 @@ public class CreateCmForm {
 			complete = false;
 		} else if (!password.equals(password2)) {
 			errors.set(6, "Password does not match.");
+			complete = false;
+		}else if (!CommonUtil.isLegal(userName)) {
+			errors.set(6, "Can not contain special characters or input is too long.");
 			complete = false;
 		}
 	}
