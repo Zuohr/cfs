@@ -38,6 +38,8 @@ public class RequestCheck implements Action {
 			return "login.jsp";
 		} else {
 			request.setAttribute("nav_cmreqcheck", "active");
+			request.setAttribute("header_type", "Customer");
+			request.setAttribute("header_name",customer.getFirstname()+" "+customer.getLastname());
 			request.setAttribute("balance",
 					(double) customer.getBalance() / 100);
 			if ("submit".equals(request.getParameter("requestcheck_btn"))) {
@@ -64,7 +66,7 @@ public class RequestCheck implements Action {
 						try {
 							transactionDAO.create(record);
 							request.setAttribute(
-									"errors",
+									"op_success",
 									" Withdraw "
 											+ form.getCheck()
 											+ " from your account successfully!");
@@ -79,7 +81,7 @@ public class RequestCheck implements Action {
 
 					} else {
 						request.setAttribute(
-								"errors",
+								"op_fail",
 								"Your current balance is not enough , please try later or decrease the amount !");
 						return "cm_requestcheck.jsp";
 					}
@@ -87,6 +89,9 @@ public class RequestCheck implements Action {
 				} else {
 					ArrayList<String> errors = form.getErrors();
 					request.setAttribute("errors", errors);
+					request.setAttribute(
+							"op_fail",
+							"Operation failed!");
 					return "cm_requestcheck.jsp";
 				}
 			} else {

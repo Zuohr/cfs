@@ -34,7 +34,8 @@ public class CmViewAcct implements Action {
 			return "login.jsp";
 		} else {
 			request.setAttribute("nav_cmviewacct", "active");
-			
+			request.setAttribute("header_type", "Customer");
+			request.setAttribute("header_name", user.getFirstname()+" "+user.getLastname());
 			double cash = (double) user.getCash() / 100;
 			request.setAttribute("cash", String.format("%.2f", cash));
 			

@@ -41,6 +41,8 @@ public class CmViewTranHistory implements Action {
 			return "login.jsp";
 		} else {
 			request.setAttribute("nav_cmtranhistory", "active");
+			request.setAttribute("header_type", "Customer");
+			request.setAttribute("header_name", user.getFirstname()+" "+user.getLastname());
 			int cm_id = user.getId();
 			TransactionDAO dao = model.getTransactionDAO();
 			TransactionRecord[] transactions = dao.getHistory(cm_id);

@@ -38,7 +38,8 @@ public class BuyFund implements Action {
 		}
 
 		request.setAttribute("nav_cmbuyfund", "active");
-
+		request.setAttribute("header_type", "Customer");
+		request.setAttribute("header_name", user.getFirstname()+" "+user.getLastname());
 		FundDAO fundDAO = model.getFundDAO();
 		Fund[] fund_list = fundDAO.match();
 		FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();

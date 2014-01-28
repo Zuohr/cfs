@@ -25,6 +25,9 @@ public class CmChangePw implements Action {
 			return "login.jsp";
 		}
 		request.setAttribute("nav_cmchgpw", "active");
+		request.setAttribute("header_type", "Customer");
+		request.setAttribute("header_name", customer.getFirstname()+" "+customer.getLastname());
+		
 		if ("submit".equals(request.getParameter("cmchangepw_btn"))) {
 			ChangepwForm form = new ChangepwForm(request);
 			if (form.isComplete()) {
@@ -33,16 +36,17 @@ public class CmChangePw implements Action {
 					customer.setPassword(form.getNewPassword());
 					customerDAO.updateCustomer(customer);
 
-					request.setAttribute("result", String.format(
+					request.setAttribute("op_success", String.format(
 							"Password changed for %s %s.",
 							customer.getFirstname(), customer.getLastname()));
 					return "cm_changepw.jsp";
 				} else {
-					request.setAttribute("result", "Old Password is wrong!");
+					request.setAttribute("op_fail", "Old Password is wrong!");
 					return "cm_changepw.jsp";
 				}
 			} else {
 				request.setAttribute("errors", form.getErrors());
+				request.setAttribute("op_fail", "Operation failed!");
 				return "cm_changepw.jsp";
 			}
 		} else if ("cancel".equals(request.getParameter("cmchangepw_btn"))) {
