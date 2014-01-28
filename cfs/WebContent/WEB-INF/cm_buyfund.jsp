@@ -67,7 +67,7 @@
                   
                                   <!-- Modal -->
                 </tr>
-                <div class="modal fade" id="${fund.fundId}" tabindex="-1"  role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal fade" id="${fund.fundId}" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true"  role="dialog">
                   <div class="modal-dialog">
                     <div class="modal-content">
                     <form class="form-horizontal" action = "buyfund.do" id="buyfund_form" method="post" role="form">
