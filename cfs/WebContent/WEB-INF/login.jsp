@@ -37,8 +37,8 @@
       <div class="tab-content">
 
       <ul class="nav nav-pills" id="myTab" style="width:300px; margin-left:auto; margin-right:auto;">
-  <li class="active"><a href="#as_employee" data-toggle="tab">I am an employee</a></li>
-  <li><a href="#as_customer" data-toggle="tab">I am a customer</a></li>
+  <li class="active"><a href="#as_employee" data-toggle="tab" style="font-size:18px">Employee</a></li>
+  <li><a href="#as_customer" data-toggle="tab" style="font-size:18px">Customer</a></li>
   <font color=:#fff>${requestScope.result }</font>
     <font color=:#fff>${requestScope.errors["0"]  }</font><br>
     <font color=:#fff>${requestScope.errors["1"]  }</font>

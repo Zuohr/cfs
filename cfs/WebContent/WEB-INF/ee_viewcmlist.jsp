@@ -48,7 +48,7 @@
                         <tr>
                             <td>${customer.firstname}</td>
                             <td>${customer.lastname}</td>
-                            <td><a href="#">${customer.username}</a></td>
+                            <td><a href="emplviewacct.do?usr=${customer.username}">${customer.username}</a></td>
                             <td>
                             	
                             	<a href="resetcmpw.do?usr=${customer.username}" class="btn btn-primary btn-xs"><!--  role="button"> -->Reset Password</a>
