@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pentagon.cfs.model.CommonUtil;
+
 public class ReqcheckForm {
 	private long check;
 	private String ch;
@@ -36,7 +38,12 @@ public class ReqcheckForm {
 		if (ch == null || ch.isEmpty()) {
 			errors.add("Value cannot be empty.");
 			complete = false;
-		} else {
+		} 
+		else if(!CommonUtil.isLegal(ch)){
+			errors.add("Can not contain special characters or input is too long.");
+			complete = false;
+		}
+		else {
 			try {
 				check = (long) Double.parseDouble(ch);
 				if (check <= 0) {

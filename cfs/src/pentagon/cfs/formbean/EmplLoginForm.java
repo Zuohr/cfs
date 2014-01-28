@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pentagon.cfs.model.CommonUtil;
+
 public class EmplLoginForm{
 
 	private String userName;
@@ -52,13 +54,18 @@ public class EmplLoginForm{
 		if (userName == null || userName.trim().isEmpty()) {
 			errors.set(0, "User name cannot be empty.");
 			complete = false;
+		} else if(!CommonUtil.isLegal(userName)){
+			errors.set(0, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 
-		
 		if (password == null||password.trim().isEmpty()) {
 			errors.set(1, "Password cannot be empty.");
 			complete = false;
 		
+		} else if(!CommonUtil.isLegal(password)){
+			errors.set(1, "Can not contain special characters or input is too long.");
+			complete = false;
 		}
 
 	}
