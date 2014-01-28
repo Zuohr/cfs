@@ -72,13 +72,11 @@ public class TransitionForm {
 				if (Meta.lastDate != null) {
 					Date lastDate = f.parse(Meta.lastDate);
 					if (lastDate.after(date) || lastDate.equals(date)) {
-						System.out.println("after or equal: " + dateInput);// TODO
 						errors.set(0,
 								"Transition day should be later than last trading day("
 										+ Meta.lastDate + ").");
 						complete = false;
 					} else {
-						System.out.println("before: " + dateInput); //TODO
 					}
 				}
 			} catch (ParseException e) {

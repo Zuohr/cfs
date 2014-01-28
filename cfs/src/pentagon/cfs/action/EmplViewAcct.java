@@ -1,8 +1,13 @@
-/*Hao Ge
- * 
- * 
- * */
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
+
 package pentagon.cfs.action;
+
+import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,6 +19,8 @@ import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.PositionDAO;
 import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Employee;
+import pentagon.cfs.databean.Fund;
+import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.Position;
 import pentagon.cfs.model.Model;
 
@@ -31,21 +38,32 @@ public class EmplViewAcct implements Action {
 		if (user == null) {
 			return "login.jsp";
 		} else {
-			CustomerDAO cusDAO = model.getCustomerDAO();
-			Customer cus = cusDAO.getProfile(request.getParameter("usr"));
-			
-			PositionDAO posDAO = model.getPositionDAO();
-			Position[] pos = posDAO.getPositions(cus.getId());
-			FundDAO fundDAO = model.getFundDAO();
-			PositionList[] plist = new PositionList[pos.length];
-			for (int i = 0; i < pos.length; i++) {
-				plist[i] = new PositionList(fundDAO.read(pos[i].getFund_id())
-						.getName(), pos[i].getShare() / 1000);
-			}
-			request.setAttribute("view_customer", cus);
-			request.setAttribute("cus_position", plist);
+			String username = request.getParameter("usr");
+			if (username == null || username.isEmpty()) {
+				return "emplviewcmlist.do";
+			} else {
+				CustomerDAO cmDAO = model.getCustomerDAO();
+				Customer customer = cmDAO.getProfile(username);
+				if (customer == null) {
+					return "emplviewcmlist.do";
+				} else {
+					double cash = (double) customer.getCash() / 100;
+					request.setAttribute("cash", String.format("%.2f", cash));
+					request.setAttribute("lastTradingDay",
+							new SimpleDateFormat(Meta.DATE_FORMAT)
+									.format(customer.getLasttrading()));
+					request.setAttribute("view_customer", customer);
 
-			return "cm_viewacct.jsp";
+					PositionDAO posDAO = model.getPositionDAO();
+					Position[] pos = posDAO.getPositions(customer.getId());
+					PositionRecord[] posRd = new PositionRecord[pos.length];
+					for (int i = 0; i < pos.length; i++) {
+						posRd[i] = new PositionRecord(pos[i]);
+					}
+					request.setAttribute("cus_position", posRd);
+					return "ee_viewcmacct.jsp";
+				}
+			}
 		}
 	}
 
@@ -54,14 +72,25 @@ public class EmplViewAcct implements Action {
 		return "emplviewacct.do";
 	}
 
-	public class PositionList {
+	public class PositionRecord {
 		private String fundName;
 		private double share;
 
-		public PositionList(String fundName, double share) {
-			this.fundName = fundName;
-			this.share = share;
+		public PositionRecord(Position pos) throws RollbackException {
+			FundDAO fundDAO = model.getFundDAO();
+			Fund fund = fundDAO.read(Integer.valueOf(pos.getFund_id()));
+			this.fundName = fund.getName();
+
+			long shareLong = pos.getShare();
+			this.share = (double) shareLong / 1000;
+		}
+
+		public String getFundName() {
+			return fundName;
+		}
+
+		public double getShare() {
+			return share;
 		}
 	}
-
 }
