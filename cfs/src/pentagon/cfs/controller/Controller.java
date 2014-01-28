@@ -40,6 +40,8 @@ import pentagon.cfs.action.ResearchFund;
 import pentagon.cfs.action.ResetCmPw;
 import pentagon.cfs.action.SellFund;
 import pentagon.cfs.action.TransitionDay;
+import pentagon.cfs.dao.EmployeeDAO;
+import pentagon.cfs.databean.Employee;
 import pentagon.cfs.model.Model;
 
 /**
@@ -79,6 +81,21 @@ public class Controller extends HttpServlet {
 		actions.addAction(new ResetCmPw(model));
 		actions.addAction(new SellFund(model));
 		actions.addAction(new TransitionDay(model));
+		
+		EmployeeDAO eeDAO = model.getEmployeeDAO();
+		try {
+			if(eeDAO.getCount()==0){
+				Employee ee = new Employee();
+				ee.setUsername("root");
+				ee.setPassword("sa");
+				ee.setFirstname("Da");
+				ee.setLastname("Chu");
+				eeDAO.createEmployee(ee);
+			}
+		} catch (RollbackException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	protected void doGet(HttpServletRequest request,
