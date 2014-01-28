@@ -41,7 +41,7 @@ public class ReqcheckForm {
 				double inputParse = Double.parseDouble(amountInput);
 				double max = (double) Long.MAX_VALUE / 100;
 				if (inputParse > max) {
-					errors.set(1, "Amount too large.");
+					errors.set(0, "Amount too large.");
 					complete = false;
 				} else if (inputParse <= 0.01) {
 					errors.set(1, "The minimum amount is 0.01.");
@@ -50,7 +50,7 @@ public class ReqcheckForm {
 					amount = (long) (inputParse * 100);
 				}
 			} catch (NumberFormatException e) {
-				errors.set(1, "Invalid number.");
+				errors.set(0, "Invalid number.");
 				complete = false;
 			}
 		}
