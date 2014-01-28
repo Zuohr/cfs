@@ -22,7 +22,7 @@
           </ul>
           
      		<p class="navbar-text navbar-right"><a href="logout.do" class="navbar-link">Logout</a></p>
-          <p class="navbar-text navbar-right">Welcome,<a href="#" class="navbar-link">${requestScope.header_name}</a></p>
+          <p class="navbar-text navbar-right">Welcome! ${requestScope.header_type}: <a href="#" class="navbar-link">${requestScope.header_name}</a></p>
           
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
