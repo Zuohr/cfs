@@ -25,7 +25,7 @@ public class CreateCustomer implements Action {
 		if(employee == null) {
 			return "login.jsp";
 		}
-		
+		request.setAttribute("nav_eecreatecm", "active");
 		if ("submit".equals(request.getParameter("createcm_btn"))) {
 			CreateCmForm form = new CreateCmForm(request);
 			if (form.isComplete()) {

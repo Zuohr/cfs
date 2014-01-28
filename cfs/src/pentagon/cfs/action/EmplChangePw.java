@@ -29,6 +29,7 @@ public class EmplChangePw implements Action {
 		if (employee == null) {
 			return "login.jsp";
 		} else {
+			request.setAttribute("nav_eechangepw", "active");
 			if ("submit".equals(request.getParameter("eechangepw_btn"))) {
 				ChangepwForm form = new ChangepwForm(request);
 

@@ -24,7 +24,7 @@ public class CreateEmpl implements Action {
 		if(employee == null) {
 			return "login.jsp";
 		}
-		
+		request.setAttribute("nav_eecreateempl", "active");
 		if ("submit".equals(request.getParameter("createee_btn"))) {
 			CreateEmplForm form = new CreateEmplForm(request);
 			if (form.isComplete()) {
