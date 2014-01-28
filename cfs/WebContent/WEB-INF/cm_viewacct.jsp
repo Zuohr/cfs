@@ -63,7 +63,7 @@
 								<th class="header-status"></th>
 								
 								<th class="header-date">Fund Name</th>
-								<th class="header-ac">Position</th>
+								<th class="header-ac">Share</th>
 							</tr>
 						</thead>
 						<tbody>
