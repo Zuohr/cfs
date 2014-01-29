@@ -32,6 +32,7 @@ import pentagon.cfs.databean.FundPriceHistory;
 import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.TransactionRecord;
 import pentagon.cfs.formbean.TransitionForm;
+import pentagon.cfs.model.CommonUtil;
 import pentagon.cfs.model.Model;
 
 public class TransitionDay implements Action {
@@ -58,6 +59,9 @@ public class TransitionDay implements Action {
 		// set fund list
 		FundDAO fundDAO = model.getFundDAO();
 		Fund[] fund_list = fundDAO.match();
+		for(Fund fund : fund_list) {
+			fund.setName(CommonUtil.getResearchURL(fund));
+		}
 		request.setAttribute("fund_list", fund_list);
 		request.setAttribute("fund_num", fund_list.length);
 		

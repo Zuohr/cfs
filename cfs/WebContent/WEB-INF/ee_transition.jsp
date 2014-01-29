@@ -35,7 +35,7 @@
 
 		<c:forEach var="fund" items="${requestScope.fund_list }">
         <div class="form-group">
-        <label for="inputFirstName3" class="col-sm-2 control-label">${fund.name }(${fund.symbol })</label>
+        <label for="inputFirstName3" class="col-sm-2 control-label">${fund.name} </label>
         <div class="col-sm-10" style="width:300px">
           <input type="text" class="form-control" id="inputFirstName3" name="price_${fund.id }" placeholder="Price">
         </div>
