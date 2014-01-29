@@ -17,8 +17,10 @@ import pentagon.cfs.dao.TransactionDAO;
 import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Fund;
 import pentagon.cfs.databean.Position;
+import pentagon.cfs.databean.PositionRecord;
 import pentagon.cfs.databean.TransactionRecord;
 import pentagon.cfs.formbean.SellForm;
+import pentagon.cfs.model.CommonUtil;
 import pentagon.cfs.model.Model;
 
 public class SellFund implements Action {
@@ -30,24 +32,27 @@ public class SellFund implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		Customer user = (Customer) request.getSession().getAttribute("customer");
+		Customer user = (Customer) request.getSession()
+				.getAttribute("customer");
 		if (user == null) {
 			return "login.jsp";
 		}
-		
+
 		request.setAttribute("nav_cmsellfund", "active");
 		request.setAttribute("header_type", "Customer");
 		request.setAttribute("header_name",
 				user.getFirstname() + " " + user.getLastname());
+
+		// set position list
 		PositionDAO posDAO = model.getPositionDAO();
 		Position[] pos = posDAO.getPositions(user.getId());
 		FundDAO fundDAO = model.getFundDAO();
-		SellPositionList[] plist = new SellPositionList[pos.length];
-
+		PositionRecord[] plist = new PositionRecord[pos.length];
 		for (int i = 0; i < pos.length; i++) {
 			Fund fd = fundDAO.read(pos[i].getFund_id());
-			plist[i] = new SellPositionList(fd.getName(), pos[i].getShare(),
-					pos[i].getSharebalance(), fd.getId());
+			plist[i] = new PositionRecord(CommonUtil.getResearchURL(fd),
+					pos[i].getShare(), pos[i].getSharebalance(), 0);
+			plist[i].setFundId(fd.getId());
 		}
 		request.setAttribute("cus_position", plist);
 
@@ -100,58 +105,24 @@ public class SellFund implements Action {
 
 					// update position list
 					pos = posDAO.getPositions(user.getId());
-					plist = new SellPositionList[pos.length];
-
+					plist = new PositionRecord[pos.length];
 					for (int i = 0; i < pos.length; i++) {
 						Fund fd = fundDAO.read(pos[i].getFund_id());
-						plist[i] = new SellPositionList(fd.getName(),
-								pos[i].getShare(), pos[i].getSharebalance(),
-								fd.getId());
+						plist[i] = new PositionRecord(
+								CommonUtil.getResearchURL(fd),
+								pos[i].getShare(), pos[i].getSharebalance(), 0);
+						plist[i].setFundId(fd.getId());
 					}
 					request.setAttribute("cus_position", plist);
 					return "cm_sellfund.jsp";
 				}
 			} else {
-				request.setAttribute("op_fail",
-						"Operation failed");
+				request.setAttribute("op_fail", "Operation failed");
 				request.setAttribute("errors", form.getErrors());
 				return "cm_sellfund.jsp";
 			}
 		} else {
 			return "cm_sellfund.jsp";
-		}
-	}
-
-	// bean for fund position display in jsp
-	public class SellPositionList {
-		private String fundName;
-		private int fundId;
-		private String share;
-		private String shareBalance;
-
-		public SellPositionList(String fundName, long share, long shareBalance,
-				int fundId) {
-			this.fundName = fundName;
-			this.share = String.format("%.3f", (double) share / 1000);
-			this.shareBalance = String.format("%.3f",
-					(double) shareBalance / 1000);
-			this.fundId = fundId;
-		}
-
-		public String getFundName() {
-			return fundName;
-		}
-
-		public String getShare() {
-			return share;
-		}
-
-		public String getShareBalance() {
-			return shareBalance;
-		}
-
-		public int getFundId() {
-			return fundId;
 		}
 	}
 

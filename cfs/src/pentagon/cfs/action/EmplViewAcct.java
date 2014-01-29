@@ -15,11 +15,16 @@ import org.genericdao.RollbackException;
 
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.FundDAO;
+import pentagon.cfs.dao.FundPriceHistoryDAO;
 import pentagon.cfs.dao.PositionDAO;
 import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Employee;
+import pentagon.cfs.databean.Fund;
+import pentagon.cfs.databean.FundPriceHistory;
 import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.Position;
+import pentagon.cfs.databean.PositionRecord;
+import pentagon.cfs.model.CommonUtil;
 import pentagon.cfs.model.Model;
 
 public class EmplViewAcct implements Action {
@@ -36,7 +41,7 @@ public class EmplViewAcct implements Action {
 		if (user == null) {
 			return "login.jsp";
 		}
-		
+
 		request.setAttribute("nav_eeviewcmlist", "active");
 
 		request.setAttribute("header_type", "Employee");
@@ -46,38 +51,45 @@ public class EmplViewAcct implements Action {
 		String username = request.getParameter("usr");
 		if (username == null || username.isEmpty()) {
 			return "emplviewcmlist.do";
-		} else {
-			CustomerDAO cmDAO = model.getCustomerDAO();
-			Customer customer = cmDAO.getProfile(username);
-			if (customer == null) {
-				return "emplviewcmlist.do";
-			} else {
-				double cash = (double) customer.getCash() / 100;
-				request.setAttribute("cash", String.format("%.2f", cash));
-				if (customer.getLasttrading() == null) {
-					request.setAttribute("lastTradingDay", "-");
-				} else {
-					request.setAttribute("lastTradingDay",
-							new SimpleDateFormat(Meta.DATE_FORMAT)
-									.format(customer.getLasttrading()));
-				}
-				request.setAttribute("view_customer", customer);
-
-				PositionDAO posDAO = model.getPositionDAO();
-				Position[] pos = posDAO.getPositions(customer.getId());
-
-				FundDAO fundDAO = model.getFundDAO();
-				PositionRecord[] plist = new PositionRecord[pos.length];
-				for (int i = 0; i < pos.length; i++) {
-					plist[i] = new PositionRecord(fundDAO.read(
-							pos[i].getFund_id()).getName(), pos[i].getShare(),
-							pos[i].getSharebalance());
-				}
-				request.setAttribute("cus_position", plist);
-
-				return "ee_viewcmacct.jsp";
-			}
 		}
+		
+		CustomerDAO cmDAO = model.getCustomerDAO();
+		Customer customer = cmDAO.getProfile(username);
+		if (customer == null) {
+			return "emplviewcmlist.do";
+		}
+		
+		double cash = (double) customer.getCash() / 100;
+		double balance = (double) customer.getBalance() / 100;
+		request.setAttribute("cash", String.format("%.2f", cash));
+		request.setAttribute("balance", String.format("%.2f", balance));
+
+		if (customer.getLasttrading() == null) {
+			request.setAttribute("lastTradingDay", "-");
+		} else {
+			request.setAttribute("lastTradingDay", new SimpleDateFormat(
+					Meta.DATE_FORMAT).format(customer.getLasttrading()));
+		}
+		request.setAttribute("view_customer", customer);
+
+		PositionDAO posDAO = model.getPositionDAO();
+		Position[] pos = posDAO.getPositions(user.getId());
+		FundDAO fundDAO = model.getFundDAO();
+		FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();
+		PositionRecord[] plist = new PositionRecord[pos.length];
+		for (int i = 0; i < pos.length; i++) {
+			Fund fund = fundDAO.read(pos[i].getFund_id());
+			FundPriceHistory[] fphs = fphDAO.getHistory(fund.getId());
+			long price = 0;
+			if (fphs.length > 0) {
+				price = fphs[fphs.length - 1].getPrice();
+			}
+			plist[i] = new PositionRecord(CommonUtil.getResearchURL(fund), pos[i].getShare(),
+					pos[i].getSharebalance(), price);
+		}
+		request.setAttribute("cus_position", plist);
+
+		return "ee_viewcmacct.jsp";
 	}
 
 	@Override
@@ -85,28 +97,4 @@ public class EmplViewAcct implements Action {
 		return "emplviewacct.do";
 	}
 
-	public class PositionRecord {
-		private String fundName;
-		private String share;
-		private String shareBalance;
-
-		public PositionRecord(String fundName, long share, long shareBalance) {
-			this.fundName = fundName;
-			this.share = String.format("%.3f", (double) share / 1000);
-			this.shareBalance = String.format("%.3f",
-					(double) shareBalance / 1000);
-		}
-
-		public String getFundName() {
-			return fundName;
-		}
-
-		public String getShare() {
-			return share;
-		}
-
-		public String getShareBalance() {
-			return shareBalance;
-		}
-	}
 }

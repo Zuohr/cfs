@@ -25,7 +25,6 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th class="header-status"></th>
 								<th class="header-title">Fund Name</th>
 								<th class="header-date">Shares</th>
 								<th class="header-date">Avaliable Shares</th>
@@ -35,20 +34,19 @@
 						<tbody>
 							<c:forEach var="plist" items="${requestScope.cus_position}">
 								<tr>
-									<td><span class="None"> </span></td>
 									<td><a href="#">${plist.fundName}</a></td>
 									<td>${plist.share}</td>
 									<td>${plist.shareBalance}</td>
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default"
-												data-toggle="modal" data-target="#${plist.fundName}">Sell</button>
+												data-toggle="modal" data-target="#${plist.fundId}">Sell</button>
 										</div>
 									</td>
 								</tr>
 
 								<!-- Modal -->
-								<div class="modal fade" id="${plist.fundName}" tabindex="-1"
+								<div class="modal fade" id="${plist.fundId}" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">

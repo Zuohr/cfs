@@ -26,20 +26,16 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th class="header-status"></th>
 								<th class="header-title">Fund Name</th>
-								<th class="header-title">Ticker</th>
 								<th class="header-title">Last Trading Day Price</th>
 								<th class="header-ac">Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="fund" items="${requestScope.bf_list}">
+							<c:forEach var="fund" items="${requestScope.pr_list}">
 								<tr>
-									<td><span class="None"> </span></td>
-									<td><a href="#">${fund.fundName}</a></td>
-									<td><a href="#">${fund.ticker}</a></td>
-									<td>${fund.price}</td>
+									<td>${fund.fundName}</td>
+									<td>${fund.lastPrice}</td>
 									<td>
 
 										<div class="btn-group">

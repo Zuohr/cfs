@@ -18,8 +18,10 @@ import pentagon.cfs.dao.TransactionDAO;
 import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Fund;
 import pentagon.cfs.databean.FundPriceHistory;
+import pentagon.cfs.databean.PositionRecord;
 import pentagon.cfs.databean.TransactionRecord;
 import pentagon.cfs.formbean.BuyForm;
+import pentagon.cfs.model.CommonUtil;
 import pentagon.cfs.model.Model;
 
 public class BuyFund implements Action {
@@ -46,25 +48,25 @@ public class BuyFund implements Action {
 		request.setAttribute("header_type", "Customer");
 		request.setAttribute("header_name",
 				user.getFirstname() + " " + user.getLastname());
+
+		// set fund list
 		FundDAO fundDAO = model.getFundDAO();
 		Fund[] fund_list = fundDAO.match();
 		FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();
-
-		// set fund list
-		BuyFundList[] bflist = new BuyFundList[fund_list.length];
+		PositionRecord[] prlist = new PositionRecord[fund_list.length];
 		for (int i = 0; i < fund_list.length; i++) {
 			FundPriceHistory[] fph = fphDAO.getHistory(fund_list[i].getId());
-			double bf_price = 0;
+			long bf_price = 0;
 			if (fph.length != 0) {
-				bf_price = (double) fph[fph.length - 1].getPrice() / 100;
+				bf_price = fph[fph.length - 1].getPrice();
 			}
-			bflist[i] = new BuyFundList(fund_list[i].getName(),
-					fund_list[i].getSymbol(), fund_list[i].getId(), bf_price);
+			prlist[i] = new PositionRecord(
+					CommonUtil.getResearchURL(fund_list[i]), 0, 0, bf_price);
+			prlist[i].setFundId(fund_list[i].getId());
 		}
-		request.setAttribute("bf_list", bflist);
+		request.setAttribute("pr_list", prlist);
 
 		double currBalance = (double) user.getBalance() / 100;
-
 		request.setAttribute("ava_bal", String.format("%.2f", currBalance));
 
 		if ("submit".equals(request.getParameter("buyfund_btn"))) {
@@ -122,38 +124,4 @@ public class BuyFund implements Action {
 		return "buyfund.do";
 	}
 
-	public class BuyFundList {
-		private String fundName;
-		private String ticker;
-		private int fundId;
-		private String price;
-
-		public BuyFundList(String fundName, String ticker, int fundId,
-				double price) {
-			this.fundName = fundName;
-			this.ticker = ticker;
-			this.fundId = fundId;
-			if (price > 0) {
-				this.price = String.format("%.2f", price);
-			} else {
-				this.price = "-";
-			}
-		}
-
-		public String getFundName() {
-			return fundName;
-		}
-
-		public String getTicker() {
-			return ticker;
-		}
-
-		public int getFundId() {
-			return fundId;
-		}
-
-		public String getPrice() {
-			return price;
-		}
-	}
 }

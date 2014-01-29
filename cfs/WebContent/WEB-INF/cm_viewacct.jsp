@@ -48,33 +48,35 @@
 								<td>${requestScope.cash}</td>
 							</tr>
 							<tr>
-								<td></td>
-								<td></td>
+								<td><strong>Available Balance</strong></td>
+								<td>${requestScope.balance }</td>
 							</tr>
 						</tbody>
 					</table>
 
 
 
-					<h3>Customer's fund list</h3>
+					<h3>Fund list</h3>
 
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th class="header-status"></th>
-								
 								<th class="header-date">Fund Name</th>
 								<th class="header-ac">Share</th>
 								<th class="header-ac">Available Share</th>
+								<th class="header-ac">Last trading price</th>
+								<th class="header-ac">Value</th>
 							</tr>
 						</thead>
 						<tbody>
 						<c:forEach var="pos" items = "${requestScope.cus_position}">
 							<tr>
-								<td><span class="None"> </span></td>
-								<td><a href="#">${pos.fundName}</a></td>
+								<!-- <td><span class="None"> </span></td> -->
+								<td>${pos.fundName}</td>
 								<td>${pos.share}</td>
 								<td>${pos.shareBalance}</td>
+								<td>${pos.lastPrice}</td>
+								<td>${pos.value}</td>
 							</tr>
 						</c:forEach>
 						</tbody>

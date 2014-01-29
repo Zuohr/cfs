@@ -15,10 +15,15 @@ import org.genericdao.RollbackException;
 
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.FundDAO;
+import pentagon.cfs.dao.FundPriceHistoryDAO;
 import pentagon.cfs.dao.PositionDAO;
 import pentagon.cfs.databean.Customer;
+import pentagon.cfs.databean.Fund;
+import pentagon.cfs.databean.FundPriceHistory;
 import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.Position;
+import pentagon.cfs.databean.PositionRecord;
+import pentagon.cfs.model.CommonUtil;
 import pentagon.cfs.model.Model;
 
 public class CmViewAcct implements Action {
@@ -35,18 +40,21 @@ public class CmViewAcct implements Action {
 		if (user == null) {
 			return "login.jsp";
 		}
-		
+
 		// refresh customer
 		CustomerDAO cmDAO = model.getCustomerDAO();
 		user = cmDAO.read(user.getId());
 		request.getSession().setAttribute("customer", user);
-		
+
 		request.setAttribute("nav_cmviewacct", "active");
 		request.setAttribute("header_type", "Customer");
 		request.setAttribute("header_name",
 				user.getFirstname() + " " + user.getLastname());
+
 		double cash = (double) user.getCash() / 100;
+		double balance = (double) user.getBalance() / 100;
 		request.setAttribute("cash", String.format("%.2f", cash));
+		request.setAttribute("balance", String.format("%.2f", balance));
 
 		if (user.getLasttrading() == null) {
 			request.setAttribute("lastTradingDay", "-");
@@ -57,13 +65,20 @@ public class CmViewAcct implements Action {
 
 		PositionDAO posDAO = model.getPositionDAO();
 		Position[] pos = posDAO.getPositions(user.getId());
-
 		FundDAO fundDAO = model.getFundDAO();
+		FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();
 		PositionRecord[] plist = new PositionRecord[pos.length];
 		for (int i = 0; i < pos.length; i++) {
-			plist[i] = new PositionRecord(fundDAO.read(pos[i].getFund_id())
-					.getName(), pos[i].getShare(), pos[i].getSharebalance());
+			Fund fund = fundDAO.read(pos[i].getFund_id());
+			FundPriceHistory[] fphs = fphDAO.getHistory(fund.getId());
+			long price = 0;
+			if (fphs.length > 0) {
+				price = fphs[fphs.length - 1].getPrice();
+			}
+			plist[i] = new PositionRecord(CommonUtil.getResearchURL(fund), pos[i].getShare(),
+					pos[i].getSharebalance(), price);
 		}
+		
 		request.setAttribute("view_customer", user);
 		request.setAttribute("cus_position", plist);
 
@@ -75,28 +90,4 @@ public class CmViewAcct implements Action {
 		return "cmviewacct.do";
 	}
 
-	public class PositionRecord {
-		private String fundName;
-		private String share;
-		private String shareBalance;
-
-		public PositionRecord(String fundName, long share, long shareBalance) {
-			this.fundName = fundName;
-			this.share = String.format("%.3f", (double) share / 1000);
-			this.shareBalance = String.format("%.3f",
-					(double) shareBalance / 1000);
-		}
-
-		public String getFundName() {
-			return fundName;
-		}
-
-		public String getShare() {
-			return share;
-		}
-
-		public String getShareBalance() {
-			return shareBalance;
-		}
-	}
 }

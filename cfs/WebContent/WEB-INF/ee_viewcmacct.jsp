@@ -22,17 +22,16 @@
 						<tbody>
 							<tr>
 								<td><strong>Name</strong></td>
-								<td>${requestScope.view_customer.firstname} &nbsp;
+								<td>${requestScope.view_customer.firstname}&nbsp;
 									${requestScope.view_customer.lastname}</td>
 							</tr>
 							<tr>
 								<td><strong>Address</strong></td>
-								<td>
-								${requestScope.view_customer.addr1}
-								<br />
-								${requestScope.view_customer.addr2}
-								<br />
-								${requestScope.view_customer.city }, ${requestScope.view_customer.state }, ${requestScope.view_customer.zip } 
+								<td>${requestScope.view_customer.addr1}<br />
+									${requestScope.view_customer.addr2} <br />
+									${requestScope.view_customer.city },
+									${requestScope.view_customer.state },
+									${requestScope.view_customer.zip }
 								</td>
 							</tr>
 							<tr>
@@ -44,9 +43,13 @@
 								<td>${requestScope.cash}</td>
 							</tr>
 							<tr>
-								<td></td>
-								<td></td>
+							<tr>
+								<td><strong>Available Balance</strong></td>
+								<td>${requestScope.balance }</td>
 							</tr>
+							</tr>
+
+
 						</tbody>
 					</table>
 
@@ -57,20 +60,22 @@
 					<table class="table table-striped">
 						<thead>
 							<tr>
-								<th class="header-status"></th>
-
 								<th class="header-date">Fund Name</th>
 								<th class="header-ac">Share</th>
 								<th class="header-ac">Available Share</th>
+								<th class="header-ac">Last trading price</th>
+								<th class="header-ac">Value</th>
 							</tr>
+
 						</thead>
 						<tbody>
 							<c:forEach var="pos" items="${requestScope.cus_position}">
 								<tr>
-									<td><span class="None"> </span></td>
-									<td><a href="#">${pos.fundName}</a></td>
+									<td>${pos.fundName}</td>
 									<td>${pos.share}</td>
 									<td>${pos.shareBalance}</td>
+									<td>${pos.lastPrice}</td>
+									<td>${pos.value}</td>
 								</tr>
 							</c:forEach>
 						</tbody>
