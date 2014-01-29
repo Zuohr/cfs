@@ -32,38 +32,37 @@ public class CreateFund implements Action {
 				.getAttribute("employee");
 		if (user == null) {
 			return "login.jsp";
-		} else {
-			request.setAttribute("nav_eecreatefund", "active");
-			request.setAttribute("header_type", "Employee");
-			request.setAttribute("header_name", user.getFirstname() + " "
-					+ user.getLastname());
+		}
+		request.setAttribute("nav_eecreatefund", "active");
+		request.setAttribute("header_type", "Employee");
+		request.setAttribute("header_name",
+				user.getFirstname() + " " + user.getLastname());
 
-			if ("submit".equals(request.getParameter("createfund_btn"))) {
-				CreateFundForm form = new CreateFundForm(request);
-				if (form.isComplete()) {
-					FundDAO dao = model.getFundDAO();
-					Fund newFund = form.getFund();
-					if (dao.createFund(newFund)) {
-						request.setAttribute(
-								"op_success",
-								"Fund: " + newFund.getName() + "("
-										+ newFund.getSymbol() + ") created.");
-					} else {
-						request.setAttribute("op_fail",
-								"Fund creation failed, fund already exist.");
-					}
-					return "ee_createfund.jsp";
+		if ("submit".equals(request.getParameter("createfund_btn"))) {
+			CreateFundForm form = new CreateFundForm(request);
+			if (form.isComplete()) {
+				FundDAO dao = model.getFundDAO();
+				Fund newFund = form.getFund();
+				if (dao.createFund(newFund)) {
+					request.setAttribute(
+							"op_success",
+							"Fund: " + newFund.getName() + "("
+									+ newFund.getSymbol() + ") created.");
 				} else {
-					ArrayList<String> errors = form.getErrors();
-					request.setAttribute("errors", errors);
-					request.setAttribute("op_fail", "Fund creation failed.");
-					return "ee_createfund.jsp";
+					request.setAttribute("op_fail",
+							"Fund creation failed, fund already exist.");
 				}
-			} else if ("cancel".equals(request.getParameter("createfund_btn"))) {
-				return "emplviewcmlist.do";
+				return "ee_createfund.jsp";
 			} else {
+				ArrayList<String> errors = form.getErrors();
+				request.setAttribute("errors", errors);
+				request.setAttribute("op_fail", "Fund creation failed.");
 				return "ee_createfund.jsp";
 			}
+		} else if ("cancel".equals(request.getParameter("createfund_btn"))) {
+			return "emplviewcmlist.do";
+		} else {
+			return "ee_createfund.jsp";
 		}
 	}
 

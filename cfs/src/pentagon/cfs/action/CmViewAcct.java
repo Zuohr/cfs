@@ -1,17 +1,19 @@
-/*Hao Ge
- * 
- * 
- * */
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
 
 package pentagon.cfs.action;
 
 import java.text.SimpleDateFormat;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.genericdao.RollbackException;
 
+import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.PositionDAO;
 import pentagon.cfs.databean.Customer;
@@ -28,39 +30,44 @@ public class CmViewAcct implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		HttpSession session = request.getSession();
-		Customer user = (Customer) session.getAttribute("customer");
+		Customer user = (Customer) request.getSession()
+				.getAttribute("customer");
 		if (user == null) {
 			return "login.jsp";
-		} else {
-			request.setAttribute("nav_cmviewacct", "active");
-			request.setAttribute("header_type", "Customer");
-			request.setAttribute("header_name", user.getFirstname() + " "
-					+ user.getLastname());
-			double cash = (double) user.getCash() / 100;
-			request.setAttribute("cash", String.format("%.2f", cash));
-
-			if (user.getLasttrading() == null) {
-				request.setAttribute("lastTradingDay", "-");
-			} else {
-				request.setAttribute("lastTradingDay", new SimpleDateFormat(
-						Meta.DATE_FORMAT).format(user.getLasttrading()));
-			}
-
-			PositionDAO posDAO = model.getPositionDAO();
-			Position[] pos = posDAO.getPositions(user.getId());
-
-			FundDAO fundDAO = model.getFundDAO();
-			PositionRecord[] plist = new PositionRecord[pos.length];
-			for (int i = 0; i < pos.length; i++) {
-				plist[i] = new PositionRecord(fundDAO.read(pos[i].getFund_id())
-						.getName(), pos[i].getShare(), pos[i].getSharebalance());
-			}
-			request.setAttribute("view_customer", user);
-			request.setAttribute("cus_position", plist);
-
-			return "cm_viewacct.jsp";
 		}
+		
+		// refresh customer
+		CustomerDAO cmDAO = model.getCustomerDAO();
+		user = cmDAO.read(user.getId());
+		request.getSession().setAttribute("customer", user);
+		
+		request.setAttribute("nav_cmviewacct", "active");
+		request.setAttribute("header_type", "Customer");
+		request.setAttribute("header_name",
+				user.getFirstname() + " " + user.getLastname());
+		double cash = (double) user.getCash() / 100;
+		request.setAttribute("cash", String.format("%.2f", cash));
+
+		if (user.getLasttrading() == null) {
+			request.setAttribute("lastTradingDay", "-");
+		} else {
+			request.setAttribute("lastTradingDay", new SimpleDateFormat(
+					Meta.DATE_FORMAT).format(user.getLasttrading()));
+		}
+
+		PositionDAO posDAO = model.getPositionDAO();
+		Position[] pos = posDAO.getPositions(user.getId());
+
+		FundDAO fundDAO = model.getFundDAO();
+		PositionRecord[] plist = new PositionRecord[pos.length];
+		for (int i = 0; i < pos.length; i++) {
+			plist[i] = new PositionRecord(fundDAO.read(pos[i].getFund_id())
+					.getName(), pos[i].getShare(), pos[i].getSharebalance());
+		}
+		request.setAttribute("view_customer", user);
+		request.setAttribute("cus_position", plist);
+
+		return "cm_viewacct.jsp";
 	}
 
 	@Override
