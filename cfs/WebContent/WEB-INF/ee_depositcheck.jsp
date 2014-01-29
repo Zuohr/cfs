@@ -30,6 +30,7 @@
 								<input type="text" class="form-control" placeholder="User name"
 									name="username" value="${requestScope.username }">
 							</div>
+							<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["0"] }</span>
 						</div>
 						<div class="form-group">
 							<label for="inputEmail3" class="col-sm-2 control-label">Amount</label>
@@ -37,6 +38,7 @@
 								<input type="text" class="form-control"
 									placeholder="Maximum 1 billion" name="deposit">
 							</div>
+							<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["1"] }</span>
 						</div>
 
 						<div class="form-group">
@@ -48,12 +50,6 @@
 							</div>
 						</div>
 					</form>
-					<!-- error message -->
-					<p>${requestScope.result }</p>
-					<c:forEach var="error" items="${requestScope.errors }">
-						<p>${error }</p>
-					</c:forEach>
-					<!-- error message -->
 				</div>
 				<!--/span-->
 

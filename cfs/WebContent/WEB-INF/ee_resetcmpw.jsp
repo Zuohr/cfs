@@ -30,6 +30,7 @@
 								<input type="text" class="form-control" id="inputPassword3"
 									placeholder="User Name" name="UserName" value="${requestScope.username}">
 							</div>
+							
 						</div>
 						
 						<div class="form-group">
@@ -39,15 +40,16 @@
 								<input type="password" class="form-control" id="inputPassword3"
 									placeholder="New Password" name="NewPassword">
 							</div>
+							<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["1"] }</span>
 						</div>
 
 						<div class="form-group">
-							<label for="inputPassword3" class="col-sm-2 control-label">Confirm
-								Password</label>
+							<label for="inputPassword3" class="col-sm-2 control-label">Re-enter</label>
 							<div class="col-sm-10" style="width: 300px">
 								<input type="password" class="form-control" id="inputPassword3"
 									placeholder="Re-enter Password" name="CheckPassword">
 							</div>
+							<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["2"] }</span>
 						</div>
 
 						<div class="form-group">
@@ -61,12 +63,6 @@
 						</div>
 						<input type="hidden" name="username" value=${requestScope.username }>
 					</form>
-					<!-- error message -->
-					<p>${requestScope.result }</p>
-					<c:forEach var="error" items="${requestScope.errors }">
-						<p>${error }</p>
-					</c:forEach>
-					<!-- error message -->
 
 				</div>
 
