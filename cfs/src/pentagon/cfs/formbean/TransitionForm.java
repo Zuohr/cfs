@@ -93,7 +93,7 @@ public class TransitionForm {
 			} else {
 				try {
 					double p = Double.parseDouble(price);
-					if (p <= 1) {
+					if (p < 1) {
 						errors.set(i, "Minimum price is 1.");
 						complete = false;
 					} else {

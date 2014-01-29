@@ -62,13 +62,17 @@ public class BuyFund implements Action {
 			for (int i = 0; i < fund_list.length; i++) {
 				FundPriceHistory[] fph = fphDAO
 						.getHistory(fund_list[i].getId());
-				long bf_price = 0;
+				long price = 0;
 				if (fph.length != 0) {
-					bf_price = fph[fph.length - 1].getPrice();
+					price = fph[fph.length - 1].getPrice();
 				}
 				prlist[i] = new PositionRecord(
-						CommonUtil.getResearchURL(fund_list[i]), 0, 0, bf_price);
+						CommonUtil.getResearchURL(fund_list[i]), 0, 0, price);
 				prlist[i].setFundId(fund_list[i].getId());
+				if (price == 0) {
+					prlist[i].setLastPrice("-");
+					prlist[i].setLastPrice("-");
+				}
 			}
 			request.setAttribute("pr_list", prlist);
 			// TODO
