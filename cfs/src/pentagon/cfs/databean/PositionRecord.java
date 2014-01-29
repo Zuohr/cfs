@@ -49,6 +49,10 @@ public class PositionRecord {
 		return lastPrice;
 	}
 
+	public void setLastPrice(String lastPrice) {
+		this.lastPrice = lastPrice;
+	}
+
 	public String getValue() {
 		return value;
 	}
