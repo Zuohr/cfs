@@ -1,3 +1,5 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
@@ -12,14 +14,27 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Carnegie Finance</a>
+          <c:choose>
+         <c:when test="${requestScope.header_type eq'Employee'}">
+          <a class="navbar-brand" href="emplviewcmlist.do">Carnegie Finance</a>
+          </c:when>
+         <c:when test="${requestScope.header_type eq'Customer'}">
+          <a class="navbar-brand" href="cmviewacct.do">Carnegie Finance</a>
+          </c:when>
+          </c:choose>
         </div>
         <div class="collapse navbar-collapse">
 
-          
+         <c:choose>
+         <c:when test="${requestScope.header_type eq'Employee'}">
      		<p class="navbar-text navbar-right"><a href="logout.do" class="navbar-link">Logout</a></p>
-          <p class="navbar-text navbar-right">Welcome! ${requestScope.header_type}: <a href="#" class="navbar-link">${requestScope.header_name}</a></p>
-          
+          <p class="navbar-text navbar-right">Welcome! ${requestScope.header_type}: ${requestScope.header_name}</p>
+          </c:when>
+			<c:when test="${requestScope.header_type eq'Customer'}">
+    		<p class="navbar-text navbar-right"><a href="logout.do" class="navbar-link">Logout</a></p>
+          <p class="navbar-text navbar-right">Welcome! ${requestScope.header_type}: <a href="cmviewacct.do" class="navbar-link">${requestScope.header_name}</a></p>			
+          </c:when>
+          </c:choose>
         </div><!-- /.nav-collapse -->
       </div><!-- /.container -->
     </div><!-- /.navbar -->
