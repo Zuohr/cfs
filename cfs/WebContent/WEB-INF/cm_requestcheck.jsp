@@ -34,6 +34,7 @@
 								<input type="text" class="form-control" id="inputEmail3"
 									placeholder="$" name="request_amount">
 							</div>
+							<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors[0] }</span>
 						</div>
 
 						<div class="form-group">
@@ -43,12 +44,6 @@
 							</div>
 						</div>
 					</form>
-					<!-- error message -->
-					<p>${requestScope.result }</p>
-					<c:forEach var="error" items="${requestScope.errors }">
-						<p>${errors }</p>
-					</c:forEach>
-					<!-- error message -->
 				</div>
 				<!--/span-->
 

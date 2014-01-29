@@ -20,8 +20,8 @@
 						<h2>Buy Fund</h2>
 					</div>
 					<jsp:include page="pop_result.jsp" />
-					<p style="color: red">${requestScope.errors["0"] }</p>
-					<p style="color: red">${requestScope.errors["1"] }</p>
+					<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["0"] }</span>
+					<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["1"] }</span>
 					<h3>Current Balance : $ ${requestScope.ava_bal}</h3>
 					<table class="table table-striped">
 						<thead>
