@@ -21,6 +21,9 @@
          <c:when test="${requestScope.header_type eq'Customer'}">
           <a class="navbar-brand" href="cmviewacct.do">Carnegie Finance</a>
           </c:when>
+         <c:when test="${requestScope.header_type eq'None'}">
+          <a class="navbar-brand" href="#">Carnegie Finance</a>
+          </c:when>
           </c:choose>
         </div>
         <div class="collapse navbar-collapse">

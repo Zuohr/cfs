@@ -37,6 +37,7 @@ public class ResearchFund implements Action {
 		if (user == null) {
 			return "login.jsp";
 		} else {
+			request.setAttribute("header_type", "None");
 			// verify input
 			String input = request.getParameter("fund_id");
 			if (input == null
