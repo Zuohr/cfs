@@ -29,7 +29,8 @@
         <label for="inputFirstName3" class="col-sm-2 control-label">Date</label>
         <div class="col-sm-10" style="width:300px">
           <input type="text" class="form-control" id="inputFirstName3" name="date" placeholder="mm/dd/yyyy">
-        </div>    
+        </div> 
+        <span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["0"] }</span>   
         </div>
 
 		<c:forEach var="fund" items="${requestScope.fund_list }">
@@ -38,6 +39,7 @@
         <div class="col-sm-10" style="width:300px">
           <input type="text" class="form-control" id="inputFirstName3" name="price_${fund.id }" placeholder="Price">
         </div>
+        <span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["1"] }</span>
         </div>
         </c:forEach>
         
@@ -49,12 +51,7 @@
         </div>
         </div>
       </form>
-      <!-- error message -->
-      <p>${requestScope.result }</p>
-      <c:forEach var="error" items="${requestScope.errors }">
-      <p>${error }</p>
-      </c:forEach>
-      <!-- error message -->
+
        </div>
      
         </div><!--/span-->

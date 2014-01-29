@@ -22,7 +22,7 @@
 					<jsp:include page="pop_result.jsp" />
 					<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["0"] }</span>
 					<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["1"] }</span>
-					<h3>Current Balance : $ ${requestScope.ava_bal}</h3>
+					<h3>Avaliable Balance : $ ${requestScope.ava_bal}</h3>
 					<table class="table table-striped">
 						<thead>
 							<tr>

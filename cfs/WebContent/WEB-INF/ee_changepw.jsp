@@ -32,6 +32,7 @@
 									id="inputOldPassword3" name="OldPassword"
 									placeholder="Old Password">
 							</div>
+							<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["0"] }</span>
 						</div>
 
 						<div class="form-group">
@@ -42,16 +43,18 @@
 									id="inputNewPassword3" name="NewPassword"
 									placeholder="New Password">
 							</div>
+							<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["1"] }</span>
 						</div>
 
 						<div class="form-group">
-							<label for="inputNewPassword3" class="col-sm-2 control-label">Confirm
-								Password</label>
+							<label for="inputNewPassword3" class="col-sm-2 control-label">Re-enter
+							</label>
 							<div class="col-sm-10" style="width: 300px">
 								<input type="password" class="form-control"
 									id="inputNewPassword3" name="CheckPassword"
 									placeholder="Re-enter Password">
 							</div>
+							<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["2"] }</span>
 						</div>
 
 						<div class="form-group">
@@ -67,12 +70,6 @@
 							</div>
 						</div>
 					</form>
-					<!-- error message -->
-					<p>${requestScope.result }</p>
-					<c:forEach var="error" items="${requestScope.errors }">
-						<p>${error }</p>
-					</c:forEach>
-					<!-- error message -->
 
 				</div>
 

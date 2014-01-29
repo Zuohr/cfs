@@ -24,6 +24,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputFundName3" name="fundname" placeholder="Fund Name">
 				</div>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["0"] }</span>
 			  </div>
 			  
 			  <div class="form-group">
@@ -31,6 +32,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputTicker3" name="ticker" placeholder="Ticker">
 				</div>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["1"] }</span>
 			  </div>
 			  
 			  
@@ -42,11 +44,6 @@
 				</div>
 			  </div>
 			</form>
-		<!--  -->
-		<p>${requestScope.result }</p>
-		<p>${requestScope.errors["0"] }</p>
-		<p>${requestScope.errors["1"] }</p>
-		<!--  -->
 	   
 	     </div>
 	   

@@ -26,6 +26,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputFirstName3" name="firstName" placeholder="First Name">
 				</div>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["0"] }</span>
 			  </div>
 			  
 			  <div class="form-group">
@@ -33,12 +34,14 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputLastName3" name="lastName" placeholder="Last Name">
 				</div>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["1"] }</span>
 			  </div>
 			  <div class="form-group">
 				<label for="inputUserName3" class="col-sm-2 control-label">User Name</label>
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputUserName3" name="userName" placeholder="User Name">
 				</div>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["2"] }</span>
 			  </div>
 			  
 			  <div class="form-group">
@@ -46,6 +49,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputUserName3" name="addr1" placeholder="Address1" >
 				</div>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["3"] }</span>
 			  </div>
 			  
 			   <div class="form-group">
@@ -60,6 +64,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputUserName3" name="city" placeholder="City">
 				</div>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["4"] }</span>
 			  </div>
 			  
 			  <div class="form-group">
@@ -74,6 +79,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputUserName3" name="zip" placeholder="zipcode">
 				</div>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["5"] }</span>
 			  </div>
 
 			  <div class="form-group">
@@ -81,6 +87,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="Password" class="form-control" id="inputPassword3" name="password" placeholder="Password">
 				</div>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["6"] }</span>
 				</div>
 				
 				<div class="form-group">
@@ -97,15 +104,6 @@
 				</div>
 			  </div>
 			</form>
-		<p>${requestScope.result }</p>
-		<p>${requestScope.errors["0"] }</p>
-		<p>${requestScope.errors["1"] }</p>
-		<p>${requestScope.errors["2"] }</p>
-		<p>${requestScope.errors["3"] }</p>
-		<p>${requestScope.errors["4"] }</p>		
-   		<p>${requestScope.errors["5"] }</p>		
-   		<p>${requestScope.errors["6"] }</p>		
-	   
 	     </div>
         </div><!--/span-->
 
