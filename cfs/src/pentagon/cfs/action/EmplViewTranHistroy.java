@@ -1,3 +1,10 @@
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
+
 package pentagon.cfs.action;
 
 import java.text.SimpleDateFormat;
@@ -39,28 +46,28 @@ public class EmplViewTranHistroy implements Action {
 		} else {
 			request.setAttribute("nav_eeviewcmlist", "active");
 			request.setAttribute("header_type", "Employee");
-			request.setAttribute("header_name", employee.getFirstname()+" "+employee.getLastname());
+			request.setAttribute("header_name", employee.getFirstname() + " "
+					+ employee.getLastname());
 			String username = request.getParameter("usr");
 			if (username == null) {
 				return "emplviewcmlist.do";
-			} else {
-				CustomerDAO cmDAO = model.getCustomerDAO();
-				Customer customer = cmDAO.getProfile(username);
-				if (customer == null) {
-					return "emplviewcmlist.do";
-				} else {
-					TransactionDAO dao = model.getTransactionDAO();
-					TransactionRecord[] transactions = dao.getHistory(customer
-							.getId());
-					Record[] records = new Record[transactions.length];
-					for (int i = 0; i < records.length; i++) {
-						records[i] = new Record(transactions[i]);
-					}
-					request.setAttribute("records", records);
-					request.setAttribute("customer_tran", customer);
-					return "ee_cmhistory.jsp";
-				}
 			}
+
+			CustomerDAO cmDAO = model.getCustomerDAO();
+			Customer customer = cmDAO.getProfile(username);
+			if (customer == null) {
+				return "emplviewcmlist.do";
+			}
+			
+			TransactionDAO dao = model.getTransactionDAO();
+			TransactionRecord[] transactions = dao.getHistory(customer.getId());
+			Record[] records = new Record[transactions.length];
+			for (int i = 0; i < records.length; i++) {
+				records[i] = new Record(transactions[i]);
+			}
+			request.setAttribute("records", records);
+			request.setAttribute("customer_tran", customer);
+			return "ee_cmhistory.jsp";
 		}
 	}
 

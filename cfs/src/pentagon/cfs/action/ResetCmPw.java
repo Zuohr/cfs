@@ -34,51 +34,50 @@ public class ResetCmPw implements Action {
 
 		if (employee == null) {
 			return "login.jsp";
-		} else {
-			request.setAttribute("nav_eeviewcmlist", "active");
-			request.setAttribute("header_type", "Employee");
-			request.setAttribute("header_name", employee.getFirstname()+" "+employee.getLastname());
-			if ("submit".equals(request.getParameter("resetcmpw_btn"))) {
-				ResetpwForm form = new ResetpwForm(request);
+		}
+		
+		request.setAttribute("nav_eeviewcmlist", "active");
+		request.setAttribute("header_type", "Employee");
+		request.setAttribute("header_name", employee.getFirstname() + " "
+				+ employee.getLastname());
+		if ("submit".equals(request.getParameter("resetcmpw_btn"))) {
+			ResetpwForm form = new ResetpwForm(request);
 
-				if (form.isComplete()) {
-					CustomerDAO customerDAO = model.getCustomerDAO();
+			if (form.isComplete()) {
+				CustomerDAO customerDAO = model.getCustomerDAO();
 
-					Customer customer = customerDAO.getProfile(form
-							.getUserName());
-					if (customer == null) {
-						request.setAttribute("op_fail",
-								"Resetting password failed: user does not exist.");
-					} else {
-						request.setAttribute("FirstName",
-								customer.getFirstname());
-						request.setAttribute("LastName", customer.getLastname());
-
-						customer.setPassword(form.getNewPassword());
-						customerDAO.update(customer);
-
-						request.setAttribute("op_success", String.format(
-								"Password changed for %s.",
-								customer.getUsername()));
-					}
-					return "ee_resetcmpw.jsp";
-
-				} else {
-					ArrayList<String> errors = form.getErrors();
-					request.setAttribute("errors", errors);
+				Customer customer = customerDAO.getProfile(form.getUserName());
+				if (customer == null) {
 					request.setAttribute("op_fail",
-							"Resetting password failed!");
-					return "ee_resetcmpw.jsp";
+							"Resetting password failed: user does not exist.");
+				} else {
+					request.setAttribute("FirstName", customer.getFirstname());
+					request.setAttribute("LastName", customer.getLastname());
+
+					customer.setPassword(form.getNewPassword());
+					customerDAO.update(customer);
+
+					request.setAttribute(
+							"op_success",
+							String.format("Password changed for %s.",
+									customer.getUsername()));
 				}
-			} else if ("cancel".equals(request.getParameter("resetcmpw_btn"))) {
-				return "emplviewcmlist.do";
-			} else if (request.getParameter("usr") != null) {
-				String username = request.getParameter("usr");
-				request.setAttribute("username", username);
 				return "ee_resetcmpw.jsp";
+
 			} else {
-				return "emplviewcmlist.do";
+				ArrayList<String> errors = form.getErrors();
+				request.setAttribute("errors", errors);
+				request.setAttribute("op_fail", "Resetting password failed!");
+				return "ee_resetcmpw.jsp";
 			}
+		} else if ("cancel".equals(request.getParameter("resetcmpw_btn"))) {
+			return "emplviewcmlist.do";
+		} else if (request.getParameter("usr") != null) {
+			String username = request.getParameter("usr");
+			request.setAttribute("username", username);
+			return "ee_resetcmpw.jsp";
+		} else {
+			return "emplviewcmlist.do";
 		}
 	}
 

@@ -1,3 +1,10 @@
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
+
 package pentagon.cfs.action;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +31,7 @@ public class CreateEmpl implements Action {
 		if(employee == null) {
 			return "login.jsp";
 		}
+		
 		request.setAttribute("nav_eecreateempl", "active");
 		request.setAttribute("header_type", "Employee");
 		request.setAttribute("header_name", employee.getFirstname()+" "+employee.getLastname());
