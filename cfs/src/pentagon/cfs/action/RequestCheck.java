@@ -1,3 +1,10 @@
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
+
 package pentagon.cfs.action;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +36,11 @@ public class RequestCheck implements Action {
 		if (customer == null) {
 			return "login.jsp";
 		}
+		
+		// refresh user
+		CustomerDAO cmDAO = model.getCustomerDAO();
+		customer = cmDAO.read(customer.getId());
+		request.getSession().setAttribute("customer", customer);
 
 		request.setAttribute("nav_cmreqcheck", "active");
 		request.setAttribute("header_type", "Customer");
@@ -55,7 +67,6 @@ public class RequestCheck implements Action {
 
 					// update balance
 					customer.setBalance(balance - amount);
-					CustomerDAO cmDAO = model.getCustomerDAO();
 					cmDAO.update(customer);
 
 					request.setAttribute(

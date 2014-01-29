@@ -40,21 +40,19 @@ public class ResearchFund implements Action {
 			String input = request.getParameter("fund_id");
 			if (input == null || !input.matches("\\d+")) {
 				return "404";
-			} else {
-				Integer fund_id = Integer.parseInt(request
-						.getParameter("fund_id"));
-				FundPriceHistoryDAO dao = model.getFundPriceHistoryDAO();
-				FundPriceHistory[] history = dao.getHistory(fund_id);
-				Record[] records = new Record[history.length];
-				for (int i = 0; i < records.length; i++) {
-					records[i] = new Record(history[i]);
-				}
-				FundDAO fundDAO = model.getFundDAO();
-				Fund fund = fundDAO.read(fund_id);
-				request.setAttribute("fund", fund);
-				request.setAttribute("records", records);
-				return "researchfund.jsp";
 			}
+			Integer fund_id = Integer.parseInt(request.getParameter("fund_id"));
+			FundPriceHistoryDAO dao = model.getFundPriceHistoryDAO();
+			FundPriceHistory[] history = dao.getHistory(fund_id);
+			Record[] records = new Record[history.length];
+			for (int i = 0; i < records.length; i++) {
+				records[i] = new Record(history[i]);
+			}
+			FundDAO fundDAO = model.getFundDAO();
+			Fund fund = fundDAO.read(fund_id);
+			request.setAttribute("fund", fund);
+			request.setAttribute("records", records);
+			return "researchfund.jsp";
 		}
 	}
 

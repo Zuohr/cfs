@@ -36,6 +36,7 @@ public class EmplViewAcct implements Action {
 		if (user == null) {
 			return "login.jsp";
 		}
+		
 		request.setAttribute("nav_eeviewcmlist", "active");
 
 		request.setAttribute("header_type", "Employee");

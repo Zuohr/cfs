@@ -1,4 +1,10 @@
-//shidong
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
+
 package pentagon.cfs.action;
 
 import java.util.ArrayList;
@@ -21,6 +27,11 @@ public class EmplLogin implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
+		Employee employee = (Employee) request.getSession().getAttribute("employee");
+		if(employee != null) {
+			return "emplviewcmlist.do";
+		}
+		
 		String role = request.getParameter("submit");
 		if (role == null) {
 			return "login.jsp";

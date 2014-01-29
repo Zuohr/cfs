@@ -8,7 +8,6 @@
 package pentagon.cfs.action;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import org.genericdao.RollbackException;
 
@@ -31,12 +30,11 @@ public class SellFund implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		HttpSession session = request.getSession();
-		Customer user = (Customer) session.getAttribute("customer");
+		Customer user = (Customer) request.getSession().getAttribute("customer");
 		if (user == null) {
 			return "login.jsp";
 		}
-
+		
 		request.setAttribute("nav_cmsellfund", "active");
 		request.setAttribute("header_type", "Customer");
 		request.setAttribute("header_name",
