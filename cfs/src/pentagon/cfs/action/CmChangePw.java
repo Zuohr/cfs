@@ -24,6 +24,12 @@ public class CmChangePw implements Action {
 		if (customer == null) {
 			return "login.jsp";
 		}
+		
+		// refresh user
+		CustomerDAO customerDAO = model.getCustomerDAO();
+		customer = customerDAO.read(customer.getId());
+		request.getSession().setAttribute("customer", customer);
+		
 		request.setAttribute("nav_cmchgpw", "active");
 		request.setAttribute("header_type", "Customer");
 		request.setAttribute("header_name", customer.getFirstname()+" "+customer.getLastname());
@@ -32,7 +38,6 @@ public class CmChangePw implements Action {
 			ChangepwForm form = new ChangepwForm(request);
 			if (form.isComplete()) {
 				if (customer.getPassword().equals(form.getOldPassword())) {
-					CustomerDAO customerDAO = model.getCustomerDAO();
 					customer.setPassword(form.getNewPassword());
 					customerDAO.updateCustomer(customer);
 

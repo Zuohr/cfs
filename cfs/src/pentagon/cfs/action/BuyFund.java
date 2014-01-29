@@ -37,6 +37,11 @@ public class BuyFund implements Action {
 			return "login.jsp";
 		}
 
+		// refresh user
+		CustomerDAO cmDAO = model.getCustomerDAO();
+		user = cmDAO.read(user.getId());
+		request.setAttribute("customer", user);
+
 		request.setAttribute("nav_cmbuyfund", "active");
 		request.setAttribute("header_type", "Customer");
 		request.setAttribute("header_name",
@@ -57,8 +62,6 @@ public class BuyFund implements Action {
 					fund_list[i].getSymbol(), fund_list[i].getId(), bf_price);
 		}
 		request.setAttribute("bf_list", bflist);
-
-		CustomerDAO cmDAO = model.getCustomerDAO();
 
 		double currBalance = (double) user.getBalance() / 100;
 

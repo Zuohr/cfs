@@ -21,6 +21,12 @@ public class CmLogin implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
+		Customer customer = (Customer) request.getSession().getAttribute(
+				"customer");
+		if (customer != null) {
+			return "cmviewacct.do";
+		}
+
 		String role = request.getParameter("submit");
 		if (role == null) {
 			return "login.jsp";
@@ -49,7 +55,6 @@ public class CmLogin implements Action {
 		} else {
 			return "login.jsp";
 		}
-
 	}
 
 	@Override
