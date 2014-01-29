@@ -92,7 +92,7 @@ public class SellFund implements Action {
 					rd.setFund_id(fund.getId());
 					rd.setComplete(false);
 					transDao.create(rd);
-					request.setAttribute("op_succ",
+					request.setAttribute("op_success",
 							"You have successfully placed the order");
 
 					// update available share
@@ -114,6 +114,8 @@ public class SellFund implements Action {
 					return "cm_sellfund.jsp";
 				}
 			} else {
+				request.setAttribute("op_fail",
+						"Operation failed");
 				request.setAttribute("errors", form.getErrors());
 				return "cm_sellfund.jsp";
 			}

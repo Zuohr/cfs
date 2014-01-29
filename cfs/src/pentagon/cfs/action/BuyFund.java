@@ -108,6 +108,8 @@ public class BuyFund implements Action {
 				return "cm_buyfund.jsp";
 
 			} else {
+				request.setAttribute("op_fail",
+						"Operation failed");
 				request.setAttribute("errors", form.getErrors());
 				return "cm_buyfund.jsp";
 			}
