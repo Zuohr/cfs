@@ -44,7 +44,7 @@
 								<td>${requestScope.lastTradingDay}</td>
 							</tr>
 							<tr>
-								<td><strong>Balance</strong></td>
+								<td><strong>Cash Balance</strong></td>
 								<td>${requestScope.cash}</td>
 							</tr>
 							<tr>
@@ -65,6 +65,7 @@
 								
 								<th class="header-date">Fund Name</th>
 								<th class="header-ac">Share</th>
+								<th class="header-ac">Available Share</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -73,6 +74,7 @@
 								<td><span class="None"> </span></td>
 								<td><a href="#">${pos.fundName}</a></td>
 								<td>${pos.share}</td>
+								<td>${pos.shareBalance}</td>
 							</tr>
 						</c:forEach>
 						</tbody>

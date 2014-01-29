@@ -18,7 +18,6 @@ import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.PositionDAO;
 import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Employee;
-import pentagon.cfs.databean.Fund;
 import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.Position;
 import pentagon.cfs.model.Model;
@@ -65,11 +64,16 @@ public class EmplViewAcct implements Action {
 
 				PositionDAO posDAO = model.getPositionDAO();
 				Position[] pos = posDAO.getPositions(customer.getId());
-				PositionRecord[] posRd = new PositionRecord[pos.length];
+
+				FundDAO fundDAO = model.getFundDAO();
+				PositionRecord[] plist = new PositionRecord[pos.length];
 				for (int i = 0; i < pos.length; i++) {
-					posRd[i] = new PositionRecord(pos[i]);
+					plist[i] = new PositionRecord(fundDAO.read(
+							pos[i].getFund_id()).getName(), pos[i].getShare(),
+							pos[i].getSharebalance());
 				}
-				request.setAttribute("cus_position", posRd);
+				request.setAttribute("cus_position", plist);
+
 				return "ee_viewcmacct.jsp";
 			}
 		}
@@ -82,23 +86,26 @@ public class EmplViewAcct implements Action {
 
 	public class PositionRecord {
 		private String fundName;
-		private double share;
+		private String share;
+		private String shareBalance;
 
-		public PositionRecord(Position pos) throws RollbackException {
-			FundDAO fundDAO = model.getFundDAO();
-			Fund fund = fundDAO.read(Integer.valueOf(pos.getFund_id()));
-			this.fundName = fund.getName();
-
-			long shareLong = pos.getShare();
-			this.share = (double) shareLong / 1000;
+		public PositionRecord(String fundName, long share, long shareBalance) {
+			this.fundName = fundName;
+			this.share = String.format("%.3f", (double) share / 1000);
+			this.shareBalance = String.format("%.3f",
+					(double) shareBalance / 1000);
 		}
 
 		public String getFundName() {
 			return fundName;
 		}
 
-		public double getShare() {
+		public String getShare() {
 			return share;
+		}
+
+		public String getShareBalance() {
+			return shareBalance;
 		}
 	}
 }

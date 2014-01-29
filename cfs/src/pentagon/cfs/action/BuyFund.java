@@ -39,7 +39,8 @@ public class BuyFund implements Action {
 
 		request.setAttribute("nav_cmbuyfund", "active");
 		request.setAttribute("header_type", "Customer");
-		request.setAttribute("header_name", user.getFirstname()+" "+user.getLastname());
+		request.setAttribute("header_name",
+				user.getFirstname() + " " + user.getLastname());
 		FundDAO fundDAO = model.getFundDAO();
 		Fund[] fund_list = fundDAO.match();
 		FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();
@@ -103,24 +104,6 @@ public class BuyFund implements Action {
 
 				return "cm_buyfund.jsp";
 
-				// // update
-				// fund_list = fundDAO.match();
-				//
-				// bflist = new BuyFundList[fund_list.length];
-				// for (int i = 0; i < fund_list.length; i++) {
-				// FundPriceHistory[] fph = fphDAO.getHistory(fund_list[i]
-				// .getId());
-				// double bf_price = 0;
-				// if (fph.length != 0) {
-				// bf_price = (double) fph[fph.length - 1].getPrice() / 100;
-				// }
-				// bflist[i] = new BuyFundList(fund_list[i].getName(),
-				// fund_list[i].getSymbol(), fund_list[i].getId(),
-				// bf_price);
-				// }
-				// request.setAttribute("bf_list", bflist);
-				// request.setAttribute("ava_bal", currBalance);
-
 			} else {
 				request.setAttribute("errors", form.getErrors());
 				return "cm_buyfund.jsp";
@@ -139,14 +122,14 @@ public class BuyFund implements Action {
 		private String fundName;
 		private String ticker;
 		private int fundId;
-		private double price;
+		private String price;
 
 		public BuyFundList(String fundName, String ticker, int fundId,
 				double price) {
 			this.fundName = fundName;
 			this.ticker = ticker;
 			this.fundId = fundId;
-			this.price = price;
+			this.price = String.format("%.2f", price);
 		}
 
 		public String getFundName() {
@@ -161,7 +144,7 @@ public class BuyFund implements Action {
 			return fundId;
 		}
 
-		public double getPrice() {
+		public String getPrice() {
 			return price;
 		}
 	}

@@ -35,18 +35,18 @@ public class CmViewAcct implements Action {
 		} else {
 			request.setAttribute("nav_cmviewacct", "active");
 			request.setAttribute("header_type", "Customer");
-			request.setAttribute("header_name", user.getFirstname()+" "+user.getLastname());
+			request.setAttribute("header_name", user.getFirstname() + " "
+					+ user.getLastname());
 			double cash = (double) user.getCash() / 100;
 			request.setAttribute("cash", String.format("%.2f", cash));
-			
+
 			if (user.getLasttrading() == null) {
 				request.setAttribute("lastTradingDay", "-");
 			} else {
-				request.setAttribute("lastTradingDay",
-						new SimpleDateFormat(Meta.DATE_FORMAT)
-								.format(user.getLasttrading()));
+				request.setAttribute("lastTradingDay", new SimpleDateFormat(
+						Meta.DATE_FORMAT).format(user.getLasttrading()));
 			}
-			
+
 			PositionDAO posDAO = model.getPositionDAO();
 			Position[] pos = posDAO.getPositions(user.getId());
 
@@ -54,7 +54,7 @@ public class CmViewAcct implements Action {
 			PositionRecord[] plist = new PositionRecord[pos.length];
 			for (int i = 0; i < pos.length; i++) {
 				plist[i] = new PositionRecord(fundDAO.read(pos[i].getFund_id())
-						.getName(), pos[i].getShare() / 1000);
+						.getName(), pos[i].getShare(), pos[i].getSharebalance());
 			}
 			request.setAttribute("view_customer", user);
 			request.setAttribute("cus_position", plist);
@@ -70,19 +70,26 @@ public class CmViewAcct implements Action {
 
 	public class PositionRecord {
 		private String fundName;
-		private double share;
+		private String share;
+		private String shareBalance;
 
-		public PositionRecord(String fundName, double share) {
+		public PositionRecord(String fundName, long share, long shareBalance) {
 			this.fundName = fundName;
-			this.share = share;
+			this.share = String.format("%.3f", (double) share / 1000);
+			this.shareBalance = String.format("%.3f",
+					(double) shareBalance / 1000);
 		}
 
 		public String getFundName() {
 			return fundName;
 		}
 
-		public double getShare() {
+		public String getShare() {
 			return share;
+		}
+
+		public String getShareBalance() {
+			return shareBalance;
 		}
 	}
 }
