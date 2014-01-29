@@ -55,16 +55,16 @@ public class TransitionDay implements Action {
 		request.setAttribute("header_type", "Employee");
 		request.setAttribute("header_name",
 				empl.getFirstname() + " " + empl.getLastname());
-		
+
 		// set fund list
 		FundDAO fundDAO = model.getFundDAO();
 		Fund[] fund_list = fundDAO.match();
-		for(Fund fund : fund_list) {
+		for (Fund fund : fund_list) {
 			fund.setName(CommonUtil.getResearchURL(fund));
 		}
 		request.setAttribute("fund_list", fund_list);
 		request.setAttribute("fund_num", fund_list.length);
-		
+
 		// set last trading day
 		Meta meta = model.getMetaDAO().read(Integer.valueOf(1));
 		if (meta != null) {
@@ -73,10 +73,11 @@ public class TransitionDay implements Action {
 		} else {
 			request.setAttribute("last_day", "-");
 		}
-		
+
 		if ("submit".equals(request.getParameter("btn_transition"))) {
 			TransitionForm form = new TransitionForm(request);
 			if (form.isComplete()) {
+				// TODO
 				try {
 					Transaction.begin();
 
@@ -92,109 +93,112 @@ public class TransitionDay implements Action {
 						fund_list = fundDAO.match();
 						request.setAttribute("fund_list", fund_list);
 						request.setAttribute("fund_num", fund_list.length);
-						return "ee_transition.jsp";
-					}
-					HashMap<Integer, Long> priceMap = new HashMap<Integer, Long>();
-					for (FundPriceHistory item : price_list) {
-						fphDAO.create(item);
-						priceMap.put(item.getFund_id(), item.getPrice());
-					}
-
-					// process transaction
-					TransactionDAO tranDAO = model.getTransactionDAO();
-					TransactionRecord[] pendings = tranDAO.getPending();
-					CustomerDAO cmDAO = model.getCustomerDAO();
-					PositionDAO posDAO = model.getPositionDAO();
-					for (TransactionRecord rd : pendings) {
-						if ("buy".equals(rd.getType())) {
-							int fund_id = rd.getFund_id();
-							long price = priceMap.get(fund_id);
-							long amount = rd.getAmount();
-							double share = (double) amount / price;
-							rd.setShare((long) (share * 1000));
-							rd.setComplete(true);
-							rd.setDate(tradingDate);
-							tranDAO.update(rd);
-
-							Customer cm = cmDAO.read(Integer.valueOf(rd
-									.getCm_id()));
-							cm.setCash(cm.getCash() - (long) (price * share));
-							cm.setBalance(cm.getCash());
-							cm.setLasttrading(tradingDate);
-							cmDAO.update(cm);
-
-							posDAO.updatePosition(rd.getCm_id(),
-									rd.getFund_id(), (long) (share * 1000));
-						} else if ("sell".equals(rd.getType())) {
-							int fund_id = rd.getFund_id();
-							long price = priceMap.get(fund_id);
-							long share = rd.getShare();
-							long amount = (long) (((double) price / 100
-									* (double) share / 1000) * 100);
-							rd.setAmount(amount);
-							rd.setComplete(true);
-							rd.setDate(tradingDate);
-							tranDAO.update(rd);
-
-							Customer cm = cmDAO.read(Integer.valueOf(rd
-									.getCm_id()));
-							cm.setCash(cm.getCash() + amount);
-							cm.setBalance(cm.getCash());
-							cm.setLasttrading(tradingDate);
-							cmDAO.update(cm);
-
-							posDAO.updatePosition(rd.getCm_id(),
-									rd.getFund_id(), -1 * share);
-						} else if ("deposit".equals(rd.getType())) {
-							long amount = rd.getAmount();
-							Customer cm = cmDAO.read(Integer.valueOf(rd
-									.getCm_id()));
-							cm.setCash(cm.getCash() + amount);
-							cm.setBalance(cm.getCash());
-							cm.setLasttrading(tradingDate);
-							cmDAO.update(cm);
-
-							rd.setComplete(true);
-							rd.setDate(tradingDate);
-							tranDAO.update(rd);
-						} else if ("withdraw".equals(rd.getType())) {
-							long amount = rd.getAmount();
-							Customer cm = cmDAO.read(Integer.valueOf(rd
-									.getCm_id()));
-							cm.setCash(cm.getCash() - amount);
-							cm.setBalance(cm.getCash());
-							cm.setLasttrading(tradingDate);
-							cmDAO.update(cm);
-
-							rd.setComplete(true);
-							rd.setDate(tradingDate);
-							tranDAO.update(rd);
-						}
-					}
-
-					// set last trading day
-					MetaDAO metaDAO = model.getMetaDAO();
-					String lastDate = new SimpleDateFormat(Meta.DATE_FORMAT)
-							.format(tradingDate);
-					Meta m = new Meta();
-					m.setDate(lastDate);
-					if (metaDAO.getCount() == 0) {
-						metaDAO.create(m);
 					} else {
-						m.setId(1);
-						metaDAO.update(m);
-					}
-					
-					Meta.lastDate = lastDate;
+						HashMap<Integer, Long> priceMap = new HashMap<Integer, Long>();
+						for (FundPriceHistory item : price_list) {
+							fphDAO.create(item);
+							priceMap.put(item.getFund_id(), item.getPrice());
+						}
 
-					// set result
-					request.setAttribute("op_success", pendings.length
-							+ " transactions processed on " + Meta.lastDate);
-					request.setAttribute("last_day", Meta.lastDate);
+						// process transaction
+						TransactionDAO tranDAO = model.getTransactionDAO();
+						TransactionRecord[] pendings = tranDAO.getPending();
+						CustomerDAO cmDAO = model.getCustomerDAO();
+						PositionDAO posDAO = model.getPositionDAO();
+						for (TransactionRecord rd : pendings) {
+							if ("buy".equals(rd.getType())) {
+								int fund_id = rd.getFund_id();
+								long price = priceMap.get(fund_id);
+								long amount = rd.getAmount();
+								double share = (double) amount / price;
+								rd.setShare((long) (share * 1000));
+								rd.setComplete(true);
+								rd.setDate(tradingDate);
+								tranDAO.update(rd);
+
+								Customer cm = cmDAO.read(Integer.valueOf(rd
+										.getCm_id()));
+								cm.setCash(cm.getCash()
+										- (long) (price * share));
+								cm.setBalance(cm.getCash());
+								cm.setLasttrading(tradingDate);
+								cmDAO.update(cm);
+
+								posDAO.updatePosition(rd.getCm_id(),
+										rd.getFund_id(), (long) (share * 1000));
+							} else if ("sell".equals(rd.getType())) {
+								int fund_id = rd.getFund_id();
+								long price = priceMap.get(fund_id);
+								long share = rd.getShare();
+								long amount = (long) (((double) price / 100
+										* (double) share / 1000) * 100);
+								rd.setAmount(amount);
+								rd.setComplete(true);
+								rd.setDate(tradingDate);
+								tranDAO.update(rd);
+
+								Customer cm = cmDAO.read(Integer.valueOf(rd
+										.getCm_id()));
+								cm.setCash(cm.getCash() + amount);
+								cm.setBalance(cm.getCash());
+								cm.setLasttrading(tradingDate);
+								cmDAO.update(cm);
+
+								posDAO.updatePosition(rd.getCm_id(),
+										rd.getFund_id(), -1 * share);
+							} else if ("deposit".equals(rd.getType())) {
+								long amount = rd.getAmount();
+								Customer cm = cmDAO.read(Integer.valueOf(rd
+										.getCm_id()));
+								cm.setCash(cm.getCash() + amount);
+								cm.setBalance(cm.getCash());
+								cm.setLasttrading(tradingDate);
+								cmDAO.update(cm);
+
+								rd.setComplete(true);
+								rd.setDate(tradingDate);
+								tranDAO.update(rd);
+							} else if ("withdraw".equals(rd.getType())) {
+								long amount = rd.getAmount();
+								Customer cm = cmDAO.read(Integer.valueOf(rd
+										.getCm_id()));
+								cm.setCash(cm.getCash() - amount);
+								cm.setBalance(cm.getCash());
+								cm.setLasttrading(tradingDate);
+								cmDAO.update(cm);
+
+								rd.setComplete(true);
+								rd.setDate(tradingDate);
+								tranDAO.update(rd);
+							}
+						}
+
+						// set last trading day
+						MetaDAO metaDAO = model.getMetaDAO();
+						String lastDate = new SimpleDateFormat(Meta.DATE_FORMAT)
+								.format(tradingDate);
+						Meta m = new Meta();
+						m.setDate(lastDate);
+						if (metaDAO.getCount() == 0) {
+							metaDAO.create(m);
+						} else {
+							m.setId(1);
+							metaDAO.update(m);
+						}
+
+						Meta.lastDate = lastDate;
+
+						// set result
+						request.setAttribute("op_success", pendings.length
+								+ " transactions processed on " + Meta.lastDate);
+						request.setAttribute("last_day", Meta.lastDate);
+					}
+					// TODO
 					Transaction.commit();
 				} catch (RollbackException e) {
 					e.printStackTrace();
-					request.setAttribute("op_fail", "Operation failed.");
+					request.setAttribute("op_fail",
+							"Operation failed : internal error.");
 				} finally {
 					if (Transaction.isActive()) {
 						Transaction.rollback();

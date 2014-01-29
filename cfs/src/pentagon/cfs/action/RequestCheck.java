@@ -10,6 +10,7 @@ package pentagon.cfs.action;
 import javax.servlet.http.HttpServletRequest;
 
 import org.genericdao.RollbackException;
+import org.genericdao.Transaction;
 
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.TransactionDAO;
@@ -37,16 +38,16 @@ public class RequestCheck implements Action {
 			return "login.jsp";
 		}
 		
-		// refresh user
-		CustomerDAO cmDAO = model.getCustomerDAO();
-		customer = cmDAO.read(customer.getId());
-		request.getSession().setAttribute("customer", customer);
-
 		request.setAttribute("nav_cmreqcheck", "active");
 		request.setAttribute("header_type", "Customer");
 		request.setAttribute("header_name", customer.getFirstname() + " "
 				+ customer.getLastname());
 
+		// refresh user
+		CustomerDAO cmDAO = model.getCustomerDAO();
+		customer = cmDAO.read(customer.getId());
+		request.getSession().setAttribute("customer", customer);
+		
 		// set balance
 		request.setAttribute("balance",
 				String.format("%.2f", (double) customer.getBalance() / 100));
@@ -54,6 +55,10 @@ public class RequestCheck implements Action {
 		if ("submit".equals(request.getParameter("requestcheck_btn"))) {
 			ReqcheckForm form = new ReqcheckForm(request);
 			if (form.isComplete()) {
+				//TODO
+				try {
+					Transaction.begin();
+					
 				long amount = form.getAmount();
 				long balance = customer.getBalance();
 				if (amount <= balance) {
@@ -79,13 +84,19 @@ public class RequestCheck implements Action {
 							"balance",
 							String.format("%.2f",
 									(double) customer.getBalance() / 100));
-
-					return "cm_requestcheck.jsp";
 				} else {
 					request.setAttribute("op_fail",
 							"Your current balance is not enough!");
-					return "cm_requestcheck.jsp";
 				}
+				//TODO
+				Transaction.commit();
+				} catch (RollbackException e) {
+					if (Transaction.isActive()) {
+						Transaction.rollback();
+					}
+				}
+				
+				return "cm_requestcheck.jsp";
 			} else {
 				request.setAttribute("errors", form.getErrors());
 				request.setAttribute("op_fail", "Invalid input!");

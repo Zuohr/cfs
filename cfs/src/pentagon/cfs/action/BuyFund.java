@@ -50,22 +50,34 @@ public class BuyFund implements Action {
 		request.setAttribute("header_name",
 				user.getFirstname() + " " + user.getLastname());
 
-		// set fund list
 		FundDAO fundDAO = model.getFundDAO();
-		Fund[] fund_list = fundDAO.match();
-		FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();
-		PositionRecord[] prlist = new PositionRecord[fund_list.length];
-		for (int i = 0; i < fund_list.length; i++) {
-			FundPriceHistory[] fph = fphDAO.getHistory(fund_list[i].getId());
-			long bf_price = 0;
-			if (fph.length != 0) {
-				bf_price = fph[fph.length - 1].getPrice();
+		// TODO
+		try {
+			Transaction.begin();
+
+			// set fund list
+			Fund[] fund_list = fundDAO.match();
+			FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();
+			PositionRecord[] prlist = new PositionRecord[fund_list.length];
+			for (int i = 0; i < fund_list.length; i++) {
+				FundPriceHistory[] fph = fphDAO
+						.getHistory(fund_list[i].getId());
+				long bf_price = 0;
+				if (fph.length != 0) {
+					bf_price = fph[fph.length - 1].getPrice();
+				}
+				prlist[i] = new PositionRecord(
+						CommonUtil.getResearchURL(fund_list[i]), 0, 0, bf_price);
+				prlist[i].setFundId(fund_list[i].getId());
 			}
-			prlist[i] = new PositionRecord(
-					CommonUtil.getResearchURL(fund_list[i]), 0, 0, bf_price);
-			prlist[i].setFundId(fund_list[i].getId());
+			request.setAttribute("pr_list", prlist);
+			// TODO
+			Transaction.commit();
+		} catch (RollbackException e) {
+			if (Transaction.isActive()) {
+				Transaction.rollback();
+			}
 		}
-		request.setAttribute("pr_list", prlist);
 
 		double currBalance = (double) user.getBalance() / 100;
 		request.setAttribute("ava_bal", String.format("%.2f", currBalance));
@@ -110,7 +122,7 @@ public class BuyFund implements Action {
 					currBalance = (double) user.getBalance() / 100;
 					request.setAttribute("ava_bal",
 							String.format("%.2f", currBalance));
-					
+
 					Transaction.commit();
 				} catch (RollbackException e) {
 					if (Transaction.isActive()) {

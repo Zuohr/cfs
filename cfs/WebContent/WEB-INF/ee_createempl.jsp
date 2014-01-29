@@ -59,6 +59,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="Password" class="form-control" id="inputPassword3" name="password2" placeholder="Re-enter Password">
 				</div>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["4"] }</span>
 			  </div>
 			  
 			  <div class="form-group">

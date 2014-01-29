@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.genericdao.MatchArg;
 import org.genericdao.RollbackException;
+import org.genericdao.Transaction;
 
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.FundDAO;
@@ -53,21 +54,36 @@ public class EmplViewTranHistroy implements Action {
 				return "emplviewcmlist.do";
 			}
 
-			CustomerDAO cmDAO = model.getCustomerDAO();
-			Customer customer = cmDAO.getProfile(username);
-			if (customer == null) {
-				return "emplviewcmlist.do";
+			// TODO
+			String ret = "";
+			try {
+				Transaction.begin();
+
+				CustomerDAO cmDAO = model.getCustomerDAO();
+				Customer customer = cmDAO.getProfile(username);
+				if (customer == null) {
+					ret = "emplviewcmlist.do";
+				}
+
+				TransactionDAO dao = model.getTransactionDAO();
+				TransactionRecord[] transactions = dao.getHistory(customer
+						.getId());
+				Record[] records = new Record[transactions.length];
+				for (int i = 0; i < records.length; i++) {
+					records[i] = new Record(transactions[i]);
+				}
+				request.setAttribute("records", records);
+				request.setAttribute("customer_tran", customer);
+				ret = "ee_cmhistory.jsp";
+
+				// TODO
+				Transaction.commit();
+			} catch (RollbackException e) {
+				if (Transaction.isActive()) {
+					Transaction.rollback();
+				}
 			}
-			
-			TransactionDAO dao = model.getTransactionDAO();
-			TransactionRecord[] transactions = dao.getHistory(customer.getId());
-			Record[] records = new Record[transactions.length];
-			for (int i = 0; i < records.length; i++) {
-				records[i] = new Record(transactions[i]);
-			}
-			request.setAttribute("records", records);
-			request.setAttribute("customer_tran", customer);
-			return "ee_cmhistory.jsp";
+			return ret;
 		}
 	}
 

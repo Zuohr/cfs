@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpServletRequest;
 
 import org.genericdao.RollbackException;
+import org.genericdao.Transaction;
 
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.FundDAO;
@@ -52,44 +53,59 @@ public class EmplViewAcct implements Action {
 		if (username == null || username.isEmpty()) {
 			return "emplviewcmlist.do";
 		}
-		
-		CustomerDAO cmDAO = model.getCustomerDAO();
-		Customer customer = cmDAO.getProfile(username);
-		if (customer == null) {
-			return "emplviewcmlist.do";
-		}
-		
-		double cash = (double) customer.getCash() / 100;
-		double balance = (double) customer.getBalance() / 100;
-		request.setAttribute("cash", String.format("%.2f", cash));
-		request.setAttribute("balance", String.format("%.2f", balance));
+		// TODO
+		String ret = "";
+		try {
+			Transaction.begin();
 
-		if (customer.getLasttrading() == null) {
-			request.setAttribute("lastTradingDay", "-");
-		} else {
-			request.setAttribute("lastTradingDay", new SimpleDateFormat(
-					Meta.DATE_FORMAT).format(customer.getLasttrading()));
-		}
-		request.setAttribute("view_customer", customer);
+			CustomerDAO cmDAO = model.getCustomerDAO();
+			Customer customer = cmDAO.getProfile(username);
+			if (customer == null) {
+				ret = "emplviewcmlist.do";
+			} else {
 
-		PositionDAO posDAO = model.getPositionDAO();
-		Position[] pos = posDAO.getPositions(user.getId());
-		FundDAO fundDAO = model.getFundDAO();
-		FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();
-		PositionRecord[] plist = new PositionRecord[pos.length];
-		for (int i = 0; i < pos.length; i++) {
-			Fund fund = fundDAO.read(pos[i].getFund_id());
-			FundPriceHistory[] fphs = fphDAO.getHistory(fund.getId());
-			long price = 0;
-			if (fphs.length > 0) {
-				price = fphs[fphs.length - 1].getPrice();
+				double cash = (double) customer.getCash() / 100;
+				double balance = (double) customer.getBalance() / 100;
+				request.setAttribute("cash", String.format("%.2f", cash));
+				request.setAttribute("balance", String.format("%.2f", balance));
+
+				if (customer.getLasttrading() == null) {
+					request.setAttribute("lastTradingDay", "-");
+				} else {
+					request.setAttribute("lastTradingDay",
+							new SimpleDateFormat(Meta.DATE_FORMAT)
+									.format(customer.getLasttrading()));
+				}
+				request.setAttribute("view_customer", customer);
+
+				PositionDAO posDAO = model.getPositionDAO();
+				Position[] pos = posDAO.getPositions(customer.getId());
+				FundDAO fundDAO = model.getFundDAO();
+				FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();
+				PositionRecord[] plist = new PositionRecord[pos.length];
+				for (int i = 0; i < pos.length; i++) {
+					Fund fund = fundDAO.read(pos[i].getFund_id());
+					FundPriceHistory[] fphs = fphDAO.getHistory(fund.getId());
+					long price = 0;
+					if (fphs.length > 0) {
+						price = fphs[fphs.length - 1].getPrice();
+					}
+					plist[i] = new PositionRecord(
+							CommonUtil.getResearchURL(fund), pos[i].getShare(),
+							pos[i].getSharebalance(), price);
+				}
+				request.setAttribute("cus_position", plist);
+
+				ret = "ee_viewcmacct.jsp";
 			}
-			plist[i] = new PositionRecord(CommonUtil.getResearchURL(fund), pos[i].getShare(),
-					pos[i].getSharebalance(), price);
+			// TODO
+			Transaction.commit();
+		} catch (RollbackException e) {
+			if (Transaction.isActive()) {
+				Transaction.rollback();
+			}
 		}
-		request.setAttribute("cus_position", plist);
-
-		return "ee_viewcmacct.jsp";
+		return ret;
 	}
 
 	@Override

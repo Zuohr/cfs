@@ -10,6 +10,7 @@ package pentagon.cfs.action;
 import javax.servlet.http.HttpServletRequest;
 
 import org.genericdao.RollbackException;
+import org.genericdao.Transaction;
 
 import pentagon.cfs.dao.FundDAO;
 import pentagon.cfs.dao.PositionDAO;
@@ -43,18 +44,29 @@ public class SellFund implements Action {
 		request.setAttribute("header_name",
 				user.getFirstname() + " " + user.getLastname());
 
-		// set position list
 		PositionDAO posDAO = model.getPositionDAO();
-		Position[] pos = posDAO.getPositions(user.getId());
 		FundDAO fundDAO = model.getFundDAO();
-		PositionRecord[] plist = new PositionRecord[pos.length];
-		for (int i = 0; i < pos.length; i++) {
-			Fund fd = fundDAO.read(pos[i].getFund_id());
-			plist[i] = new PositionRecord(CommonUtil.getResearchURL(fd),
-					pos[i].getShare(), pos[i].getSharebalance(), 0);
-			plist[i].setFundId(fd.getId());
+		// TODO
+		try {
+			Transaction.begin();
+			// set position list
+			Position[] pos = posDAO.getPositions(user.getId());
+			PositionRecord[] plist = new PositionRecord[pos.length];
+			for (int i = 0; i < pos.length; i++) {
+				Fund fd = fundDAO.read(pos[i].getFund_id());
+				plist[i] = new PositionRecord(CommonUtil.getResearchURL(fd),
+						pos[i].getShare(), pos[i].getSharebalance(), 0);
+				plist[i].setFundId(fd.getId());
+			}
+			request.setAttribute("cus_position", plist);
+
+			// TODO
+			Transaction.commit();
+		} catch (RollbackException e) {
+			if (Transaction.isActive()) {
+				Transaction.rollback();
+			}
 		}
-		request.setAttribute("cus_position", plist);
 
 		if ("submit".equals(request.getParameter("sellfund_btn"))) {
 			SellForm form = new SellForm(request);
@@ -80,7 +92,6 @@ public class SellFund implements Action {
 				long availAmount = currPos.getSharebalance();
 				// check available balance
 				if (inputAmount > availAmount) {
-					System.out.println("should be here");
 					request.setAttribute("op_fail",
 							"You do not have enough balance.");
 					return "cm_sellfund.jsp";
@@ -104,8 +115,8 @@ public class SellFund implements Action {
 					posDAO.update(currPos);
 
 					// update position list
-					pos = posDAO.getPositions(user.getId());
-					plist = new PositionRecord[pos.length];
+					Position[] pos = posDAO.getPositions(user.getId());
+					PositionRecord[] plist = new PositionRecord[pos.length];
 					for (int i = 0; i < pos.length; i++) {
 						Fund fd = fundDAO.read(pos[i].getFund_id());
 						plist[i] = new PositionRecord(

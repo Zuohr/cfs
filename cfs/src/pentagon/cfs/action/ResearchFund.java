@@ -37,22 +37,33 @@ public class ResearchFund implements Action {
 		if (user == null) {
 			return "login.jsp";
 		} else {
+			// verify input
 			String input = request.getParameter("fund_id");
-			if (input == null || !input.matches("\\d+")) {
+			if (input == null
+					|| !input.matches("\\d+")
+					|| input.length() > 10
+					|| (input.length() == 10 && input.compareTo(String
+							.valueOf(Integer.MAX_VALUE)) > 0)) {
 				return "404";
 			}
+
+			// check if fund exists
 			Integer fund_id = Integer.parseInt(request.getParameter("fund_id"));
-			FundPriceHistoryDAO dao = model.getFundPriceHistoryDAO();
-			FundPriceHistory[] history = dao.getHistory(fund_id);
-			Record[] records = new Record[history.length];
-			for (int i = 0; i < records.length; i++) {
-				records[i] = new Record(history[i]);
-			}
 			FundDAO fundDAO = model.getFundDAO();
 			Fund fund = fundDAO.read(fund_id);
-			request.setAttribute("fund", fund);
-			request.setAttribute("records", records);
-			return "researchfund.jsp";
+			if (fund != null) {
+				request.setAttribute("fund", fund);
+				FundPriceHistoryDAO dao = model.getFundPriceHistoryDAO();
+				FundPriceHistory[] history = dao.getHistory(fund_id);
+				Record[] records = new Record[history.length];
+				for (int i = 0; i < records.length; i++) {
+					records[i] = new Record(history[i]);
+				}
+				request.setAttribute("records", records);
+				return "researchfund.jsp";
+			} else {
+				return "404";
+			}
 		}
 	}
 
