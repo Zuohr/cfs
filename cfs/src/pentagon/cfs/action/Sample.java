@@ -17,4 +17,17 @@ public class Sample {
 			}
 		}
 	}
+
+	public static void anOther() {
+		try {
+			Transaction.begin();
+
+			Transaction.commit();
+		} catch (RollbackException e) {
+			if (Transaction.isActive()) {
+				Transaction.rollback();
+			}
+		}
+
+	}
 }

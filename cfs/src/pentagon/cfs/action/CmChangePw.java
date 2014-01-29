@@ -10,6 +10,7 @@ package pentagon.cfs.action;
 import javax.servlet.http.HttpServletRequest;
 
 import org.genericdao.RollbackException;
+import org.genericdao.Transaction;
 
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.databean.Customer;
@@ -31,31 +32,46 @@ public class CmChangePw implements Action {
 		if (customer == null) {
 			return "login.jsp";
 		}
-		
-		// refresh user
-		CustomerDAO customerDAO = model.getCustomerDAO();
-		customer = customerDAO.read(customer.getId());
-		request.getSession().setAttribute("customer", customer);
-		
+
 		request.setAttribute("nav_cmchgpw", "active");
 		request.setAttribute("header_type", "Customer");
-		request.setAttribute("header_name", customer.getFirstname()+" "+customer.getLastname());
-		
+		request.setAttribute("header_name", customer.getFirstname() + " "
+				+ customer.getLastname());
+
 		if ("submit".equals(request.getParameter("cmchangepw_btn"))) {
 			ChangepwForm form = new ChangepwForm(request);
 			if (form.isComplete()) {
-				if (customer.getPassword().equals(form.getOldPassword())) {
-					customer.setPassword(form.getNewPassword());
-					customerDAO.updateCustomer(customer);
+				// TODO
+				String ret = "";
+				try {
+					Transaction.begin();
+					// refresh user
+					CustomerDAO customerDAO = model.getCustomerDAO();
+					customer = customerDAO.read(customer.getId());
+					request.getSession().setAttribute("customer", customer);
 
-					request.setAttribute("op_success", String.format(
-							"Password changed for %s %s.",
-							customer.getFirstname(), customer.getLastname()));
-					return "cm_changepw.jsp";
-				} else {
-					request.setAttribute("op_fail", "Old Password is wrong!");
-					return "cm_changepw.jsp";
+					if (customer.getPassword().equals(form.getOldPassword())) {
+						customer.setPassword(form.getNewPassword());
+						customerDAO.updateCustomer(customer);
+
+						request.setAttribute("op_success",
+								String.format("Password changed for %s %s.",
+										customer.getFirstname(),
+										customer.getLastname()));
+						ret = "cm_changepw.jsp";
+					} else {
+						request.setAttribute("op_fail",
+								"Old Password is wrong!");
+						ret = "cm_changepw.jsp";
+					}
+					//TODO
+					Transaction.commit();
+				} catch (RollbackException e) {
+					if (Transaction.isActive()) {
+						Transaction.rollback();
+					}
 				}
+				return ret;
 			} else {
 				request.setAttribute("errors", form.getErrors());
 				request.setAttribute("op_fail", "Operation failed!");

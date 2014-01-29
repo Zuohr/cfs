@@ -10,6 +10,7 @@ package pentagon.cfs.action;
 import javax.servlet.http.HttpServletRequest;
 
 import org.genericdao.RollbackException;
+import org.genericdao.Transaction;
 
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.FundDAO;
@@ -86,26 +87,37 @@ public class BuyFund implements Action {
 					return "cm_buyfund.jsp";
 				}
 
-				// set transaction
-				TransactionDAO transDao = model.getTransactionDAO();
-				TransactionRecord rd = new TransactionRecord();
-				rd.setCm_id(user.getId());
-				rd.setType("buy");
-				rd.setAmount(form.getAmount());
-				rd.setFund_id(fund.getId());
-				rd.setComplete(false);
-				transDao.create(rd);
-				request.setAttribute("op_success",
-						"You have successfully placed the order");
+				// TODO
+				try {
+					Transaction.begin();
+					// set transaction
+					TransactionDAO transDao = model.getTransactionDAO();
+					TransactionRecord rd = new TransactionRecord();
+					rd.setCm_id(user.getId());
+					rd.setType("buy");
+					rd.setAmount(form.getAmount());
+					rd.setFund_id(fund.getId());
+					rd.setComplete(false);
+					transDao.create(rd);
+					request.setAttribute("op_success",
+							"You have successfully placed the order");
 
-				// update balance
-				user.setBalance(user.getBalance() - form.getAmount());
-				cmDAO.update(user);
+					// update balance
+					user.setBalance(user.getBalance() - form.getAmount());
+					cmDAO.update(user);
 
-				// update available balance
-				currBalance = (double) user.getBalance() / 100;
-				request.setAttribute("ava_bal",
-						String.format("%.2f", currBalance));
+					// update available balance
+					currBalance = (double) user.getBalance() / 100;
+					request.setAttribute("ava_bal",
+							String.format("%.2f", currBalance));
+					
+					Transaction.commit();
+				} catch (RollbackException e) {
+					if (Transaction.isActive()) {
+						Transaction.rollback();
+					}
+				}
+				// TODO
 
 				return "cm_buyfund.jsp";
 

@@ -62,7 +62,7 @@
 
 								<button type="submit" class="btn btn-primary"
 									name="eechangepw_btn" value="submit">Submit</button>
-								<button type="submit" class="btn btn-default" name="cancel_btn"
+								<button type="submit" class="btn btn-default" name="eechangepw_btn"
 									value="cancel">Cancel</button>
 
 

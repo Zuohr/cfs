@@ -93,8 +93,8 @@ public class TransitionForm {
 			} else {
 				try {
 					double p = Double.parseDouble(price);
-					if (p <= 0) {
-						errors.set(i, "Price should be positive.");
+					if (p <= 1) {
+						errors.set(i, "Minimum price is 1.");
 						complete = false;
 					} else {
 						FundPriceHistory fp = priceList.get(i - 1);

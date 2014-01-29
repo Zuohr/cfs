@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.genericdao.MatchArg;
 import org.genericdao.RollbackException;
+import org.genericdao.Transaction;
 
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.dao.FundDAO;
@@ -42,25 +43,35 @@ public class CmViewTranHistory implements Action {
 		if (user == null) {
 			return "login.jsp";
 		}
-		
-		// refresh user;
-		CustomerDAO cmDAO = model.getCustomerDAO();
-		user = cmDAO.read(user.getId());
-		request.getSession().setAttribute("customer", user);
-		
-		request.setAttribute("nav_cmtranhistory", "active");
-		request.setAttribute("header_type", "Customer");
-		request.setAttribute("header_name",
-				user.getFirstname() + " " + user.getLastname());
-		int cm_id = user.getId();
-		TransactionDAO dao = model.getTransactionDAO();
-		TransactionRecord[] transactions = dao.getHistory(cm_id);
-		Record[] records = new Record[transactions.length];
-		for (int i = 0; i < records.length; i++) {
-			records[i] = new Record(transactions[i]);
+
+		// TODO
+		try {
+			Transaction.begin();
+			// refresh user;
+			CustomerDAO cmDAO = model.getCustomerDAO();
+			user = cmDAO.read(user.getId());
+			request.getSession().setAttribute("customer", user);
+
+			request.setAttribute("nav_cmtranhistory", "active");
+			request.setAttribute("header_type", "Customer");
+			request.setAttribute("header_name", user.getFirstname() + " "
+					+ user.getLastname());
+			int cm_id = user.getId();
+			TransactionDAO dao = model.getTransactionDAO();
+			TransactionRecord[] transactions = dao.getHistory(cm_id);
+			Record[] records = new Record[transactions.length];
+			for (int i = 0; i < records.length; i++) {
+				records[i] = new Record(transactions[i]);
+			}
+			request.setAttribute("records", records);
+			request.setAttribute("customer_tran", user);
+			// TODO
+			Transaction.commit();
+		} catch (RollbackException e) {
+			if (Transaction.isActive()) {
+				Transaction.rollback();
+			}
 		}
-		request.setAttribute("records", records);
-		request.setAttribute("customer_tran", user);
 		return "cm_history.jsp";
 	}
 

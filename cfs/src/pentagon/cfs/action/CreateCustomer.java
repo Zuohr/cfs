@@ -10,6 +10,7 @@ package pentagon.cfs.action;
 import javax.servlet.http.HttpServletRequest;
 
 import org.genericdao.RollbackException;
+import org.genericdao.Transaction;
 
 import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.databean.Customer;
@@ -28,32 +29,47 @@ public class CreateCustomer implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		Employee employee = (Employee) request.getSession().getAttribute("employee");
-		if(employee == null) {
+		Employee employee = (Employee) request.getSession().getAttribute(
+				"employee");
+		if (employee == null) {
 			return "login.jsp";
 		}
-		
+
 		request.setAttribute("nav_eecreatecm", "active");
 		request.setAttribute("header_type", "Employee");
-		request.setAttribute("header_name", employee.getFirstname()+" "+employee.getLastname());
+		request.setAttribute("header_name", employee.getFirstname() + " "
+				+ employee.getLastname());
 		if ("submit".equals(request.getParameter("createcm_btn"))) {
-			CreateCmForm form = new CreateCmForm(request);
-			if (form.isComplete()) {
-				Customer newCustomer = form.getCustomerBean();
-				customerDAO = model.getCustomerDAO();
-				if (customerDAO.createCustomer(newCustomer)) {
-					request.setAttribute("op_success",
-							"Customer: " + newCustomer.getUsername() + " created.");
+
+			// TODO
+			try {
+				Transaction.begin();
+				CreateCmForm form = new CreateCmForm(request);
+				if (form.isComplete()) {
+					Customer newCustomer = form.getCustomerBean();
+					customerDAO = model.getCustomerDAO();
+					if (customerDAO.createCustomer(newCustomer)) {
+						request.setAttribute("op_success", "Customer: "
+								+ newCustomer.getUsername() + " created.");
+					} else {
+						request.setAttribute("op_fail",
+								"Customer creation failed, user name already exist.");
+					}
+					// return "ee_createcm.jsp";
 				} else {
-					request.setAttribute("result",
-							"Customer creation failed, customer already exist.");
+					request.setAttribute("errors", form.getErrors());
+					request.setAttribute("op_fail",
+							"Please fill following required information.");
 				}
-				return "ee_createcm.jsp";
-			} else {
-				request.setAttribute("errors", form.getErrors());
-				request.setAttribute("op_fail", "New customer create failed!");
-				return "ee_createcm.jsp";
+				// TODO
+				Transaction.commit();
+			} catch (RollbackException e) {
+				if (Transaction.isActive()) {
+					Transaction.rollback();
+				}
 			}
+			return "ee_createcm.jsp";
+
 		} else if ("cancel".equals(request.getParameter("createcm_btn"))) {
 			return "emplviewcmlist.do";
 		} else {

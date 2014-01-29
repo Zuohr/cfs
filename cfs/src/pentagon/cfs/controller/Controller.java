@@ -81,10 +81,10 @@ public class Controller extends HttpServlet {
 		actions.addAction(new ResetCmPw(model));
 		actions.addAction(new SellFund(model));
 		actions.addAction(new TransitionDay(model));
-		
+
 		EmployeeDAO eeDAO = model.getEmployeeDAO();
 		try {
-			if(eeDAO.getCount()==0){
+			if (eeDAO.getCount() == 0) {
 				Employee ee = new Employee();
 				ee.setUsername("root");
 				ee.setPassword("sa");
@@ -106,12 +106,14 @@ public class Controller extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
-		String nextStep;
-		try {
-			nextStep = processRequest(request);
-			proceedToNext(nextStep, request, response);
-		} catch (RollbackException e) {
-			throw new RuntimeException(e.getCause());
+		synchronized (model) {
+			String nextStep;
+			try {
+				nextStep = processRequest(request);
+				proceedToNext(nextStep, request, response);
+			} catch (RollbackException e) {
+				throw new RuntimeException(e.getCause());
+			}
 		}
 
 	}
