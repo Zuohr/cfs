@@ -68,7 +68,7 @@ public class BuyForm {
 				if (inputParse > max) {
 					errors.set(1, "Amount too large.");
 					complete = false;
-				} else if (inputParse <= 0.01) {
+				} else if (inputParse < 0.01) {
 					errors.set(1, "The minimum amount is 0.01.");
 					complete = false;
 				} else {

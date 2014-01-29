@@ -120,7 +120,7 @@ public class TransitionDay implements Action {
 							cmDAO.update(cm);
 
 							posDAO.updatePosition(rd.getCm_id(),
-									rd.getFund_id(), (long) share * 1000);
+									rd.getFund_id(), (long) (share * 1000));
 						} else if ("sell".equals(rd.getType())) {
 							int fund_id = rd.getFund_id();
 							long price = priceMap.get(fund_id);

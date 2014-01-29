@@ -108,8 +108,7 @@ public class BuyFund implements Action {
 				return "cm_buyfund.jsp";
 
 			} else {
-				request.setAttribute("op_fail",
-						"Operation failed");
+				request.setAttribute("op_fail", "Operation failed");
 				request.setAttribute("errors", form.getErrors());
 				return "cm_buyfund.jsp";
 			}
@@ -134,7 +133,11 @@ public class BuyFund implements Action {
 			this.fundName = fundName;
 			this.ticker = ticker;
 			this.fundId = fundId;
-			this.price = String.format("%.2f", price);
+			if (price > 0) {
+				this.price = String.format("%.2f", price);
+			} else {
+				this.price = "-";
+			}
 		}
 
 		public String getFundName() {

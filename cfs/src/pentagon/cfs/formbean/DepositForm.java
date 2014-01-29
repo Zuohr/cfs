@@ -73,8 +73,8 @@ public class DepositForm {
 			double amount;
 			try {
 				amount = Double.parseDouble(depositInput);
-				if (amount <= 0) {
-					errors.set(1, "Deposit amount has to be positive.");
+				if (amount < 0.01) {
+					errors.set(1, "Minimum deposit amount is 0.01");
 					complete = false;
 				} else if (amount > MAX_AMOUNT) {
 					errors.set(1,

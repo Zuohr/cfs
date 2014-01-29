@@ -71,7 +71,7 @@ public class SellForm {
 				if (d > max) {
 					errors.set(1, "Amount too large.");
 					complete = false;
-				} else if (d <= 0.001) {
+				} else if (d < 0.001) {
 					errors.set(1, "The minimum amount is 0.001.");
 					complete = false;
 				} else {
