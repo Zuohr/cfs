@@ -45,11 +45,11 @@ public class CmLogin implements Action {
 						request.getSession().setAttribute("customer", cm);
 						return "cmviewacct.do";
 					} else {
-						request.setAttribute("result", "Password not correct");
+						request.setAttribute("result", "Password is not correct");
 						return "login.jsp";
 					}
 				} else {
-					request.setAttribute("result", "Non-exist user");
+					request.setAttribute("result", "User name is not correct");
 					return "login.jsp";
 				}
 			} else {

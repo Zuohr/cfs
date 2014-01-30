@@ -19,9 +19,11 @@
 					<div class="page-header">
 						<h2>Sell Fund</h2>
 					</div>
+					
 					<jsp:include page="pop_result.jsp" />
-					<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["0"] }</span>
-					<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["1"] }</span>
+					<span class="label label-danger" >${requestScope.errors["0"] }</span>
+					<span class="label label-danger" >${requestScope.errors["1"] }</span>
+					
 					<table class="table table-striped">
 						<thead>
 							<tr>
