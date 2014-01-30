@@ -69,8 +69,8 @@
 													<div class="form-group">
 														<label for="inputEmail3" class="col-sm-2 control-label">Amount:</label>
 														<div class="col-sm-10">
-															<input type="text" name="sellAmount" class="form-control"
-																style="width: 80px;" id="inputAmount"> <input
+															<input type="text" placeholder="max three decimals"  name="sellAmount" class="form-control"
+																style="width: 160px;" id="inputAmount"> <input
 																type="hidden" name="fundId" value="${plist.fundId}">
 														</div>
 													</div>

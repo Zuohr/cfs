@@ -36,7 +36,7 @@
 							<label for="inputEmail3" class="col-sm-2 control-label">Amount</label>
 							<div class="col-sm-10" style="width: 200px;">
 								<input type="text" class="form-control"
-									placeholder="Maximum 1 billion" name="deposit">
+									placeholder="$" name="deposit">
 							</div>
 							<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["1"] }</span>
 						</div>
