@@ -61,10 +61,10 @@
 						<thead>
 							<tr>
 								<th class="header-date">Fund Name</th>
-								<th class="header-ac">Share</th>
-								<th class="header-ac">Available Share</th>
-								<th class="header-ac">Last trading price</th>
-								<th class="header-ac">Value</th>
+								<th class="header-ac" style="text-align:right; padding-right:40px;">Share</th>
+								<th class="header-ac" style="text-align:right; padding-right:40px;">Available Share</th>
+								<th class="header-ac" style="text-align:right; padding-right:40px;">Last trading price</th>
+								<th class="header-ac" style="text-align:right; padding-right:40px;">Value</th>
 							</tr>
 
 						</thead>
@@ -72,10 +72,10 @@
 							<c:forEach var="pos" items="${requestScope.cus_position}">
 								<tr>
 									<td>${pos.fundName}</td>
-									<td>${pos.share}</td>
-									<td>${pos.shareBalance}</td>
-									<td>${pos.lastPrice}</td>
-									<td>${pos.value}</td>
+									<td style="text-align:right; padding-right:40px;">${pos.share}</td>
+									<td style="text-align:right; padding-right:40px;">${pos.shareBalance}</td>
+									<td style="text-align:right; padding-right:40px;">${pos.lastPrice}</td>
+									<td style="text-align:right; padding-right:40px;">${pos.value}</td>
 								</tr>
 							</c:forEach>
 						</tbody>

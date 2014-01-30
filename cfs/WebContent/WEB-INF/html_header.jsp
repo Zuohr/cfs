@@ -8,10 +8,7 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/offcanvas.css" rel="stylesheet">
-    <link href="css/examples.css" rel="stylesheet">
-        <script src="js/jquery.flot.time.js"></script>
-    <script src="js/jquery.flot.js"></script>
-    <script src="js/jquery.js"></script>
+    
 	<script type="text/javascript">
 
 	$(function() {
