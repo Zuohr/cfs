@@ -105,7 +105,7 @@ public class CmViewTranHistory implements Action {
 			this.type = rd.getType();
 
 			// set fund name, share, price, amount
-			if ("deposit".equals(this.type) || "withdraw".equals(this.type)) {
+			if (this.type.endsWith("deposit") || this.type.endsWith("withdraw")) {
 				this.fundname = "-";
 				this.share = "-";
 				this.price = "-";
@@ -122,7 +122,7 @@ public class CmViewTranHistory implements Action {
 								Integer.valueOf(fund.getId())),
 						MatchArg.equals("date", rd.getDate())));
 
-				if ("buy".equals(this.type)) {
+				if (this.type.endsWith("buy")) {
 					this.dollar = String.format("%.2f",
 							(double) rd.getAmount() / 100);
 					if (rd.isComplete()) {
@@ -148,7 +148,11 @@ public class CmViewTranHistory implements Action {
 					}
 				}
 			}
-
+			// reject case
+			if (this.type.startsWith(TransitionDay.REJ_FLAG)) {
+				this.state = "rejected";
+				this.type = this.type.split("_")[1];
+			}
 		}
 
 		public String getDate() {

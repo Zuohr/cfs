@@ -30,6 +30,7 @@ import pentagon.cfs.databean.Employee;
 import pentagon.cfs.databean.Fund;
 import pentagon.cfs.databean.FundPriceHistory;
 import pentagon.cfs.databean.Meta;
+import pentagon.cfs.databean.Position;
 import pentagon.cfs.databean.TransactionRecord;
 import pentagon.cfs.formbean.TransitionForm;
 import pentagon.cfs.model.CommonUtil;
@@ -37,6 +38,7 @@ import pentagon.cfs.model.Model;
 
 public class TransitionDay implements Action {
 	private Model model;
+	public static final String REJ_FLAG = "rej_";
 
 	public TransitionDay(Model model) {
 		super();
@@ -108,55 +110,114 @@ public class TransitionDay implements Action {
 						TransactionRecord[] pendings = tranDAO.getPending();
 						CustomerDAO cmDAO = model.getCustomerDAO();
 						PositionDAO posDAO = model.getPositionDAO();
+						int succ = 0, rej = 0;
 						for (TransactionRecord rd : pendings) {
 							if ("buy".equals(rd.getType())) {
 								int fund_id = rd.getFund_id();
 								long price = priceMap.get(fund_id);
 								long amount = rd.getAmount();
 								double share = (double) amount / price;
-								rd.setShare((long) (share * 1000));
-								rd.setComplete(true);
-								rd.setDate(tradingDate);
-								tranDAO.update(rd);
+								Position currPos = posDAO.getCmPosition(
+										rd.getCm_id(), rd.getFund_id());
+								long currShare = 0;
+								if (currPos != null) {
+									currShare = currPos.getShare();
+								}
+								if (CommonUtil.canAdd(currShare,
+										(long) (share * 1000))) {
+									rd.setShare((long) (share * 1000));
+									rd.setComplete(true);
+									rd.setDate(tradingDate);
+									tranDAO.update(rd);
 
-								Customer cm = cmDAO.read(Integer.valueOf(rd
-										.getCm_id()));
-								cm.setCash(cm.getCash()
-										- (long) (price * share));
-								cm.setBalance(cm.getCash());
-								cm.setLasttrading(tradingDate);
-								cmDAO.update(cm);
+									Customer cm = cmDAO.read(Integer.valueOf(rd
+											.getCm_id()));
+									cm.setCash(cm.getCash()
+											- (long) (price * share));
+									cm.setBalance(cm.getCash());
+									cm.setLasttrading(tradingDate);
+									cmDAO.update(cm);
 
-								posDAO.updatePosition(rd.getCm_id(),
-										rd.getFund_id(), (long) (share * 1000));
+									posDAO.updatePosition(rd.getCm_id(),
+											rd.getFund_id(),
+											(long) (share * 1000));
+
+									succ++;
+								} else {
+									rd.setComplete(true);
+									rd.setDate(tradingDate);
+									rd.setType(REJ_FLAG + rd.getType());
+									tranDAO.update(rd);
+
+									Customer cm = cmDAO.read(Integer.valueOf(rd
+											.getCm_id()));
+									cm.setBalance(cm.getCash());
+									cm.setLasttrading(tradingDate);
+									cmDAO.update(cm);
+
+									rej++;
+								}
 							} else if ("sell".equals(rd.getType())) {
 								int fund_id = rd.getFund_id();
 								long price = priceMap.get(fund_id);
 								long share = rd.getShare();
-								long amount = (long) (((double) price / 100
-										* (double) share / 1000) * 100);
-								rd.setAmount(amount);
-								rd.setComplete(true);
-								rd.setDate(tradingDate);
-								tranDAO.update(rd);
-
 								Customer cm = cmDAO.read(Integer.valueOf(rd
 										.getCm_id()));
-								cm.setCash(cm.getCash() + amount);
-								cm.setBalance(cm.getCash());
-								cm.setLasttrading(tradingDate);
-								cmDAO.update(cm);
+								if (CommonUtil.canMultiply(price, share)
+										&& CommonUtil
+												.canAdd(cm.getCash(),
+														(long) (((double) price
+																/ 100
+																* (double) share / 1000) * 100))) {
+									long amount = (long) (((double) price / 100
+											* (double) share / 1000) * 100);
+									rd.setAmount(amount);
+									rd.setComplete(true);
+									rd.setDate(tradingDate);
+									tranDAO.update(rd);
 
-								posDAO.updatePosition(rd.getCm_id(),
-										rd.getFund_id(), -1 * share);
+									cm.setCash(cm.getCash() + amount);
+									cm.setBalance(cm.getCash());
+									cm.setLasttrading(tradingDate);
+									cmDAO.update(cm);
+
+									posDAO.updatePosition(rd.getCm_id(),
+											rd.getFund_id(), -1 * share);
+
+									succ++;
+								} else {
+									rd.setComplete(true);
+									rd.setDate(tradingDate);
+									rd.setType(REJ_FLAG + rd.getType());
+									tranDAO.update(rd);
+
+									cm.setLasttrading(tradingDate);
+									cmDAO.update(cm);
+
+									// revert balance
+									Position pos = posDAO.getCmPosition(
+											rd.getCm_id(), rd.getFund_id());
+									pos.setSharebalance(pos.getShare());
+									posDAO.update(pos);
+
+									rej++;
+								}
 							} else if ("deposit".equals(rd.getType())) {
 								long amount = rd.getAmount();
 								Customer cm = cmDAO.read(Integer.valueOf(rd
 										.getCm_id()));
-								cm.setCash(cm.getCash() + amount);
-								cm.setBalance(cm.getCash());
-								cm.setLasttrading(tradingDate);
-								cmDAO.update(cm);
+								if (CommonUtil.canAdd(cm.getCash(), amount)) {
+									cm.setCash(cm.getCash() + amount);
+									cm.setBalance(cm.getCash());
+									cm.setLasttrading(tradingDate);
+									cmDAO.update(cm);
+									succ++;
+								} else {
+									cm.setLasttrading(tradingDate);
+									cmDAO.update(cm);
+									rej++;
+									rd.setType(REJ_FLAG + rd.getType());
+								}
 
 								rd.setComplete(true);
 								rd.setDate(tradingDate);
@@ -173,6 +234,8 @@ public class TransitionDay implements Action {
 								rd.setComplete(true);
 								rd.setDate(tradingDate);
 								tranDAO.update(rd);
+
+								succ++;
 							}
 						}
 
@@ -192,8 +255,29 @@ public class TransitionDay implements Action {
 						Meta.lastDate = lastDate;
 
 						// set result
-						request.setAttribute("op_success", pendings.length
-								+ " transactions processed on " + Meta.lastDate);
+						if (succ > 0) {
+							request.setAttribute(
+									"op_success",
+									String.format(
+											"%d online transaction%s successfully processed on %s.",
+											succ, (succ > 1 ? "s" : ""),
+											Meta.lastDate));
+						}
+						if (rej > 0) {
+							request.setAttribute(
+									"op_fail",
+									String.format(
+											"%d online transaction%s rejected on %s : request amount exceed online system limit.",
+											rej, (succ > 1 ? "s" : ""),
+											Meta.lastDate));
+						}
+						if (succ == 0 && rej == 0) {
+							request.setAttribute(
+									"op_succ",
+									String.format(
+											"Fund price set, no online transaction to process on %s.",
+											Meta.lastDate));
+						}
 						request.setAttribute("last_day", Meta.lastDate);
 					}
 					// TODO

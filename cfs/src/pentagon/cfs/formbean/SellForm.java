@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pentagon.cfs.databean.Meta;
 import pentagon.cfs.databean.TransactionRecord;
 import pentagon.cfs.model.CommonUtil;
 
@@ -63,7 +64,7 @@ public class SellForm {
 		}
 
 		try {
-			shareAmount = CommonUtil.getNumber(shareAmountInput, 3);
+			shareAmount = CommonUtil.getNumber(shareAmountInput, Meta.SHARE_PRECISION);
 		} catch (RuntimeException e) {
 			errors.set(1, e.getMessage());
 			complete = false;

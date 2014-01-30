@@ -50,5 +50,13 @@ public class CommonUtil {
 			}
 		}
 	}
+	
+	public static boolean canAdd(long curr, long next) {
+		return next <= Long.MAX_VALUE - curr;
+	}
+
+	public static boolean canMultiply(long curr, long next) {
+		return next <= (Long.MAX_VALUE / curr);
+	}
 
 }

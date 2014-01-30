@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pentagon.cfs.databean.Meta;
 import pentagon.cfs.model.CommonUtil;
 
 public class ReqcheckForm {
@@ -36,7 +37,7 @@ public class ReqcheckForm {
 
 	public void checkErrors() {
 		try {
-			amount = CommonUtil.getNumber(amountInput, 2);
+			amount = CommonUtil.getNumber(amountInput, Meta.CASH_PRECISION);
 		} catch (RuntimeException e) {
 			errors.set(0, e.getMessage());
 			complete = false;

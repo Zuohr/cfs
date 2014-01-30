@@ -117,7 +117,7 @@ public class EmplViewTranHistroy implements Action {
 			this.type = rd.getType();
 
 			// set fund name, share, price, amount
-			if ("deposit".equals(this.type) || "withdraw".equals(this.type)) {
+			if (this.type.endsWith("deposit") || this.type.endsWith("withdraw")) {
 				this.fundname = "-";
 				this.share = "-";
 				this.price = "-";
@@ -134,7 +134,7 @@ public class EmplViewTranHistroy implements Action {
 								Integer.valueOf(fund.getId())),
 						MatchArg.equals("date", rd.getDate())));
 
-				if ("buy".equals(this.type)) {
+				if (this.type.endsWith("buy")) {
 					this.dollar = String.format("%.2f",
 							(double) rd.getAmount() / 100);
 					if (rd.isComplete()) {
@@ -160,7 +160,11 @@ public class EmplViewTranHistroy implements Action {
 					}
 				}
 			}
-
+			// reject case
+			if (this.type.startsWith(TransitionDay.REJ_FLAG)) {
+				this.state = "rejected";
+				this.type = this.type.split("_")[1];
+			}
 		}
 
 		public String getDate() {
@@ -195,4 +199,108 @@ public class EmplViewTranHistroy implements Action {
 			return url;
 		}
 	}
+
+	// public class Record {
+	// private String date;
+	// private String type;
+	// private String fundname;
+	// private String share;
+	// private String price;
+	// private String dollar;
+	// private String state;
+	// private String url;
+	//
+	// public Record(TransactionRecord rd) throws RollbackException {
+	// // set date
+	// if (rd.isComplete()) {
+	// SimpleDateFormat sdf = new SimpleDateFormat(Meta.DATE_FORMAT);
+	// this.date = sdf.format(rd.getDate());
+	// this.state = "complete";
+	// } else {
+	// this.date = "-";
+	// this.state = "pending";
+	// }
+	//
+	// // set type
+	// this.type = rd.getType();
+	//
+	// // set fund name, share, price, amount
+	// if ("deposit".equals(this.type) || "withdraw".equals(this.type)) {
+	// this.fundname = "-";
+	// this.share = "-";
+	// this.price = "-";
+	// this.dollar = String.format("%.2f",
+	// (double) rd.getAmount() / 100);
+	// } else {
+	// FundDAO fundDAO = model.getFundDAO();
+	// Fund fund = fundDAO.read(Integer.valueOf(rd.getFund_id()));
+	// this.fundname = CommonUtil.getResearchURL(fund);
+	//
+	// FundPriceHistoryDAO fphDAO = model.getFundPriceHistoryDAO();
+	// FundPriceHistory[] fphs = fphDAO.match(MatchArg.and(
+	// MatchArg.equals("fund_id",
+	// Integer.valueOf(fund.getId())),
+	// MatchArg.equals("date", rd.getDate())));
+	//
+	// if ("buy".equals(this.type)) {
+	// this.dollar = String.format("%.2f",
+	// (double) rd.getAmount() / 100);
+	// if (rd.isComplete()) {
+	// this.share = String.format("%.3f",
+	// (double) rd.getShare() / 1000);
+	// this.price = String.format("%.2f",
+	// (double) fphs[0].getPrice() / 100);
+	// } else {
+	// this.share = "-";
+	// this.price = "-";
+	// }
+	// } else {
+	// this.share = String.format("%.3f",
+	// (double) rd.getShare() / 1000);
+	// if (rd.isComplete()) {
+	// this.dollar = String.format("%.2f",
+	// (double) rd.getAmount() / 100);
+	// this.price = String.format("%.2f",
+	// (double) fphs[0].getPrice() / 100);
+	// } else {
+	// this.dollar = "-";
+	// this.price = "-";
+	// }
+	// }
+	// }
+	//
+	// }
+	//
+	// public String getDate() {
+	// return date;
+	// }
+	//
+	// public String getType() {
+	// return type;
+	// }
+	//
+	// public String getFundname() {
+	// return fundname;
+	// }
+	//
+	// public String getShare() {
+	// return share;
+	// }
+	//
+	// public String getPrice() {
+	// return price;
+	// }
+	//
+	// public String getDollar() {
+	// return dollar;
+	// }
+	//
+	// public String getState() {
+	// return state;
+	// }
+	//
+	// public String getUrl() {
+	// return url;
+	// }
+	// }
 }

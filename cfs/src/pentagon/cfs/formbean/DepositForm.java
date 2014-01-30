@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pentagon.cfs.databean.Meta;
 import pentagon.cfs.model.CommonUtil;
 
 public class DepositForm {
@@ -58,7 +59,7 @@ public class DepositForm {
 		}
 
 		try {
-			depositAmount = CommonUtil.getNumber(depositInput, 2);
+			depositAmount = CommonUtil.getNumber(depositInput, Meta.CASH_PRECISION);
 		} catch (RuntimeException e) {
 			errors.set(1, e.getMessage());
 			complete = false;

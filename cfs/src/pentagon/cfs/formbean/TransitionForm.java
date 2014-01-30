@@ -90,7 +90,7 @@ public class TransitionForm {
 			String priceInput = (String) request.getParameter("price_" + i);
 			long price = 0;
 			try {
-				price = CommonUtil.getNumber(priceInput, 2);
+				price = CommonUtil.getNumber(priceInput, Meta.CASH_PRECISION);
 				FundPriceHistory fp = priceList.get(i - 1);
 				fp.setFund_id(i);
 				fp.setDate(date);
