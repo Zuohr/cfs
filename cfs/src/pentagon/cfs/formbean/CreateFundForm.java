@@ -44,14 +44,14 @@ public class CreateFundForm {
 			errors.set(0, "Fund name cannot be empty.");
 			complete = false;
 		}else if (!CommonUtil.isLegal(fundName)) {
-			errors.set(0, "Can not contain special characters or input is too long.");
+			errors.set(0, "Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 		if (fundTicker == null || fundTicker.trim().isEmpty()) {
 			errors.set(1, "Fund ticker cannot be empty");
 			complete = false;
 		}else if (!CommonUtil.isLegal(fundTicker)) {
-			errors.set(1, "Can not contain special characters or input is too long.");
+			errors.set(1, "Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 	}

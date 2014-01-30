@@ -76,41 +76,45 @@ public class CreateCmForm {
 		if (firstName == null || firstName.trim().isEmpty()) {
 			errors.set(0, "First name cannot be empty.");
 			complete = false;
-		}else if (!CommonUtil.isLegal(firstName)) {
-			errors.set(0, "Can not contain special characters or input is too long.");
+		} else if (!CommonUtil.isLegal(firstName)) {
+			errors.set(0,
+					"Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 
 		if (lastName == null || lastName.trim().isEmpty()) {
 			errors.set(1, "Last name cannot be empty.");
 			complete = false;
-		}else if (!CommonUtil.isLegal(lastName)) {
-			errors.set(1, "Can not contain special characters or input is too long.");
+		} else if (!CommonUtil.isLegal(lastName)) {
+			errors.set(1,
+					"Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 
 		if (userName == null || userName.trim().isEmpty()) {
 			errors.set(2, "User name cannot be empty.");
 			complete = false;
-		}else if (!CommonUtil.isLegal(userName)) {
-			errors.set(2, "Can not contain special characters or input is too long.");
+		} else if (!CommonUtil.isLegal(userName)) {
+			errors.set(2,
+					"Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
-		
 
 		if (addr1 == null || addr1.trim().isEmpty()) {
 			errors.set(3, "Address line 1 cannot be empty.");
 			complete = false;
-		}else if (!CommonUtil.isLegal(addr1)) {
-			errors.set(3, "Can not contain special characters or input is too long.");
+		} else if (!CommonUtil.isLegal(addr1)) {
+			errors.set(3,
+					"Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 
 		if (city == null || city.trim().isEmpty()) {
 			errors.set(4, "City cannot be empty.");
 			complete = false;
-		}else if (!CommonUtil.isLegal(city)) {
-			errors.set(4, "Can not contain special characters or input is too long.");
+		} else if (!CommonUtil.isLegal(city)) {
+			errors.set(4,
+					"Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 
@@ -118,10 +122,7 @@ public class CreateCmForm {
 			errors.set(5, "Zip cannot be empty.");
 			complete = false;
 		} else if (!zip.matches("\\d{5}")) {
-			errors.set(5, "Zip format should be 5 digits.");
-			complete = false;
-		}else if (!CommonUtil.isLegal(zip)) {
-			errors.set(5, "Can not contain special characters or input is too long.");
+			errors.set(5, "Zip format should have 5 digits.");
 			complete = false;
 		}
 
@@ -132,8 +133,9 @@ public class CreateCmForm {
 		} else if (!password.equals(password2)) {
 			errors.set(6, "Password does not match.");
 			complete = false;
-		}else if (!CommonUtil.isLegal(password)) {
-			errors.set(6, "Can not contain special characters or input is too long.");
+		} else if (!CommonUtil.isLegal(password)) {
+			errors.set(6,
+					"Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 	}

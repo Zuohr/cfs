@@ -49,7 +49,7 @@ public class ResetpwForm {
 			complete = false;
 
 		} else if(!CommonUtil.isLegal(userName)){
-			errors.set(0, "Can not contain special characters or input is too long.");
+			errors.set(0, "Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 
@@ -58,7 +58,7 @@ public class ResetpwForm {
 			complete = false;
 
 		} else if(!CommonUtil.isLegal(newPassword)){
-			errors.set(1, "Can not contain special characters or input is too long.");
+			errors.set(1, "Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 
@@ -66,7 +66,7 @@ public class ResetpwForm {
 			errors.set(2, "Please comfirm password!");
 			complete = false;
 		} else if(!CommonUtil.isLegal(checkPassword)){
-			errors.set(2, "Can not contain special characters or input is too long.");
+			errors.set(2, "Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 

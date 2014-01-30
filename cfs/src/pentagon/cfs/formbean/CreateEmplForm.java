@@ -55,7 +55,7 @@ public class CreateEmplForm {
 			errors.set(0, "First name cannot be empty.");
 			complete = false;
 		}else if (!CommonUtil.isLegal(firstName)) {
-			errors.set(0, "Can not contain special characters or input is too long.");
+			errors.set(0, "Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 
@@ -63,7 +63,7 @@ public class CreateEmplForm {
 			errors.set(1, "Last name cannot be empty.");
 			complete = false;
 		}else if (!CommonUtil.isLegal(lastName)) {
-			errors.set(1, "Can not contain special characters or input is too long.");
+			errors.set(1, "Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 
@@ -71,7 +71,7 @@ public class CreateEmplForm {
 			errors.set(2, "User name cannot be empty.");
 			complete = false;
 		}else if (!CommonUtil.isLegal(userName)) {
-			errors.set(2, "Can not contain special characters or input is too long.");
+			errors.set(2, "Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 
@@ -79,7 +79,7 @@ public class CreateEmplForm {
 			errors.set(3, "Please enter password.");
 			complete = false;
 		}else if (!CommonUtil.isLegal(password)) {
-			errors.set(3, "Can not contain special characters or input is too long.");
+			errors.set(3, "Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 		
@@ -87,7 +87,7 @@ public class CreateEmplForm {
 			errors.set(4, "Please confirm password.");
 			complete = false;
 		}else if (!CommonUtil.isLegal(password2)) {
-			errors.set(4, "Can not contain special characters or input is too long.");
+			errors.set(4, "Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
 		

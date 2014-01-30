@@ -99,26 +99,6 @@ public class TransitionForm {
 				errors.set(i, e.getMessage());
 				complete = false;
 			}
-			// if (priceInput == null || priceInput.trim().isEmpty()) {
-			// errors.set(i, "Price must be provided for this fund.");
-			// complete = false;
-			// } else {
-			// try {
-			// double p = Double.parseDouble(priceInput);
-			// if (p < 1) {
-			// errors.set(i, "Minimum price is 1.");
-			// complete = false;
-			// } else {
-			// FundPriceHistory fp = priceList.get(i - 1);
-			// fp.setFund_id(i);
-			// fp.setDate(date);
-			// fp.setPrice((long) (p * 100));
-			// }
-			// } catch (NumberFormatException e) {
-			// errors.set(i, "Invalid price.");
-			// complete = false;
-			// }
-			// }
 		}
 	}
 }
