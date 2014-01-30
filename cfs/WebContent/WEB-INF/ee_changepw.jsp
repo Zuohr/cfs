@@ -47,7 +47,7 @@
 						</div>
 
 						<div class="form-group">
-							<label for="inputNewPassword3" class="col-sm-2 control-label">Re-enter
+							<label for="inputNewPassword3" class="col-sm-2 control-label">Confirm
 							</label>
 							<div class="col-sm-10" style="width: 300px">
 								<input type="password" class="form-control"

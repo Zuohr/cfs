@@ -76,11 +76,13 @@ public class ResearchFund implements Action {
 	public class Record {
 		String date;
 		String price;
+		long dateMilli;
 
 		public Record(FundPriceHistory rd) {
 			SimpleDateFormat sdf = new SimpleDateFormat(Meta.DATE_FORMAT);
 			this.date = sdf.format(rd.getDate());
 			this.price = String.format("%.2f", (double) rd.getPrice() / 100);
+			this.dateMilli = rd.getDate().getTime();
 		}
 
 		public String getDate() {
@@ -89,6 +91,10 @@ public class ResearchFund implements Action {
 
 		public String getPrice() {
 			return price;
+		}
+		
+		public long getDateMilli(){
+			return dateMilli;
 		}
 	}
 }
