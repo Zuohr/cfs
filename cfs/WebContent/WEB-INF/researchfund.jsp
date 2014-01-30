@@ -68,11 +68,12 @@
 		<jsp:include page="header.jsp" />
 	<div class="container">
 		<div class="col-xs-12 col-sm-9">
-			<h2>${requestScope.fund.name } (${requestScope.fund.symbol })</h2>
+			<h2>Price History</h2>
 	
 			<div class="demo-container">
 				<div id="placeholder" class="demo-placeholder"></div>
 			</div>
+			<h2>${requestScope.fund.name } (${requestScope.fund.symbol })</h2>
 			<table class="table table-striped">
 				<thead>
 					<tr>
