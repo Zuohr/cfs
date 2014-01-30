@@ -77,7 +77,7 @@
 				<thead>
 					<tr>
 						<th class="header-title">Date</th>
-						<th class="header-ac">Price</th>
+						<th class="header-ac" style="text-align:right; padding-right:240px;">Price</th>
 					</tr>
 				</thead>
 
@@ -85,7 +85,7 @@
 					<c:forEach var="record" items="${requestScope.records }">
 						<tr>
 							<td>${record.date }</td>
-							<td>${record.price }</td>
+							<td style="text-align:right; padding-right:240px;">${record.price }</td>
 						</tr>
 					</c:forEach>
 				</tbody>
