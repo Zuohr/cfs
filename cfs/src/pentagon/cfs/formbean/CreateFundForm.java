@@ -1,3 +1,10 @@
+/**
+ * Team Pentagon
+ * Task 7 - Web application development
+ * Carnegie Financial Services
+ * Jan 2014
+ */
+
 package pentagon.cfs.formbean;
 
 import java.util.ArrayList;
@@ -43,15 +50,21 @@ public class CreateFundForm {
 		if (fundName == null || fundName.trim().isEmpty()) {
 			errors.set(0, "Fund name cannot be empty.");
 			complete = false;
-		}else if (!CommonUtil.isLegal(fundName)) {
-			errors.set(0, "Invalid input : contains special character or too long (maximum 60).");
+		} else if (!CommonUtil.isLegal(fundName)) {
+			errors.set(0,
+					"Invalid input : contains special character or too long (maximum 60).");
 			complete = false;
 		}
+		
 		if (fundTicker == null || fundTicker.trim().isEmpty()) {
 			errors.set(1, "Fund ticker cannot be empty");
 			complete = false;
-		}else if (!CommonUtil.isLegal(fundTicker)) {
-			errors.set(1, "Invalid input : contains special character or too long (maximum 60).");
+		} else if (!CommonUtil.isLegal(fundTicker)) {
+			errors.set(1,
+					"Invalid input : contains special character or too long (maximum 5).");
+			complete = false;
+		} else if (!fundTicker.matches("[a-zA-Z]{1,5}")) {
+			errors.set(1, "Ticker consists only 1 to 5 character.");
 			complete = false;
 		}
 	}
