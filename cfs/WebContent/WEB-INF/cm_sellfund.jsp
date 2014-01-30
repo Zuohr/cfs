@@ -26,8 +26,8 @@
 						<thead>
 							<tr>
 								<th class="header-title">Fund Name</th>
-								<th class="header-date">Shares</th>
-								<th class="header-date">Avaliable Shares</th>
+								<th class="header-date" style="text-align:right; padding-right:40px;">Shares</th>
+								<th class="header-date" style="text-align:right; padding-right:140px;">Avaliable Shares</th>
 								<th class="header-ac">Action</th>
 							</tr>
 						</thead>
@@ -35,8 +35,8 @@
 							<c:forEach var="plist" items="${requestScope.cus_position}">
 								<tr>
 									<td><a href="#">${plist.fundName}</a></td>
-									<td>${plist.share}</td>
-									<td>${plist.shareBalance}</td>
+									<td style="text-align:right; padding-right:40px;">${plist.share}</td>
+									<td style="text-align:right; padding-right:140px;">${plist.shareBalance}</td>
 									<td>
 										<div class="btn-group">
 											<button type="button" class="btn btn-default"

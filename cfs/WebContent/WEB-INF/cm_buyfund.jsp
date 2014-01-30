@@ -27,7 +27,7 @@
 						<thead>
 							<tr>
 								<th class="header-title">Fund Name</th>
-								<th class="header-title">Last Trading Day Price</th>
+								<th class="header-title" style="text-align:right; padding-right:150px;">Last Trading Day Price</th>
 								<th class="header-ac">Action</th>
 							</tr>
 						</thead>
@@ -35,7 +35,7 @@
 							<c:forEach var="fund" items="${requestScope.pr_list}">
 								<tr>
 									<td>${fund.fundName}</td>
-									<td>${fund.lastPrice}</td>
+									<td style="text-align:right; padding-right:150px;">${fund.lastPrice}</td>
 									<td>
 
 										<div class="btn-group">

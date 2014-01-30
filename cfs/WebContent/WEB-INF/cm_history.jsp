@@ -23,10 +23,10 @@
 							<th class="header-title">Date</th>
 							<th class="header-date">Operation</th>
 							<th class="header-ac">Fund Name</th>
-							<th class="header-ac">Share</th>
-							<th class="header-ac">Price</th>
-							<th class="header-ac">Amount</th>
-							<th class="header-ac">Status</th>
+							<th class="header-ac" style="text-align:right; padding-right:40px;">Share</th>
+							<th class="header-ac" style="text-align:right; padding-right:40px;">Price</th>
+							<th class="header-ac" style="text-align:right; padding-right:40px;">Amount</th>
+							<th class="header-ac" >Status</th>
 						</tr>
 					</thead>
 
@@ -37,9 +37,9 @@
 								<td>${record.type }</td>
 								<td>${record.fundname }</td>
 								<%-- <td><a href="#">${record.fundname }</a></td> --%>
-								<td>${record.share }</td>
-								<td>${record.price }</td>
-								<td>${record.dollar }</td>
+								<td style="text-align:right; padding-right:40px;">${record.share }</td>
+								<td style="text-align:right; padding-right:40px;">${record.price }</td>
+								<td style="text-align:right; padding-right:40px;">${record.dollar }</td>
 								<td>${record.state }</td>
 							</tr>
 						</c:forEach>
