@@ -73,6 +73,7 @@
 			<div class="demo-container">
 				<div id="placeholder" class="demo-placeholder"></div>
 			</div>
+			<h2>Price History</h2>
 			<table class="table table-striped">
 				<thead>
 					<tr>

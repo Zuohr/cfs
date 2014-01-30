@@ -27,15 +27,16 @@ public class EmplLogin implements Action {
 
 	@Override
 	public String perform(HttpServletRequest request) throws RollbackException {
-		Employee employee = (Employee) request.getSession().getAttribute("employee");
-		if(employee != null) {
+		Employee employee = (Employee) request.getSession().getAttribute(
+				"employee");
+		if (employee != null) {
 			return "emplviewcmlist.do";
 		}
-		
-		String role = request.getParameter("submit");
-		if (role == null) {
+
+		String btn = request.getParameter("submit");
+		if (btn == null) {
 			return "login.jsp";
-		} else if (role.startsWith("em")) {
+		} else if ("employee".equals(btn)) {
 			EmplLoginForm form = new EmplLoginForm(request);
 			if (form.isComplete()) {
 				Employee ee = employeeDAO.getProfile(form.getUserName());
@@ -44,7 +45,8 @@ public class EmplLogin implements Action {
 						request.getSession().setAttribute("employee", ee);
 						return "emplviewcmlist.do";
 					} else {
-						request.setAttribute("result", "Password is not correct");
+						request.setAttribute("result",
+								"Password is not correct");
 						return "login.jsp";
 					}
 				} else {

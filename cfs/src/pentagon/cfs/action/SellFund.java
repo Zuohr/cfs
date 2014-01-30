@@ -73,60 +73,74 @@ public class SellFund implements Action {
 
 			// check if form is complete
 			if (form.isComplete()) {
-				Fund fund = fundDAO.read(Integer.valueOf(form.getFund_id()));
-				// check if fund exists
-				if (fund == null) {
-					return "cm_sellfund.jsp";
-				}
+				// TODO
+				try {
+					Transaction.begin();
+					Fund fund = fundDAO
+							.read(Integer.valueOf(form.getFund_id()));
+					// check if fund exists
+					if (fund == null) {
+						request.setAttribute("op_fail", "Fund not exist.");
+					} else {
 
-				long inputAmount = form.getShare();
-				Position currPos = posDAO.getCmPosition(user.getId(),
-						fund.getId());
-				// check if position exists
-				if (currPos == null) {
-					request.setAttribute("op_fail",
-							"You do not have enough balance.");
-					return "cm_sellfund.jsp";
-				}
+						long inputAmount = form.getShare();
+						Position currPos = posDAO.getCmPosition(user.getId(),
+								fund.getId());
+						// check if position exists
+						if (currPos == null) {
+							request.setAttribute("op_fail",
+									"You do not have share of this fund.");
+						} else {
 
-				long availAmount = currPos.getSharebalance();
-				// check available balance
-				if (inputAmount > availAmount) {
-					request.setAttribute("op_fail",
-							"You do not have enough balance.");
-					return "cm_sellfund.jsp";
-				} else {
-					// succeed
-					// update transaction
-					TransactionDAO transDao = model.getTransactionDAO();
-					TransactionRecord rd = new TransactionRecord();
-					rd.setCm_id(user.getId());
-					rd.setType("sell");
-					rd.setShare(inputAmount);
-					rd.setFund_id(fund.getId());
-					rd.setComplete(false);
-					transDao.create(rd);
-					request.setAttribute("op_success",
-							"You have successfully placed the order");
+							long availAmount = currPos.getSharebalance();
+							// check available balance
+							if (inputAmount > availAmount) {
+								request.setAttribute("op_fail",
+										"You do not have enough balance.");
+							} else {
+								// succeed
+								// update transaction
+								TransactionDAO transDao = model
+										.getTransactionDAO();
+								TransactionRecord rd = new TransactionRecord();
+								rd.setCm_id(user.getId());
+								rd.setType("sell");
+								rd.setShare(inputAmount);
+								rd.setFund_id(fund.getId());
+								rd.setComplete(false);
+								transDao.create(rd);
+								request.setAttribute("op_success",
+										"You have successfully placed the order");
 
-					// update available share
-					availAmount -= inputAmount;
-					currPos.setSharebalance(availAmount);
-					posDAO.update(currPos);
+								// update available share
+								availAmount -= inputAmount;
+								currPos.setSharebalance(availAmount);
+								posDAO.update(currPos);
 
-					// update position list
-					Position[] pos = posDAO.getPositions(user.getId());
-					PositionRecord[] plist = new PositionRecord[pos.length];
-					for (int i = 0; i < pos.length; i++) {
-						Fund fd = fundDAO.read(pos[i].getFund_id());
-						plist[i] = new PositionRecord(
-								CommonUtil.getResearchURL(fd),
-								pos[i].getShare(), pos[i].getSharebalance(), 0);
-						plist[i].setFundId(fd.getId());
+								// update position list
+								Position[] pos = posDAO.getPositions(user
+										.getId());
+								PositionRecord[] plist = new PositionRecord[pos.length];
+								for (int i = 0; i < pos.length; i++) {
+									Fund fd = fundDAO.read(pos[i].getFund_id());
+									plist[i] = new PositionRecord(
+											CommonUtil.getResearchURL(fd),
+											pos[i].getShare(),
+											pos[i].getSharebalance(), 0);
+									plist[i].setFundId(fd.getId());
+								}
+								request.setAttribute("cus_position", plist);
+							}
+						}
 					}
-					request.setAttribute("cus_position", plist);
-					return "cm_sellfund.jsp";
+					// TODO
+					Transaction.commit();
+				} catch (RollbackException e) {
+					if (Transaction.isActive()) {
+						Transaction.rollback();
+					}
 				}
+				return "cm_sellfund.jsp";
 			} else {
 				request.setAttribute("op_fail", "Operation failed");
 				request.setAttribute("errors", form.getErrors());

@@ -93,6 +93,7 @@ public class BuyFund implements Action {
 				// check if fund exists
 				Fund fund = fundDAO.read(form.getFund_id());
 				if (fund == null) {
+					request.setAttribute("op_fail", "Fund not exist.");
 					return "cm_buyfund.jsp";
 				}
 

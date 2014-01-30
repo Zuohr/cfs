@@ -63,19 +63,18 @@ public class EmplViewTranHistroy implements Action {
 				Customer customer = cmDAO.getProfile(username);
 				if (customer == null) {
 					ret = "emplviewcmlist.do";
+				} else {
+					TransactionDAO dao = model.getTransactionDAO();
+					TransactionRecord[] transactions = dao.getHistory(customer
+							.getId());
+					Record[] records = new Record[transactions.length];
+					for (int i = 0; i < records.length; i++) {
+						records[i] = new Record(transactions[i]);
+					}
+					request.setAttribute("records", records);
+					request.setAttribute("customer_tran", customer);
+					ret = "ee_cmhistory.jsp";
 				}
-
-				TransactionDAO dao = model.getTransactionDAO();
-				TransactionRecord[] transactions = dao.getHistory(customer
-						.getId());
-				Record[] records = new Record[transactions.length];
-				for (int i = 0; i < records.length; i++) {
-					records[i] = new Record(transactions[i]);
-				}
-				request.setAttribute("records", records);
-				request.setAttribute("customer_tran", customer);
-				ret = "ee_cmhistory.jsp";
-
 				// TODO
 				Transaction.commit();
 			} catch (RollbackException e) {

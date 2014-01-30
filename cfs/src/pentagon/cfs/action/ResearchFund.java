@@ -92,8 +92,8 @@ public class ResearchFund implements Action {
 		public String getPrice() {
 			return price;
 		}
-		
-		public long getDateMilli(){
+
+		public long getDateMilli() {
 			return dateMilli;
 		}
 	}

@@ -33,10 +33,10 @@ public class CmLogin implements Action {
 			return "cmviewacct.do";
 		}
 
-		String role = request.getParameter("submit");
-		if (role == null) {
+		String btn = request.getParameter("submit");
+		if (btn == null) {
 			return "login.jsp";
-		} else if (role.startsWith("cu")) {
+		} else if ("customer".equals(btn)) {
 			CmLoginForm form = new CmLoginForm(request);
 			if (form.isComplete()) {
 				if (customerDAO.getProfile(form.getUserName()) != null) {
