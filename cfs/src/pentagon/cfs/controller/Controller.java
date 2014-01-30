@@ -93,7 +93,6 @@ public class Controller extends HttpServlet {
 				eeDAO.createEmployee(ee);
 			}
 		} catch (RollbackException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

@@ -11,6 +11,8 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pentagon.cfs.model.CommonUtil;
+
 public class BuyForm {
 	private String idInput;
 	private String amountInput;
@@ -58,26 +60,11 @@ public class BuyForm {
 			fund_id = Integer.parseInt(idInput);
 		}
 
-		if (amountInput == null || amountInput.trim().isEmpty()) {
-			errors.set(1, "Please provide amount.");
+		try {
+			this.amount = CommonUtil.getNumber(amountInput, 2);
+		} catch (RuntimeException e) {
+			errors.set(1, e.getMessage());
 			complete = false;
-		} else {
-			try {
-				double inputParse = Double.parseDouble(amountInput);
-				double max = (double) Long.MAX_VALUE / 100;
-				if (inputParse > max) {
-					errors.set(1, "Amount too large.");
-					complete = false;
-				} else if (inputParse < 0.01) {
-					errors.set(1, "The minimum amount is 0.01.");
-					complete = false;
-				} else {
-					amount = (long) (inputParse * 100);
-				}
-			} catch (NumberFormatException e) {
-				errors.set(1, "Invalid number.");
-				complete = false;
-			}
 		}
 	}
 }

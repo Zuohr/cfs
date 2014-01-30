@@ -26,7 +26,7 @@
        <form class="form-horizontal" id="transition_form"> <!-- role="form"> -->
 		<input type="hidden" name="fund_num" value="${requestScope.fund_num }">
         <div class="form-group">
-        <label for="inputFirstName3" class="col-sm-2 control-label">Date</label>
+        <label for="inputFirstName3" class="col-sm-2 control-label" style="width:300px">Date</label>
         <div class="col-sm-10" style="width:300px">
           <input type="text" class="form-control" id="inputFirstName3" name="date" placeholder="mm/dd/yyyy">
         </div> 
@@ -35,7 +35,7 @@
 
 		<c:forEach var="fund" items="${requestScope.fund_list }">
         <div class="form-group">
-        <label for="inputFirstName3" class="col-sm-2 control-label">${fund.name} </label>
+        <label for="inputFirstName3" class="col-sm-2 control-label" style="width:300px">${fund.name} </label>
         <div class="col-sm-10" style="width:300px">
           <input type="text" class="form-control" id="inputFirstName3" name="price_${fund.id }" placeholder="Price">
         </div>

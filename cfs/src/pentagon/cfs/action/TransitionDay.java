@@ -91,6 +91,9 @@ public class TransitionDay implements Action {
 						request.setAttribute("op_fail",
 								"Fund list expired, please fill again.");
 						fund_list = fundDAO.match();
+						for (Fund fund : fund_list) {
+							fund.setName(CommonUtil.getResearchURL(fund));
+						}
 						request.setAttribute("fund_list", fund_list);
 						request.setAttribute("fund_num", fund_list.length);
 					} else {

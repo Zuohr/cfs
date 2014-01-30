@@ -27,6 +27,17 @@ public class TestDAO {
 		return new ConnectionPool(jdbcName, jdbcURL);
 	}
 
+	public static void main(String[] args) {
+		System.out.println(Long.MAX_VALUE);
+		long l1 = Long.MAX_VALUE - 1;
+		long l2 = 3;
+		System.out.println(canAdd(l1, l2));
+	}
+
+	private static boolean canAdd(long l1, long l2) {
+		return l2 <= Long.MAX_VALUE - l1;
+	}
+
 	@Test
 	public void initDB() throws DAOException {
 		testCmDAO();
@@ -277,27 +288,27 @@ public class TestDAO {
 		TestBeanDAO dao = new TestBeanDAO(cp);
 		bundle(dao);
 	}
-	
+
 	@Test
 	public static void bundle(TestBeanDAO dao) throws RollbackException {
-		if(!Transaction.isActive()) {
+		if (!Transaction.isActive()) {
 			try {
 				Transaction.begin();
-				
+
 				bundle(dao);
-				
+
 				Transaction.commit();
 			} catch (RollbackException e) {
 				e.printStackTrace();
 			} finally {
-				if(Transaction.isActive()) {
+				if (Transaction.isActive()) {
 					Transaction.rollback();
 				}
 			}
 		}
 		dao.bundle();
 	}
-	
+
 	@Test
 	public void testTestDAO() throws DAOException, RollbackException {
 		ConnectionPool cp = getConnectionPool();
@@ -318,7 +329,7 @@ public class TestDAO {
 				}
 			}
 		}
-		
+
 		dao.bundle();
 		// try {
 		// Transaction.begin();

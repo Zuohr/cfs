@@ -77,7 +77,7 @@
 			  <div class="form-group">
 				<label for="inputUserName3" class="col-sm-2 control-label">Zip Code</label>
 				<div class="col-sm-10" style="width:300px">
-				  <input type="text" class="form-control" id="inputUserName3" name="zip" placeholder="zipcode">
+				  <input type="text" class="form-control" id="inputUserName3" name="zip" placeholder="5 digit zip code">
 				</div>
 				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["5"] }</span>
 			  </div>

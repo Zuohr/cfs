@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import pentagon.cfs.model.CommonUtil;
+
 public class ReqcheckForm {
 	private long amount;
 	private String amountInput;
@@ -33,27 +35,11 @@ public class ReqcheckForm {
 	}
 
 	public void checkErrors() {
-		if (amountInput == null || amountInput.isEmpty()) {
-			errors.set(0, "Please provide amount.");
+		try {
+			amount = CommonUtil.getNumber(amountInput, 2);
+		} catch (RuntimeException e) {
+			errors.set(0, e.getMessage());
 			complete = false;
-		} else {
-			try {
-				double inputParse = Double.parseDouble(amountInput);
-				double max = (double) Long.MAX_VALUE / 100;
-				if (inputParse > max) {
-					errors.set(0, "Amount too large.");
-					complete = false;
-				} else if (inputParse < 0.01) {
-					errors.set(0, "The minimum amount is 0.01.");
-					complete = false;
-				} else {
-					amount = (long) (inputParse * 100);
-				}
-			} catch (NumberFormatException e) {
-				errors.set(0, "Invalid number.");
-				complete = false;
-			}
 		}
-
 	}
 }
