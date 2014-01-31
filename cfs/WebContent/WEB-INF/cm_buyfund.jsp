@@ -69,7 +69,7 @@
 														<label for="inputEmail3" class="col-sm-2 control-label">Amount: </label>
 														<div class="col-sm-10">
 															<input type="text" placeholder="max two decimals"  class="form-control" name="buyAmount"
-																style="width: 160px;" id="inputAmount">
+																style="width: 300px;" id="inputAmount">
 															<p style="color: red">${requestScope.result }</p>
 															<p style="color: red">${requestScope.errors["0"] }</p>
 															<input type="hidden" name="fundId" value="${fund.fundId}">

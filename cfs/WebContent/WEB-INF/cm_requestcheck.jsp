@@ -30,7 +30,7 @@
 
 							<label for="inputEmail3" class="col-sm-2 control-label">Request
 								Amount</label>
-							<div class="col-sm-10" style="width: 200px;">
+							<div class="col-sm-10" style="width: 300px;">
 								<input type="text" class="form-control" id="inputEmail3"
 									placeholder="$" name="request_amount">
 							</div>
