@@ -42,7 +42,7 @@
 						</c:when>
 					</c:choose>
 					<!--  -->
-					<form class="form-horizontal" id="transition_form">
+					<form class="form-horizontal" id="transition_form" method="post">
 						<!-- role="form"> -->
 						<input type="hidden" name="fund_num"
 							value="${requestScope.fund_num }">

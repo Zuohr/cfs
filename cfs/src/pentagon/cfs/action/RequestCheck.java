@@ -37,7 +37,7 @@ public class RequestCheck implements Action {
 		if (customer == null) {
 			return "login.jsp";
 		}
-		
+
 		request.setAttribute("nav_cmreqcheck", "active");
 		request.setAttribute("header_type", "Customer");
 		request.setAttribute("header_name", customer.getFirstname() + " "
@@ -47,7 +47,7 @@ public class RequestCheck implements Action {
 		CustomerDAO cmDAO = model.getCustomerDAO();
 		customer = cmDAO.read(customer.getId());
 		request.getSession().setAttribute("customer", customer);
-		
+
 		// set balance
 		request.setAttribute("balance",
 				String.format("%.2f", (double) customer.getBalance() / 100));
@@ -55,47 +55,47 @@ public class RequestCheck implements Action {
 		if ("submit".equals(request.getParameter("requestcheck_btn"))) {
 			ReqcheckForm form = new ReqcheckForm(request);
 			if (form.isComplete()) {
-				//TODO
+				// TODO
 				try {
 					Transaction.begin();
-					
-				long amount = form.getAmount();
-				long balance = customer.getBalance();
-				if (amount <= balance) {
-					// set Transaction
-					TransactionRecord rd = new TransactionRecord();
-					rd.setCm_id(customer.getId());
-					rd.setType("withdraw");
-					rd.setAmount(amount);
-					rd.setComplete(false);
-					transactionDAO.create(rd);
 
-					// update balance
-					customer.setBalance(balance - amount);
-					cmDAO.update(customer);
+					long amount = form.getAmount();
+					long balance = customer.getBalance();
+					if (amount <= balance) {
+						// set Transaction
+						TransactionRecord rd = new TransactionRecord();
+						rd.setCm_id(customer.getId());
+						rd.setType("withdraw");
+						rd.setAmount(amount);
+						rd.setComplete(false);
+						transactionDAO.create(rd);
 
-					request.setAttribute(
-							"op_success",
-							String.format(
-									"Transaction registered: Deposit $%.2f for user %s.",
-									(double) amount / 100,
-									customer.getUsername()));
-					request.setAttribute(
-							"balance",
-							String.format("%.2f",
-									(double) customer.getBalance() / 100));
-				} else {
-					request.setAttribute("op_fail",
-							"Your current balance is not enough!");
-				}
-				//TODO
-				Transaction.commit();
+						// update balance
+						customer.setBalance(balance - amount);
+						cmDAO.update(customer);
+
+						request.setAttribute(
+								"op_success",
+								String.format(
+										"Transaction registered: Deposit $%.2f for user %s.",
+										(double) amount / 100,
+										customer.getUsername()));
+						request.setAttribute(
+								"balance",
+								String.format("%.2f",
+										(double) customer.getBalance() / 100));
+					} else {
+						request.setAttribute("op_fail",
+								"Your current balance is not enough!");
+					}
+					// TODO
+					Transaction.commit();
 				} catch (RollbackException e) {
 					if (Transaction.isActive()) {
 						Transaction.rollback();
 					}
 				}
-				
+
 				return "cm_requestcheck.jsp";
 			} else {
 				request.setAttribute("errors", form.getErrors());

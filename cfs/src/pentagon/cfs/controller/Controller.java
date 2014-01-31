@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.genericdao.RollbackException;
+import org.genericdao.Transaction;
 
 import pentagon.cfs.action.Action;
 import pentagon.cfs.action.ActionMap;
@@ -84,6 +85,7 @@ public class Controller extends HttpServlet {
 
 		EmployeeDAO eeDAO = model.getEmployeeDAO();
 		try {
+			Transaction.begin();
 			if (eeDAO.getCount() == 0) {
 				Employee ee = new Employee();
 				ee.setUsername("root");
@@ -92,8 +94,11 @@ public class Controller extends HttpServlet {
 				ee.setLastname("Chu");
 				eeDAO.createEmployee(ee);
 			}
+			Transaction.commit();
 		} catch (RollbackException e) {
-			e.printStackTrace();
+			if (Transaction.isActive()) {
+				Transaction.rollback();
+			}
 		}
 	}
 

@@ -254,8 +254,11 @@ public class TransitionDay implements Action {
 
 						Meta.lastDate = lastDate;
 
+						System.out.println("succ " + succ);
+						System.out.println("rej " + rej);
 						// set result
 						if (succ > 0) {
+							System.out.println("succ>0");
 							request.setAttribute(
 									"op_success",
 									String.format(
@@ -264,6 +267,7 @@ public class TransitionDay implements Action {
 											Meta.lastDate));
 						}
 						if (rej > 0) {
+							System.out.println("rej>0");
 							request.setAttribute(
 									"op_fail",
 									String.format(
@@ -272,8 +276,9 @@ public class TransitionDay implements Action {
 											Meta.lastDate));
 						}
 						if (succ == 0 && rej == 0) {
+							System.out.println("no trans");
 							request.setAttribute(
-									"op_succ",
+									"op_success",
 									String.format(
 											"Fund price set, no online transaction to process on %s.",
 											Meta.lastDate));
