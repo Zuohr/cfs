@@ -10,7 +10,7 @@ public class CommonUtil {
 	}
 
 	public static boolean isLegal(String s) {
-		String special = "`~!@#$%^&*()_+-=\\][|}{;\':\",./<>?";
+		String special = "`~!$%^*()_+=\\][|}{;\':\"/<>?";
 		boolean result = true;
 		for (int i = 0; i < s.length(); i++) {
 			if (special.indexOf(s.charAt(i)) != -1) {
@@ -18,7 +18,7 @@ public class CommonUtil {
 				break;
 			}
 		}
-		return result && s.length() <= 30;
+		return result && s.length() <= 35;
 	}
 
 	public static boolean isTooLong(String s) {

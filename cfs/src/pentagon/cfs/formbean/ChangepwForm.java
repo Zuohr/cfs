@@ -46,7 +46,7 @@ public class ChangepwForm {
 			errors.set(0, "Old Password is required!");
 			complete = false;
 		} else if (!CommonUtil.isLegal(oldPassword)) {
-			errors.set(0, "Invalid input : contains special character or too long (maximum 30).");
+			errors.set(0, "Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
@@ -55,7 +55,7 @@ public class ChangepwForm {
 			complete = false;
 
 		} else if(!CommonUtil.isLegal(newPassword)){
-			errors.set(1, "Invalid input : contains special character or too long (maximum 30).");
+			errors.set(1, "Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
@@ -63,7 +63,7 @@ public class ChangepwForm {
 			errors.set(2, "Please comfirm password!");
 			complete = false;
 		} else if(!CommonUtil.isLegal(checkPassword)){
-			errors.set(2, "Invalid input : contains special character or too long (maximum 30).");
+			errors.set(2, "Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 

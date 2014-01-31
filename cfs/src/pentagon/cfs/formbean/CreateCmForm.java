@@ -78,7 +78,7 @@ public class CreateCmForm {
 			complete = false;
 		} else if (!CommonUtil.isLegal(firstName)) {
 			errors.set(0,
-					"Invalid input : contains special character or too long (maximum 30).");
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
@@ -87,7 +87,7 @@ public class CreateCmForm {
 			complete = false;
 		} else if (!CommonUtil.isLegal(lastName)) {
 			errors.set(1,
-					"Invalid input : contains special character or too long (maximum 30).");
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
@@ -96,7 +96,7 @@ public class CreateCmForm {
 			complete = false;
 		} else if (!CommonUtil.isLegal(userName)) {
 			errors.set(2,
-					"Invalid input : contains special character or too long (maximum 30).");
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
@@ -105,7 +105,7 @@ public class CreateCmForm {
 			complete = false;
 		} else if (!CommonUtil.isLegal(addr1)) {
 			errors.set(3,
-					"Invalid input : contains special character or too long (maximum 30).");
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
@@ -114,7 +114,7 @@ public class CreateCmForm {
 			complete = false;
 		} else if (!CommonUtil.isLegal(city)) {
 			errors.set(4,
-					"Invalid input : contains special character or too long (maximum 30).");
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
@@ -135,7 +135,7 @@ public class CreateCmForm {
 			complete = false;
 		} else if (!CommonUtil.isLegal(password)) {
 			errors.set(6,
-					"Invalid input : contains special character or too long (maximum 30).");
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 	}

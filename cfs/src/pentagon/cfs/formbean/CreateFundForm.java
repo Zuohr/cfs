@@ -52,7 +52,7 @@ public class CreateFundForm {
 			complete = false;
 		} else if (!CommonUtil.isLegal(fundName)) {
 			errors.set(0,
-					"Invalid input : contains special character or too long (maximum 30).");
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 		

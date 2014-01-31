@@ -55,7 +55,7 @@ public class EmplLoginForm{
 			errors.set(0, "User name cannot be empty.");
 			complete = false;
 		} else if(!CommonUtil.isLegal(userName)){
-			errors.set(0, "Invalid input : contains special character or too long (maximum 30).");
+			errors.set(0, "Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
@@ -64,7 +64,7 @@ public class EmplLoginForm{
 			complete = false;
 		
 		} else if(!CommonUtil.isLegal(password)){
-			errors.set(1, "Invalid input : contains special character or too long (maximum 30).");
+			errors.set(1, "Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
