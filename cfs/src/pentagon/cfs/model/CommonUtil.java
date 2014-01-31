@@ -13,7 +13,7 @@ public class CommonUtil {
 	}
 
 	public static boolean isLegal(String s) {
-		Pattern pattern = Pattern.compile("[~#*+%{}<>\\[\\]|\"\\_^]");
+		Pattern pattern = Pattern.compile("[\\/-=_+~#\\*+%{}<>\\[\\]|\"\\_^]");
 		Matcher matcher = pattern.matcher(s);
 		return !matcher.find() && s.length() <= 30;
 	}
