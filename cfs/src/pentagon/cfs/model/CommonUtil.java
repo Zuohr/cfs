@@ -15,7 +15,7 @@ public class CommonUtil {
 	public static boolean isLegal(String s) {
 		Pattern pattern = Pattern.compile("[~#*+%{}<>\\[\\]|\"\\_^]");
 		Matcher matcher = pattern.matcher(s);
-		return !matcher.find() && s.length() <= 60;
+		return !matcher.find() && s.length() <= 30;
 	}
 
 	public static boolean isTooLong(String s) {
