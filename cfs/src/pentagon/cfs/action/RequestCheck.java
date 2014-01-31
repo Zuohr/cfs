@@ -77,7 +77,7 @@ public class RequestCheck implements Action {
 						request.setAttribute(
 								"op_success",
 								String.format(
-										"Transaction registered: Deposit $%.2f for user %s.",
+										"Transaction registered: Withdraw $%.2f for user %s.",
 										(double) amount / 100,
 										customer.getUsername()));
 						request.setAttribute(

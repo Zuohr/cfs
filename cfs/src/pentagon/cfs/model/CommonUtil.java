@@ -49,7 +49,7 @@ public class CommonUtil {
 					return (long) (inputParse * base);
 				}
 			} catch (NumberFormatException e) {
-				throw new RuntimeException("Invalid number.");
+				throw new RuntimeException("Please provide a valid number.");
 			}
 		}
 	}

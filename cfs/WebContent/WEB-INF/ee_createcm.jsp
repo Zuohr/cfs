@@ -57,6 +57,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputUserName3" name="addr2" placeholder="Address2">
 				</div>
+				  <span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["4"] }</span>
 			  </div>
 			  
 			  <div class="form-group">
@@ -64,7 +65,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputUserName3" name="city" placeholder="City">
 				</div>
-				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["4"] }</span>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["5"] }</span>
 			  </div>
 			  
 			  <div class="form-group">
@@ -72,6 +73,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputUserName3" name="state" placeholder="State">
 				</div>
+				  <span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["6"] }</span>
 			  </div>
 			  
 			  <div class="form-group">
@@ -79,7 +81,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="text" class="form-control" id="inputUserName3" name="zip" placeholder="5 digit zip code">
 				</div>
-				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["5"] }</span>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["7"] }</span>
 			  </div>
 
 			  <div class="form-group">
@@ -87,7 +89,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="Password" class="form-control" id="inputPassword3" name="password" placeholder="Password">
 				</div>
-				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["6"] }</span>
+				<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["8"] }</span>
 				</div>
 				
 				<div class="form-group">
@@ -95,6 +97,7 @@
 				<div class="col-sm-10" style="width:300px">
 				  <input type="Password" class="form-control" id="inputPassword3" name="password2" placeholder="Re-enter Password">
 				</div>
+				  <span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["9"] }</span>
 			  </div>
 			  
 			  <div class="form-group">

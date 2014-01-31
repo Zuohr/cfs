@@ -40,7 +40,7 @@ public class CreateCmForm {
 		password = (String) request.getParameter("password");
 		password2 = (String) request.getParameter("password2");
 
-		int size = 7;
+		int size = 10;
 		errors = new ArrayList<String>(size);
 		for (int i = 0; i < size; i++) {
 			errors.add("");
@@ -108,35 +108,61 @@ public class CreateCmForm {
 					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
-
-		if (city == null || city.trim().isEmpty()) {
-			errors.set(4, "City cannot be empty.");
-			complete = false;
-		} else if (!CommonUtil.isLegal(city)) {
+		
+		if (!CommonUtil.isLegal(addr2)) {
 			errors.set(4,
 					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
-		if (zip == null || zip.trim().isEmpty()) {
-			errors.set(5, "Zip cannot be empty.");
+		if (city == null || city.trim().isEmpty()) {
+			errors.set(5, "City cannot be empty.");
 			complete = false;
-		} else if (!zip.matches("\\d{5}")) {
-			errors.set(5, "Zip format should have 5 digits.");
+		} else if (!CommonUtil.isLegal(city)) {
+			errors.set(5,
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
-		if (password == null || password2 == null || password.trim().isEmpty()
-				|| password2.trim().isEmpty()) {
-			errors.set(6, "Password cannot be empty.");
+		if (state == null || state.trim().isEmpty()) {
+			errors.set(6, "State cannot be empty.");
 			complete = false;
-		} else if (!password.equals(password2)) {
-			errors.set(6, "Password does not match.");
-			complete = false;
-		} else if (!CommonUtil.isLegal(password)) {
+		} else if (!CommonUtil.isLegal(state)) {
 			errors.set(6,
 					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
+
+		if (zip == null || zip.trim().isEmpty()) {
+			errors.set(7, "Zip cannot be empty.");
+			complete = false;
+		} else if (!zip.matches("\\d{5}")) {
+			errors.set(7, "Zip format be only 5 digits.");
+			complete = false;
+		}
+
+		if (password == null || password.trim().isEmpty()) {
+			errors.set(8, "password cannot be empty.");
+			complete = false;
+		} else if (!CommonUtil.isLegal(password)) {
+			errors.set(8,
+					"Invalid input : contains special character or too long (maximum 40).");
+			complete = false;
+		}
+
+		if (password2 == null || password2.trim().isEmpty()) {
+			errors.set(9, "password2 cannot be empty.");
+			complete = false;
+		} else if (!CommonUtil.isLegal(password2)) {
+			errors.set(9,
+					"Invalid input : contains special character or too long (maximum 40).");
+			complete = false;
+		}
+
+		if (password != null && password2 != null && !password.equals(password2)) {
+			errors.set(8, "Passwords do not match.");
+			complete = false;
+		}
+
 	}
 }
