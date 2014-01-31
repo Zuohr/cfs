@@ -60,11 +60,17 @@ public class SellForm {
 			errors.set(0, "Invalid fund ID.");
 			complete = false;
 		} else {
-			fund_id = Integer.parseInt(idInput);
+			try {
+				fund_id = Integer.parseInt(idInput);
+			} catch (RuntimeException e) {
+				errors.set(0, "Invalid fund ID.");
+				complete = false;
+			}
 		}
 
 		try {
-			shareAmount = CommonUtil.getNumber(shareAmountInput, Meta.SHARE_PRECISION);
+			shareAmount = CommonUtil.getNumber(shareAmountInput,
+					Meta.SHARE_PRECISION);
 		} catch (RuntimeException e) {
 			errors.set(1, e.getMessage());
 			complete = false;

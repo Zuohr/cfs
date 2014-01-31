@@ -48,8 +48,9 @@ public class ResetpwForm {
 			errors.set(0, "User Name is required!");
 			complete = false;
 
-		} else if(!CommonUtil.isLegal(userName)){
-			errors.set(0, "Invalid input : contains special character or too long (maximum 40).");
+		} else if (!CommonUtil.isLegal(userName)) {
+			errors.set(0,
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
@@ -57,26 +58,25 @@ public class ResetpwForm {
 			errors.set(1, "New Password is required!");
 			complete = false;
 
-		} else if(!CommonUtil.isLegal(newPassword)){
-			errors.set(1, "Invalid input : contains special character or too long (maximum 40).");
+		} else if (!CommonUtil.isLegal(newPassword)) {
+			errors.set(1,
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
 		if (checkPassword == null || checkPassword.trim().isEmpty()) {
 			errors.set(2, "Please comfirm password!");
 			complete = false;
-		} else if(!CommonUtil.isLegal(checkPassword)){
-			errors.set(2, "Invalid input : contains special character or too long (maximum 40).");
+		} else if (!CommonUtil.isLegal(checkPassword)) {
+			errors.set(2,
+					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
 
-		if (complete == true) {
-			if (!newPassword.trim().equals(checkPassword.trim())) {
-				System.out.println("5");
-				errors.set(1,
-						"Please make sure the password you re-enter is correct!");
-				complete = false;
-			}
+		if (complete && !newPassword.equals(checkPassword)) {
+			errors.set(1,
+					"Please make sure the password you re-enter is correct!");
+			complete = false;
 		}
 	}
 

@@ -53,7 +53,6 @@ public class ChangepwForm {
 		if (newPassword == null || newPassword.trim().isEmpty()) {
 			errors.set(1, "New Password is required!");
 			complete = false;
-
 		} else if(!CommonUtil.isLegal(newPassword)){
 			errors.set(1, "Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
@@ -68,7 +67,7 @@ public class ChangepwForm {
 		}
 
 		if (complete == true) {
-			if (!newPassword.trim().equals(checkPassword.trim())) {
+			if (!newPassword.equals(checkPassword)) {
 				errors.set(1,
 						"Please make sure the password you re-enter is correct!");
 				complete = false;

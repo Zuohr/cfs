@@ -30,6 +30,7 @@
 								<input type="text" class="form-control" id="inputPassword3"
 									placeholder="User Name" name="UserName" value="${requestScope.username}">
 							</div>
+							<span class="label label-danger" style="position:relative; top:10px;">${requestScope.errors["0"] }</span>
 							
 						</div>
 						

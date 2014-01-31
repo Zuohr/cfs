@@ -108,7 +108,7 @@ public class CreateCmForm {
 					"Invalid input : contains special character or too long (maximum 40).");
 			complete = false;
 		}
-		
+
 		if (!CommonUtil.isLegal(addr2)) {
 			errors.set(4,
 					"Invalid input : contains special character or too long (maximum 40).");
@@ -159,7 +159,7 @@ public class CreateCmForm {
 			complete = false;
 		}
 
-		if (password != null && password2 != null && !password.equals(password2)) {
+		if (complete && !password.equals(password2)) {
 			errors.set(8, "Passwords do not match.");
 			complete = false;
 		}
