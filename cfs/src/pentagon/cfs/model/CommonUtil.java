@@ -1,8 +1,5 @@
 package pentagon.cfs.model;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import pentagon.cfs.databean.Fund;
 
 public class CommonUtil {
@@ -13,9 +10,15 @@ public class CommonUtil {
 	}
 
 	public static boolean isLegal(String s) {
-		Pattern pattern = Pattern.compile("[\\/-=_+~#\\*+%{}<>\\[\\]|\"\\_^]");
-		Matcher matcher = pattern.matcher(s);
-		return !matcher.find() && s.length() <= 30;
+		String special = "`~!@#$%^&*()_+-=\\][|}{;\':\",./<>?";
+		boolean result = true;
+		for (int i = 0; i < s.length(); i++) {
+			if (special.indexOf(s.charAt(i)) != -1) {
+				result = false;
+				break;
+			}
+		}
+		return result && s.length() <= 30;
 	}
 
 	public static boolean isTooLong(String s) {
@@ -50,7 +53,7 @@ public class CommonUtil {
 			}
 		}
 	}
-	
+
 	public static boolean canAdd(long curr, long next) {
 		return next <= Long.MAX_VALUE - curr;
 	}

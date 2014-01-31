@@ -64,7 +64,7 @@ public class CreateFundForm {
 					"Invalid input : contains special character or too long (maximum 5).");
 			complete = false;
 		} else if (!fundTicker.matches("[a-zA-Z]{1,5}")) {
-			errors.set(1, "Ticker consists only 1 to 5 character.");
+			errors.set(1, "Ticker consists only 1 to 5 letters.");
 			complete = false;
 		}
 	}
