@@ -26,10 +26,9 @@ public class TransitionForm {
 	private ArrayList<String> errors;
 	private ArrayList<FundPriceHistory> priceList;
 
-	public TransitionForm(HttpServletRequest request) {
+	public TransitionForm(HttpServletRequest request, int fundnum) {
 		dateInput = (String) request.getParameter("date");
-		String num = (String) request.getParameter("fund_num");
-		fundnum = Integer.parseInt(num);
+		this.fundnum = fundnum;
 		int size = fundnum + 1;
 		errors = new ArrayList<String>(size);
 		for (int i = 0; i < size; i++) {

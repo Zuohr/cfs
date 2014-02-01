@@ -60,24 +60,48 @@ public class TransitionDay implements Action {
 
 		// set fund list
 		FundDAO fundDAO = model.getFundDAO();
-		Fund[] fund_list = fundDAO.match();
-		for (Fund fund : fund_list) {
-			fund.setName(CommonUtil.getResearchURL(fund));
-		}
-		request.setAttribute("fund_list", fund_list);
-		request.setAttribute("fund_num", fund_list.length);
+		// TODO
+		try {
+			Transaction.begin();
+			Fund[] fund_list = fundDAO.match();
+			for (Fund fund : fund_list) {
+				fund.setName(CommonUtil.getResearchURL(fund));
+			}
+			request.setAttribute("fund_list", fund_list);
+			request.setAttribute("fund_num", fund_list.length);
 
-		// set last trading day
-		Meta meta = model.getMetaDAO().read(Integer.valueOf(1));
-		if (meta != null) {
-			Meta.lastDate = meta.getDate();
-			request.setAttribute("last_day", Meta.lastDate);
-		} else {
-			request.setAttribute("last_day", "-");
+			// set last trading day
+			Meta meta = model.getMetaDAO().read(Integer.valueOf(1));
+			if (meta != null) {
+				Meta.lastDate = meta.getDate();
+				request.setAttribute("last_day", Meta.lastDate);
+			} else {
+				request.setAttribute("last_day", "-");
+			}
+			// TODO
+			Transaction.commit();
+		} catch (RollbackException e) {
+			if (Transaction.isActive()) {
+				Transaction.rollback();
+			}
 		}
 
 		if ("submit".equals(request.getParameter("btn_transition"))) {
-			TransitionForm form = new TransitionForm(request);
+			String numInput = request.getParameter("fund_num");
+			int fund_num = -1;
+			if (numInput == null || !numInput.matches("\\d+")) {
+				return "ee_transition.jsp";
+			} else {
+				try {
+					fund_num = Integer.parseInt(numInput);
+					if (fund_num != fundDAO.getCount()) {
+						return "ee_transition.jsp";
+					}
+				} catch (NumberFormatException e) {
+					return "ee_transition.jsp";
+				}
+			}
+			TransitionForm form = new TransitionForm(request, fund_num);
 			if (form.isComplete()) {
 				// TODO
 				try {
@@ -92,7 +116,7 @@ public class TransitionDay implements Action {
 					if (price_list.size() != fundDAO.getCount()) {
 						request.setAttribute("op_fail",
 								"Fund list expired, please fill again.");
-						fund_list = fundDAO.match();
+						Fund[] fund_list = fundDAO.match();
 						for (Fund fund : fund_list) {
 							fund.setName(CommonUtil.getResearchURL(fund));
 						}

@@ -17,6 +17,7 @@ import pentagon.cfs.dao.CustomerDAO;
 import pentagon.cfs.databean.Customer;
 import pentagon.cfs.databean.Employee;
 import pentagon.cfs.formbean.ResetpwForm;
+import pentagon.cfs.model.CommonUtil;
 import pentagon.cfs.model.Model;
 
 public class ResetCmPw implements Action {
@@ -35,7 +36,7 @@ public class ResetCmPw implements Action {
 		if (employee == null) {
 			return "login.jsp";
 		}
-		
+
 		request.setAttribute("nav_eeviewcmlist", "active");
 		request.setAttribute("header_type", "Employee");
 		request.setAttribute("header_name", employee.getFirstname() + " "
@@ -74,7 +75,9 @@ public class ResetCmPw implements Action {
 			return "emplviewcmlist.do";
 		} else if (request.getParameter("usr") != null) {
 			String username = request.getParameter("usr");
-			request.setAttribute("username", username);
+			if (username != null && CommonUtil.isLegal(username)) {
+				request.setAttribute("username", username);
+			}
 			return "ee_resetcmpw.jsp";
 		} else {
 			return "emplviewcmlist.do";
