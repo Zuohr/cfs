@@ -60,6 +60,10 @@ public class DepositForm {
 
 		try {
 			depositAmount = CommonUtil.getNumber(depositInput, Meta.CASH_PRECISION);
+			if(depositAmount > 100000000000l) {
+				errors.set(1, "Amount exceeds one time upper limit (1 billion).");
+				complete = false;
+			}
 		} catch (RuntimeException e) {
 			errors.set(1, e.getMessage());
 			complete = false;
